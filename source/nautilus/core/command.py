@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from nautilus.backends.backend import IBackend
 from nautilus.core.command_result import CommandResult
+from nautilus.core.nautilus import Nautilus
 from typing import Optional, Sequence
 
 class ICommand(ABC):
@@ -48,10 +48,24 @@ class ICommand(ABC):
 
 
     @abstractmethod
-    def __call__(self, backend: Optional[IBackend] = None) -> CommandResult:
+    def __call__(self, nautilus: Optional[Nautilus] = None) -> CommandResult:
         """
         Runs the command on the specified backend.
-        @param backend: The backend to run the command on. If not provided, runs
-          on the currently active backend.
+        @param nautilus Nautilus instance to execute the command via.
         """
         raise NotImplementedError()
+
+
+    def _resolve_nautilus_instance(self,
+        nautilus: Optional[Nautilus] = None) -> Nautilus:
+        """
+        Helper method used to get the Nautilus instance to use for the command.
+        @param nautilus The Nautilus instance passed to the command.
+        @return The Nautilus instance to use for the command. This will be the
+          instance passed to the command if it is not None, otherwise it will
+          be the active instance.
+        """
+        if nautilus:
+            return nautilus
+        else:
+            return Nautilus.get_required_active_instance()

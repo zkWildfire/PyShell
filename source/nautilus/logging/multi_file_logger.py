@@ -1,4 +1,3 @@
-from nautilus.core.command import ICommand
 from nautilus.core.command_result import CommandResult
 from nautilus.logging.logger import ILogger
 import os
@@ -8,7 +7,7 @@ class MultiFileLogger(ILogger):
     """
     Logs each commands' output to a separate file.
     """
-    def __init__(self, output_dir: str):
+    def __init__(self, output_dir: str = ".logs"):
         """
         Creates a new MultiFileLogger.
         @param output_dir Directory to write log files to. Can be a relative or
@@ -16,6 +15,8 @@ class MultiFileLogger(ILogger):
           relative to the directory that the Nautilus script is run from.
         """
         self._output_dir = Path(output_dir).absolute().resolve()
+        if not os.path.exists(self._output_dir):
+            os.makedirs(self._output_dir)
 
         # Keep track of the number of commands that have been processed. This
         #   value is prepended to the name of each log file to ensure that log
@@ -35,7 +36,7 @@ class MultiFileLogger(ILogger):
         return self._output_dir
 
 
-    def log(self, command: ICommand, result: CommandResult) -> None:
+    def log(self, result: CommandResult) -> None:
         """
         Writes the result of a command to a log file.
         @param command Command that was run.
@@ -43,9 +44,8 @@ class MultiFileLogger(ILogger):
         """
         # Get the name of the file that the command's output will be written to
         self._cmd_count += 1
-        file_path = self.output_dir / \
-            f"{self._cmd_count}-{command.command_name}.log"
+        file_path = self.output_dir / f"{self._cmd_count}-{result.command}.log"
 
         # Write the command's output to the file
         with open(file_path, "w") as file:
-            file.write(result.all_output)
+            file.write(result.output)

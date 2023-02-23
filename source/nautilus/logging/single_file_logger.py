@@ -1,4 +1,3 @@
-from nautilus.core.command import ICommand
 from nautilus.core.command_result import CommandResult
 from nautilus.logging.logger import ILogger
 from pathlib import Path
@@ -29,11 +28,11 @@ class SingleFileLogger(ILogger):
         return self._file_path
 
 
-    def log(self, command: ICommand, result: CommandResult) -> None:
+    def log(self, result: CommandResult) -> None:
         """
         Writes the result of a command to a log file.
         @param command Command that was run.
         @param result The result of the command.
         """
         with open(self.file_path, "a") as file:
-            file.write(result.all_output)
+            file.write(result.output)

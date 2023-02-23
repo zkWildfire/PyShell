@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from nautilus.core.command import ICommand
 from nautilus.core.command_result import CommandResult
 
 class ILogger(ABC):
@@ -11,7 +10,7 @@ class ILogger(ABC):
       a failed command.
     """
     @abstractmethod
-    def log(self, command: ICommand, result: CommandResult) -> None:
+    def log(self, result: CommandResult) -> None:
         """
         Writes the result of a command to a log file.
         @param command Command that was run.
