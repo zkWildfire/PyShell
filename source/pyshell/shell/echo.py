@@ -1,6 +1,6 @@
-from nautilus.core.command import ICommand
-from nautilus.core.command_result import CommandResult
-from nautilus.core.nautilus import Nautilus
+from pyshell.core.command import ICommand
+from pyshell.core.command_result import CommandResult
+from pyshell.core.pyshell import PyShell
 from typing import Optional
 
 class EchoCommand(ICommand):
@@ -15,10 +15,10 @@ class EchoCommand(ICommand):
         super().__init__("echo", [message] if message is not None else [])
 
 
-    def __call__(self, nautilus: Optional[Nautilus] = None) -> CommandResult:
+    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs the command on the specified backend.
-        @param nautilus Nautilus instance to execute the command via.
+        @param pyshell PyShell instance to execute the command via.
         """
-        nautilus = self._resolve_nautilus_instance(nautilus)
-        return nautilus.run(self.full_command)
+        pyshell = self._resolve_pyshell_instance(pyshell)
+        return pyshell.run(self.full_command)

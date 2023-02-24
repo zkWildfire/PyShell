@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from nautilus.core.command_result import CommandResult
+from pyshell.core.command_result import CommandResult
 
 class IErrorHandler(ABC):
     """
-    Represents an error handler for Nautilus commands.
+    Represents an error handler for PyShell commands.
     """
     @abstractmethod
     def handle(self, result: CommandResult) -> None:

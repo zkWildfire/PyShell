@@ -1,5 +1,5 @@
-from nautilus.backends.backend import IBackend
-from nautilus.core.command_result import CommandResult
+from pyshell.backends.backend import IBackend
+from pyshell.core.command_result import CommandResult
 import subprocess
 from typing import Sequence
 

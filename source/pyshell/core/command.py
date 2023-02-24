@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from nautilus.core.command_result import CommandResult
-from nautilus.core.nautilus import Nautilus
+from pyshell.core.command_result import CommandResult
+from pyshell.core.pyshell import PyShell
 from typing import Optional, Sequence
 
 class ICommand(ABC):
@@ -48,24 +48,24 @@ class ICommand(ABC):
 
 
     @abstractmethod
-    def __call__(self, nautilus: Optional[Nautilus] = None) -> CommandResult:
+    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs the command on the specified backend.
-        @param nautilus Nautilus instance to execute the command via.
+        @param pyshell PyShell instance to execute the command via.
         """
         raise NotImplementedError()
 
 
-    def _resolve_nautilus_instance(self,
-        nautilus: Optional[Nautilus] = None) -> Nautilus:
+    def _resolve_pyshell_instance(self,
+        pyshell: Optional[PyShell] = None) -> PyShell:
         """
-        Helper method used to get the Nautilus instance to use for the command.
-        @param nautilus The Nautilus instance passed to the command.
-        @return The Nautilus instance to use for the command. This will be the
+        Helper method used to get the PyShell instance to use for the command.
+        @param pyshell The PyShell instance passed to the command.
+        @return The PyShell instance to use for the command. This will be the
           instance passed to the command if it is not None, otherwise it will
           be the active instance.
         """
-        if nautilus:
-            return nautilus
+        if pyshell:
+            return pyshell
         else:
-            return Nautilus.get_required_active_instance()
+            return PyShell.get_required_active_instance()

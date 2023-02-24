@@ -1,10 +1,10 @@
-from nautilus.core.command import ICommand
-from nautilus.core.command_result import CommandResult
-from nautilus.error.error_handler import IErrorHandler
+from pyshell.core.command import ICommand
+from pyshell.core.command_result import CommandResult
+from pyshell.error.error_handler import IErrorHandler
 
 class AbortOnFailure(IErrorHandler):
     """
-    Error handler that stops a Nautilus script if a command fails.
+    Error handler that stops a PyShell script if a command fails.
     """
     def handle(self, command: ICommand, result: CommandResult) -> None:
         """

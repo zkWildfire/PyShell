@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import argparse
-from nautilus import Nautilus, AbortOnFailure, BareMetalBackend, \
+from pyshell import PyShell, AbortOnFailure, BareMetalBackend, \
     SingleFileLogger, MultiFileLogger
-from nautilus.shell import Shell
+from pyshell.shell import Shell
 
 # Decide whether to log to a single file or multiple files
 parser = argparse.ArgumentParser()
@@ -13,10 +13,10 @@ if args.log == "single":
 else:
     logger = MultiFileLogger(".logs", print_cmds=True)
 
-# Initialize a Nautilus instance for running commands
-# Nautilus commands that don't explicitly specify a Nautilus instance to use
+# Initialize a PyShell instance for running commands
+# PyShell commands that don't explicitly specify a PyShell instance to use
 #   will use the default instance.
-nautilus = Nautilus(
+pyshell = PyShell(
     BareMetalBackend(),
     logger,
     AbortOnFailure()

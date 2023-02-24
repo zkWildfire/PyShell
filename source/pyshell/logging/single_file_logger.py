@@ -1,5 +1,5 @@
-from nautilus.core.command_result import CommandResult
-from nautilus.logging.logger import ILogger
+from pyshell.core.command_result import CommandResult
+from pyshell.logging.logger import ILogger
 from pathlib import Path
 
 class SingleFileLogger(ILogger):
@@ -11,7 +11,7 @@ class SingleFileLogger(ILogger):
         Creates a new SingleFileLogger.
         @param file_path Path to the file to write logs to. Can be a relative or
           absolute path. If the path is a relative path, it will be interpreted
-          relative to the directory that the Nautilus script is run from.
+          relative to the directory that the PyShell script is run from.
         @param print_cmds Whether to print the command string for each command
             that is run before the command's output.
         """
@@ -34,12 +34,11 @@ class SingleFileLogger(ILogger):
     def log(self, result: CommandResult) -> None:
         """
         Writes the result of a command to a log file.
-        @param command Command that was run.
         @param result The result of the command.
         """
         with open(self.file_path, "a") as file:
             if self._print_cmds:
-                file.write(f"[Nautilus] Running command: {result.full_command}\n")
+                file.write(f"[PyShell] Running command: {result.full_command}\n")
             file.write(result.output)
 
             # Add a newline between different commands' output

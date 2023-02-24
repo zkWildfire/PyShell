@@ -1,12 +1,12 @@
-from nautilus.backends.backend import IBackend
-from nautilus.core.command_result import CommandResult
+from abc import ABC, abstractmethod
+from pyshell.core.command_result import CommandResult
 from typing import Sequence
 
-class DockerBackend(IBackend):
+class IBackend(ABC):
     """
-    Backend that executes commands in a docker container.
+    Represents a backend for executing PyShell commands.
     """
-
+    @abstractmethod
     def run(self, command: Sequence[str]) -> CommandResult:
         """
         Runs the specified command on the backend.

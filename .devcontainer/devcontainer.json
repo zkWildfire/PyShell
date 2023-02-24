@@ -2,7 +2,7 @@
 	"build": {
 		"dockerfile": "ubuntu.dockerfile",
 		"args": {
-			"USERNAME": "nautilus",
+			"USERNAME": "pyshell",
 			"USER_UID": "1000",
 			"USER_GID": "1000"
 		}
@@ -21,7 +21,7 @@
 		}
 	},
 	"containerEnv": {
-		"PYTHONPATH": "/workspaces/Nautilus/source"
+		"PYTHONPATH": "/workspaces/PyShell/source"
 	},
 	"forwardPorts": [
 		8000
