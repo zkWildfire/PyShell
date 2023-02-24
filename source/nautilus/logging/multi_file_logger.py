@@ -7,13 +7,16 @@ class MultiFileLogger(ILogger):
     """
     Logs each commands' output to a separate file.
     """
-    def __init__(self, output_dir: str = ".logs"):
+    def __init__(self, output_dir: str = ".logs", print_cmds: bool = False):
         """
         Creates a new MultiFileLogger.
         @param output_dir Directory to write log files to. Can be a relative or
           absolute path. If the path is a relative path, it will be interpreted
           relative to the directory that the Nautilus script is run from.
+        @param print_cmds Whether to print the command string for each command
+          that is run at the start of the command's output file.
         """
+        self._print_cmds = print_cmds
         self._output_dir = Path(output_dir).absolute().resolve()
         if not os.path.exists(self._output_dir):
             os.makedirs(self._output_dir)
@@ -48,4 +51,6 @@ class MultiFileLogger(ILogger):
 
         # Write the command's output to the file
         with open(file_path, "w") as file:
+            if self._print_cmds:
+                file.write(f"[Nautilus] Running command: {result.full_command}\n")
             file.write(result.output)
