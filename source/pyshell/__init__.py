@@ -6,6 +6,7 @@ from .core.pyshell import PyShell
 from .core.pyshell_options import PyShellOptions
 from .error.abort_on_failure import AbortOnFailure
 from .error.error_handler import IErrorHandler
+from .error.keep_going import KeepGoing
 from .logging.logger import ILogger
 from .logging.multi_file_logger import MultiFileLogger
 from .logging.null_file_logger import NullFileLogger
