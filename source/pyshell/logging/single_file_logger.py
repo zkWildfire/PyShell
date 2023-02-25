@@ -1,12 +1,14 @@
+from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.logger import ILogger
-from pathlib import Path
 
 class SingleFileLogger(ILogger):
     """
     Logs all commands' output to a single file.
     """
-    def __init__(self, file_path: str, print_cmds: bool = False):
+    def __init__(self,
+        file_path: str | Path,
+        print_cmds: bool = False):
         """
         Creates a new SingleFileLogger.
         @param file_path Path to the file to write logs to. Can be a relative or
@@ -17,6 +19,9 @@ class SingleFileLogger(ILogger):
         """
         self._file_path = Path(file_path).absolute().resolve()
         self._print_cmds = print_cmds
+
+        # Make sure the log file's directory exists
+        self._file_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Clear the log file of any previous contents
         with open(self.file_path, "w") as _:

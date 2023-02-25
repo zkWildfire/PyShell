@@ -7,7 +7,9 @@ class MultiFileLogger(ILogger):
     """
     Logs each commands' output to a separate file.
     """
-    def __init__(self, output_dir: str = ".logs", print_cmds: bool = False):
+    def __init__(self,
+        output_dir: str | Path = ".logs",
+        print_cmds: bool = False):
         """
         Creates a new MultiFileLogger.
         @param output_dir Directory to write log files to. Can be a relative or
@@ -53,3 +55,6 @@ class MultiFileLogger(ILogger):
             if self._print_cmds:
                 file.write(f"[PyShell] Running command: {result.full_command}\n")
             file.write(result.output)
+
+            # Add a final newline
+            file.write("\n")
