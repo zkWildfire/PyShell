@@ -2,7 +2,7 @@
 import argparse
 from pyshell import PyShell, AbortOnFailure, NativeBackend, \
     SingleFileLogger, MultiFileLogger
-from pyshell.shell import Shell
+from pyshell.modules import Shell
 
 # Decide whether to log to a single file or multiple files
 parser = argparse.ArgumentParser()

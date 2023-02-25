@@ -38,3 +38,10 @@ def test_log_multiple_commands(tmp_path: Any):
     logger.log(CommandResult("bar", [], "bar", "BAR", 0, True))
     assert (log_path / "1-foo.log").read_text() == "FOO\n"
     assert (log_path / "2-bar.log").read_text() == "BAR\n"
+
+
+def test_log_command_given_by_path(tmp_path: Any):
+    log_path = tmp_path / "logs"
+    logger = MultiFileLogger(log_path, print_cmds=False)
+    logger.log(CommandResult("/usr/bin/foo", [], "/usr/bin/foo", "FOO", 0, True))
+    assert (log_path / "1-foo.log").read_text() == "FOO\n"

@@ -254,3 +254,6 @@ $RECYCLE.BIN/
 
 # Ignore the default logs directory
 **/.logs/
+
+# Ignore the directory that generated doxygen files are written to
+.docs/

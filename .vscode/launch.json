@@ -9,6 +9,14 @@
 			"justMyCode": true
 		},
 		{
+			"name": "Generate Docs",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/generate_docs.py",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
 			"name": "Run unit tests",
 			"type": "python",
 			"request": "launch",

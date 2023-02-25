@@ -12,7 +12,7 @@ class EchoCommand(ICommand):
         Initializes the command.
         @param message The message to write to stdout.
         """
-        super().__init__("echo", [message] if message is not None else [])
+        super().__init__("echo", message)
 
 
     def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:

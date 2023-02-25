@@ -1,5 +1,7 @@
 # Custom Dictionary Words
 cmds
+doxyfile
+doxygen
 pymake
 pyright
 pyshell

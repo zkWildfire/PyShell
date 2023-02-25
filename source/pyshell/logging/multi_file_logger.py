@@ -49,9 +49,12 @@ class MultiFileLogger(ILogger):
         Writes the result of a command to a log file.
         @param result The result of the command.
         """
+        # Get the name of the command to write to the log name
+        cmd_name = result.command.split(os.path.sep)[-1]
+
         # Get the name of the file that the command's output will be written to
         self._cmd_count += 1
-        file_path = self.output_dir / f"{self._cmd_count}-{result.command}.log"
+        file_path = self.output_dir / f"{self._cmd_count}-{cmd_name}.log"
 
         # Write the command's output to the file
         with open(file_path, "w") as file:

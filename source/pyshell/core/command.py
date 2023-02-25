@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from typing import Optional, Sequence
@@ -8,17 +9,21 @@ class ICommand(ABC):
     Represents a command that may be executed by a backend.
     """
     def __init__(self,
-        name: str,
-        args: Optional[Sequence[str]] = None):
+        name: str | Path,
+        args: str | Path | Sequence[str | Path] | None = None):
         """
         Initializes the command.
         @param name The name of the command being run. This should be the name
           of the executable/command being run but should not include any of
           the arguments.
-        @param args The arguments to pass to the command.
+        @param args The argument(s) to pass to the command.
         """
-        self._name = name
-        self._args = list(args) if args is not None else []
+        self._name = str(name)
+        if isinstance(args, str) or isinstance(args, Path):
+            args = [args]
+        elif not args:
+            args = []
+        self._args = [str(a) for a in args]
 
 
     @property

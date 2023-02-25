@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyshell.core.command import ICommand
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
@@ -7,12 +8,12 @@ class LsCommand(ICommand):
     """
     Defines a command that runs `ls`.
     """
-    def __init__(self, target_path: Optional[str] = None):
+    def __init__(self, target_path: str | Path | None = None):
         """
         Initializes the command.
         @param target_path The path to list the contents of.
         """
-        super().__init__("ls", [target_path] if target_path is not None else [])
+        super().__init__("ls", target_path)
 
 
     def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
