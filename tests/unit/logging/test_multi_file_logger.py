@@ -18,8 +18,7 @@ def test_log_writes_to_file(tmp_path: Any):
         [],
         os.getcwd(),
         "bar",
-        0,
-        True
+        0
     ))
     assert (log_path / "1-foo.log").read_text() == "bar\n"
 
@@ -27,23 +26,19 @@ def test_log_writes_to_file(tmp_path: Any):
 def test_log_multiple_commands(tmp_path: Any):
     log_path = tmp_path / "logs"
     logger = MultiFileLogger(log_path)
-    logger.log(CommandResult("foo", [], "foo", "FOO", 0, True))
-    logger.log(CommandResult("bar", [], "bar", "BAR", 0, True))
     logger.log(CommandResult(
         "foo",
         [],
         os.getcwd(),
         "FOO",
-        0,
-        True
+        0
     ))
     logger.log(CommandResult(
         "bar",
         [],
         os.getcwd(),
         "BAR",
-        0,
-        True
+        0
     ))
     assert (log_path / "1-foo.log").read_text() == "FOO\n"
     assert (log_path / "2-bar.log").read_text() == "BAR\n"
@@ -57,8 +52,7 @@ def test_log_command_given_by_path(tmp_path: Any):
         [],
         os.getcwd(),
         "FOO",
-        0,
-        True
+        0
     ))
     assert (log_path / "1-foo.log").read_text() == "FOO\n"
 
@@ -76,8 +70,7 @@ def test_log_cmd_header(tmp_path: Any):
         [],
         cwd,
         "FOO",
-        0,
-        True
+        0
     ))
 
     # Validate results
@@ -103,8 +96,7 @@ def test_log_cmd_footer(tmp_path: Any):
         [],
         cwd,
         "FOO",
-        exit_code,
-        True
+        exit_code
     ))
 
     # Validate results

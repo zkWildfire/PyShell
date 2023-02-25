@@ -18,8 +18,7 @@ def test_log_writes_to_file(tmp_path: Any):
         [],
         os.getcwd(),
         "bar",
-        0,
-        True
+        0
     ))
     assert file_path.read_text() == "bar\n"
 
@@ -32,16 +31,14 @@ def test_log_multiple_commands(tmp_path: Any):
         [],
         os.getcwd(),
         "FOO",
-        0,
-        True
+        0
     ))
     logger.log(CommandResult(
         "foo",
         [],
         os.getcwd(),
         "BAR",
-        0,
-        True
+        0
     ))
     assert file_path.read_text() == "FOO\nBAR\n"
 
@@ -59,8 +56,7 @@ def test_log_cmd_header(tmp_path: Any):
         [],
         cwd,
         "FOO",
-        0,
-        True
+        0
     ))
 
     # Validate results
@@ -83,8 +79,7 @@ def test_log_cmd_footer(tmp_path: Any):
         [],
         cwd,
         "FOO",
-        exit_code,
-        True
+        exit_code
     ))
 
     # Validate results

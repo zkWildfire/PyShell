@@ -25,6 +25,5 @@ class DryRunBackend(IBackend):
             args=command[1:],
             cwd=str(cwd),
             output="",
-            exit_code=0,
-            success=True
+            exit_code=0
         )

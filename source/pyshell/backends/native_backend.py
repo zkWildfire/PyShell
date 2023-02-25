@@ -46,6 +46,5 @@ class NativeBackend(IBackend):
             args=command[1:],
             cwd=str(cwd),
             output=output,
-            exit_code=process.returncode,
-            success=process.returncode == 0
+            exit_code=process.returncode
         )

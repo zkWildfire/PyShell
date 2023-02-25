@@ -11,6 +11,5 @@ def test_handle_error_throws():
             [],
             os.getcwd(),
             "",
-            0,
-            False
+            1
         ))

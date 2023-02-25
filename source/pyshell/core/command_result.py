@@ -20,8 +20,14 @@ class CommandResult(NamedTuple):
     # Exit code from the command
     exit_code: int
 
-    # Whether the command was successful
-    success: bool
+
+    @property
+    def success(self) -> bool:
+        """
+        Whether the command was successful.
+        """
+        return self.exit_code == 0
+
 
     @property
     def error(self) -> bool:

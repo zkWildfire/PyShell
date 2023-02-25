@@ -11,9 +11,8 @@ class AbortOnFailure(IErrorHandler):
         @param command Command that was run.
         @param result The result of the command.
         """
-        if not result.success:
-            raise RuntimeError(
-                f"Command '{result.command}' failed with exit code " + \
-                    f"{result.exit_code}.\n" +
-                f"Note: Full command was '{result.full_command}'."
-            )
+        raise RuntimeError(
+            f"Command '{result.command}' failed with exit code " + \
+                f"{result.exit_code}.\n" +
+            f"Note: Full command was '{result.full_command}'."
+        )
