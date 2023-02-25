@@ -2,7 +2,7 @@ from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.core.module import IModule
 from pyshell.core.pyshell import PyShell
-from pyshell.moxygen.moxygen import MoxygenCommand
+from pyshell.moxygen.moxygen_command import MoxygenCommand
 from typing import Optional
 
 class Moxygen(IModule):

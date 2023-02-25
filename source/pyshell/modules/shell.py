@@ -2,9 +2,9 @@ from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.core.module import IModule
 from pyshell.core.pyshell import PyShell
-from pyshell.shell.echo import EchoCommand
-from pyshell.shell.ls import LsCommand
-from pyshell.shell.rm import RmCommand
+from pyshell.shell.echo_command import EchoCommand
+from pyshell.shell.ls_command import LsCommand
+from pyshell.shell.rm_command import RmCommand
 from typing import Optional
 
 class Shell(IModule):
