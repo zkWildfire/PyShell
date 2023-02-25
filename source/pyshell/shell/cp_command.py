@@ -17,14 +17,13 @@ class CpCommand(IExternalCommand):
         @param dest Destination to copy the file or directory to. Can be a
           relative or absolute path. If the path is relative, it will be
           resolved relative to the script's current working directory.
+        @throws ValueError If the source path does not exist.
         """
         # Validate input
         src = Path(src)
         dest = Path(dest)
         if not src.exists():
             raise ValueError(f"Source path {src} does not exist.")
-        if not dest.exists():
-            raise ValueError(f"Destination path {dest} does not exist.")
 
         # Determine what flags should be passed to the command
         flags: List[str] = []
