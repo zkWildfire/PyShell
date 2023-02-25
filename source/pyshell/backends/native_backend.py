@@ -3,7 +3,7 @@ from pyshell.core.command_result import CommandResult
 import subprocess
 from typing import Sequence
 
-class BareMetalBackend(IBackend):
+class NativeBackend(IBackend):
     """
     Backend that executes commands directly.
     """

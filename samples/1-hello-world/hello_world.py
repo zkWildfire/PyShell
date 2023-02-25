@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from pyshell import PyShell, AbortOnFailure, BareMetalBackend, \
+from pyshell import PyShell, AbortOnFailure, NativeBackend, \
     SingleFileLogger, MultiFileLogger
 from pyshell.shell import Shell
 
@@ -17,7 +17,7 @@ else:
 # PyShell commands that don't explicitly specify a PyShell instance to use
 #   will use the default instance.
 pyshell = PyShell(
-    BareMetalBackend(),
+    NativeBackend(),
     logger,
     AbortOnFailure()
 )
