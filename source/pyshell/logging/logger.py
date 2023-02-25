@@ -14,7 +14,6 @@ class ILogger(ABC):
     def log(self, result: CommandResult) -> None:
         """
         Writes the result of a command to a log file.
-        @param command Command that was run.
         @param result The result of the command.
         """
         raise NotImplementedError()

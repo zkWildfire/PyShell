@@ -26,6 +26,7 @@ class PyShell:
         """
         Initializes the PyShell script.
         @param backend The backend to use to execute commands.
+        @param logger The logger to use to log commands.
         @param error_handler The error handler to use to handle failed commands.
         @param options Options for this PyShell instance.
         @param cwd The current working directory for this PyShell instance. If

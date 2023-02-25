@@ -10,7 +10,6 @@ class KeepGoing(IErrorHandler):
     def handle(self, result: CommandResult) -> None:
         """
         Handles a command that returned a non-zero exit code.
-        @param command Command that was run.
         @param result The result of the command.
         """
         print(
