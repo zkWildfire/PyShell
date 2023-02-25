@@ -1,6 +1,6 @@
 from pathlib import Path
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
-    NullFileLogger
+from pyshell import PyShell, PyShellOptions, AbortOnFailure, KeepGoing, \
+    NativeBackend, NullFileLogger
 from pyshell.shell.ls_command import LsCommand
 
 def test_ls_command_with_no_arg():
@@ -41,3 +41,19 @@ def test_ls_command_with_arg():
     # Verify that the output is correct
     curr_file = Path(__file__).name
     assert curr_file in result.output
+
+
+def test_ls_command_on_non_existent_dir():
+    # Initialize a PyShell instance for running commands
+    pyshell = PyShell(
+        NativeBackend(),
+        NullFileLogger(),
+        KeepGoing(),
+        PyShellOptions(),
+        cwd=Path(__file__).parent
+    )
+
+    # Run some commands
+    cmd = LsCommand("/foo")
+    result = cmd(pyshell)
+    assert not result.success
