@@ -1779,6 +1779,7 @@ table.directory td.entry {
 
 table.directory td.desc {
     min-width: 250px;
+    padding: var(--spacing-small);
 }
 
 table.directory tr.even {
