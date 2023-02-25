@@ -11,7 +11,6 @@ RUN apt-get update -y && \
 		git \
 		graphviz \
 		ninja-build \
-		npm \
 		python${PYTHON_VERSION} \
 		python3-pip \
 		ssh \
@@ -37,9 +36,6 @@ RUN python3 -m pip install \
 	coverage \
 	pytest \
 	pytest-cov
-
-# Install npm packages
-RUN npm install -g moxygen
 
 # Add CMake 3.14
 RUN mkdir -p /tmp/${USERNAME} && \
