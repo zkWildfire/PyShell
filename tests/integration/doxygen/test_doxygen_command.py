@@ -1,21 +1,22 @@
 # pyright: reportUnusedImport=false
 from integration.doxygen.doxygen_fixture import DoxygenFixture, doxy
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
-    SingleFileLogger
+    NullFileLogger
 from pyshell.doxygen.doxygen_command import DoxygenCommand
 
 def test_generate_docs(doxy: DoxygenFixture):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        SingleFileLogger("doxygen.log"),
+        NullFileLogger(),
         AbortOnFailure(),
         PyShellOptions()
     )
 
-    # Run some commands
+    # Run the doxygen command
     cmd = DoxygenCommand(DoxygenFixture.DOXYFILE_PATH)
-    cmd(pyshell)
+    result = cmd(pyshell)
+    assert result.success
 
     # Verify that doxygen files were generated
     assert DoxygenFixture.DOXYGEN_OUTPUT_DIR.exists()

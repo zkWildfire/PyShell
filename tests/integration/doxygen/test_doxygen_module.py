@@ -13,7 +13,7 @@ def test_generate_docs(doxy: DoxygenFixture):
         PyShellOptions()
     )
 
-    # Run some commands
+    # Run the doxygen command
     Doxygen.generate_docs(DoxygenFixture.DOXYFILE_PATH, pyshell)
 
     # Verify that doxygen files were generated

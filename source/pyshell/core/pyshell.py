@@ -21,7 +21,7 @@ class PyShell:
         logger: ILogger,
         error_handler: IErrorHandler,
         options: PyShellOptions,
-        cwd: Optional[str] = None,
+        cwd: str | Path | None = None,
         set_as_active_instance: bool = True):
         """
         Initializes the PyShell script.
