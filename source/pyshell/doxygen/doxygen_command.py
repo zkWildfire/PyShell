@@ -6,6 +6,7 @@ class DoxygenCommand(IExternalCommand):
     """
     Defines a command that runs `doxygen`.
     @ingroup commands
+    @ingroup doxygen
     """
     def __init__(self, doxyfile_path: str | Path):
         """

@@ -6,6 +6,7 @@ class RmCommand(IExternalCommand):
     """
     Defines a command that runs `rm`.
     @ingroup commands
+    @ingroup shell
     """
     def __init__(self, path: str | Path, force: bool = False):
         """

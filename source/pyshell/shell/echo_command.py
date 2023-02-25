@@ -5,6 +5,7 @@ class EchoCommand(IExternalCommand):
     """
     Defines a command that runs `echo`.
     @ingroup commands
+    @ingroup shell
     """
     def __init__(self, message: Optional[str] = None):
         """

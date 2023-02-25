@@ -6,6 +6,7 @@ class CpCommand(IExternalCommand):
     """
     Defines a command that runs `cp`.
     @ingroup commands
+    @ingroup shell
     """
     def __init__(self,
         src: str | Path,

@@ -5,6 +5,7 @@ class LsCommand(IExternalCommand):
     """
     Defines a command that runs `ls`.
     @ingroup commands
+    @ingroup shell
     """
     def __init__(self, target_path: str | Path | None = None):
         """

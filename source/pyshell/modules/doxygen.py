@@ -9,6 +9,7 @@ class Doxygen(IModule):
     """
     Module that simplifies doxygen command execution.
     @ingroup modules
+    @ingroup doxygen
     """
     @staticmethod
     def generate_docs(

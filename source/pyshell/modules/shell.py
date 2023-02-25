@@ -14,6 +14,7 @@ class Shell(IModule):
     Shell commands that are not supported by the native underlying shell will
       be emulated.
     @ingroup modules
+    @ingroup shell
     """
     @staticmethod
     def cp(
