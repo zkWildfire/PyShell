@@ -1,4 +1,3 @@
-from pyshell.core.command import ICommand
 from pyshell.core.command_result import CommandResult
 from pyshell.error.error_handler import IErrorHandler
 
@@ -6,7 +5,7 @@ class AbortOnFailure(IErrorHandler):
     """
     Error handler that stops a PyShell script if a command fails.
     """
-    def handle(self, command: ICommand, result: CommandResult) -> None:
+    def handle(self, result: CommandResult) -> None:
         """
         Handles a command that returned a non-zero exit code.
         @param command Command that was run.
