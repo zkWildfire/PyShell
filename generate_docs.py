@@ -2,7 +2,7 @@
 import argparse
 from pathlib import Path
 from pyshell import PyShell, AbortOnFailure, NativeBackend, MultiFileLogger
-from pyshell.modules import Doxygen, Shell
+from pyshell.modules import Doxygen, Moxygen, Shell
 
 # Process arguments
 parser = argparse.ArgumentParser()
@@ -34,17 +34,32 @@ output_path = Path(args.output).resolve()
 if output_path.is_file():
     raise ValueError(f"'{output_path}' is a file.")
 
+# Constants
+LOGS_DIR = ".logs"
+SCRIPT_DIR = Path(__file__).parent
+DOXYFILE_PATH = SCRIPT_DIR.joinpath("doxygen", "doxyfile")
+DOCS_DIR = SCRIPT_DIR.joinpath(".docs")
+DOXYGEN_XML_PATH = DOCS_DIR.joinpath("xml")
+MOXYGEN_MD_PATH = DOCS_DIR.joinpath("md")
+
 # Initialize a PyShell instance for running commands
 pyshell = PyShell(
     NativeBackend(),
-    MultiFileLogger(".logs", print_cmds=True),
+    MultiFileLogger(LOGS_DIR, print_cmds=True),
     AbortOnFailure()
 )
 
-# If the --clean flag was specified, delete the docs directory
+# If the --clean flag was specified, delete generated directories
 if args.clean:
-    Shell.rm(output_path)
+    Shell.rm(LOGS_DIR, force=True)
+    Shell.rm(DOCS_DIR, force=True)
+    Shell.rm(output_path, force=True)
 
 # Generate the documentation
-DOXYFILE_PATH = Path(__file__).parent.joinpath("doxygen", "doxyfile")
 Doxygen.generate_docs(DOXYFILE_PATH)
+Moxygen.generate_docs(
+    DOXYGEN_XML_PATH,
+    Path.joinpath(MOXYGEN_MD_PATH, "%s.md"),
+    separate_classes=True,
+    language="cpp"
+)

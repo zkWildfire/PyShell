@@ -28,7 +28,7 @@ class NativeBackend(IBackend):
             assert process.stdout
             new_output = process.stdout.readline().decode("utf-8").rstrip()
             if new_output:
-                output += new_output
+                output += new_output + "\n"
                 print(new_output)
 
         # Add a final newline if the output doesn't end with one

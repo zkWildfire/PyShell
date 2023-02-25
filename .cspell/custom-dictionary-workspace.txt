@@ -2,6 +2,7 @@
 cmds
 doxyfile
 doxygen
+moxygen
 pymake
 pyright
 pyshell

@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from pyshell.core.command import ICommand
 from pyshell.core.command_result import CommandResult

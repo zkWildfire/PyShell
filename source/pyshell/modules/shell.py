@@ -42,11 +42,13 @@ class Shell(IModule):
     @staticmethod
     def rm(
         target_path: str | Path,
+        force: bool = False,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Returns the results of running `rm` on the specified path.
         @param target_path The path to remove.
+        @param force If True, the -f flag will be passed to `rm`.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `rm` on the target path.
         """
-        return RmCommand(target_path)(pyshell)
+        return RmCommand(target_path, force)(pyshell)

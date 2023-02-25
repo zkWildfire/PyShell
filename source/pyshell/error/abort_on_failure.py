@@ -14,5 +14,6 @@ class AbortOnFailure(IErrorHandler):
         if not result.success:
             raise RuntimeError(
                 f"Command '{result.command}' failed with exit code " + \
-                    f"{result.exit_code}."
+                    f"{result.exit_code}.\n" +
+                f"Note: Full command was '{result.full_command}'."
             )

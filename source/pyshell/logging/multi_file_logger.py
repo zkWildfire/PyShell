@@ -12,7 +12,8 @@ class MultiFileLogger(ILogger):
 
     def __init__(self,
         output_dir: str | Path = DEFAULT_LOGS_DIR,
-        print_cmds: bool = False):
+        print_cmds: bool = False,
+        clean_logs_dir: bool = False):
         """
         Creates a new MultiFileLogger.
         @param output_dir Directory to write log files to. Can be a relative or
@@ -20,11 +21,16 @@ class MultiFileLogger(ILogger):
           relative to the directory that the PyShell script is run from.
         @param print_cmds Whether to print the command string for each command
           that is run at the start of the command's output file.
+        @param clean_logs_dir Whether to delete any existing log files in the
+          output directory before logging begins.
+        @throws ValueError If 'output_dir' is a file.
         """
         self._print_cmds = print_cmds
-        self._output_dir = Path(output_dir).absolute().resolve()
-        if not os.path.exists(self._output_dir):
-            os.makedirs(self._output_dir)
+        self._output_dir = Path(output_dir).resolve()
+        if self._output_dir.is_file():
+            raise ValueError(f"'{self._output_dir}' is a file.")
+
+        self._generate_output_dir()
 
         # Keep track of the number of commands that have been processed. This
         #   value is prepended to the name of each log file to ensure that log
@@ -32,8 +38,9 @@ class MultiFileLogger(ILogger):
         self._cmd_count = 0
 
         # Clear out any existing log files
-        for file in os.listdir(self._output_dir):
-            os.remove(os.path.join(self._output_dir, file))
+        if clean_logs_dir:
+            for file in os.listdir(self._output_dir):
+                os.remove(os.path.join(self._output_dir, file))
 
 
     @property
@@ -49,6 +56,11 @@ class MultiFileLogger(ILogger):
         Writes the result of a command to a log file.
         @param result The result of the command.
         """
+        # Make sure the output directory exists
+        # This is necessary in case the directory is removed, e.g. because a
+        #   script cleans the log directory by removing it.
+        self._generate_output_dir()
+
         # Get the name of the command to write to the log name
         cmd_name = result.command.split(os.path.sep)[-1]
 
@@ -64,3 +76,14 @@ class MultiFileLogger(ILogger):
 
             # Add a final newline
             file.write("\n")
+
+
+    def _generate_output_dir(self):
+        """
+        Generates the directory to write log files to.
+        The directory will be created if it does not already exist. If the
+          directory already exists, this will be a no-op.
+        """
+        # Create the logs directory if it does not exist
+        if not os.path.exists(self._output_dir):
+            os.makedirs(self._output_dir)
