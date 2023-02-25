@@ -24,5 +24,5 @@ pyshell = PyShell(
 
 # Run some commands
 Shell.echo("Hello, world!")
-Shell.echo("Hello, world again!")
-Shell.echo("Howdy, y'all!")
+Shell.echo("Hello world again!")
+Shell.echo("Howdy y'all!")

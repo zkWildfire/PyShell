@@ -7,8 +7,11 @@ class MultiFileLogger(ILogger):
     """
     Logs each commands' output to a separate file.
     """
+    # Name of the logs directory used by default.
+    DEFAULT_LOGS_DIR = ".logs"
+
     def __init__(self,
-        output_dir: str | Path = ".logs",
+        output_dir: str | Path = DEFAULT_LOGS_DIR,
         print_cmds: bool = False):
         """
         Creates a new MultiFileLogger.
