@@ -1,0 +1,3 @@
+# Ignore the Doxygen Awesome CSS files when calculating language statistics
+# Note: Doxygen Awesome is from https://jothepro.github.io/doxygen-awesome-css/
+doxygen/css/* linguist-generated=true
