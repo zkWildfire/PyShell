@@ -1,5 +1,6 @@
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, KeepGoing, \
     NativeBackend, NullFileLogger
+from pyshell.modules.shell import Shell
 from pyshell.shell.cp_command import CpCommand
 import pytest
 from typing import Any
@@ -22,8 +23,7 @@ def test_cp_file(tmp_path: Any):
     dest_path = tmp_path / "bar.txt"
 
     # Run the commands
-    cmd = CpCommand(src_path, dest_path)
-    result = cmd(pyshell)
+    result = Shell.cp(src_path, dest_path, pyshell)
     assert result.success
 
     # Verify that the file was copied
@@ -48,8 +48,7 @@ def test_cp_empty_dir(tmp_path: Any):
     dest_path = tmp_path / "bar"
 
     # Run the commands
-    cmd = CpCommand(src_path, dest_path)
-    result = cmd(pyshell)
+    result = Shell.cp(src_path, dest_path, pyshell)
     assert result.success
 
     # Verify that the directory was copied
@@ -75,8 +74,7 @@ def test_cp_non_empty_dir(tmp_path: Any):
     dest_path = tmp_path / "bar"
 
     # Run the commands
-    cmd = CpCommand(src_path, dest_path)
-    result = cmd(pyshell)
+    result = Shell.cp(src_path, dest_path, pyshell)
     assert result.success
 
     # Verify that the directory was copied
@@ -103,8 +101,7 @@ def test_cp_file_to_non_existing_dir(tmp_path: Any):
     dest_path = tmp_path / "bar" / "baz.txt"
 
     # Run the commands
-    cmd = CpCommand(src_path, dest_path)
-    result = cmd(pyshell)
+    result = Shell.cp(src_path, dest_path, pyshell)
     assert not result.success
 
 
@@ -166,8 +163,7 @@ def test_cp_file_over_existing_file(tmp_path: Any):
     dest_path.write_text("bar")
 
     # Run the commands
-    cmd = CpCommand(src_path, dest_path)
-    result = cmd(pyshell)
+    result = Shell.cp(src_path, dest_path, pyshell)
     assert result.success
 
     # Verify that the file was copied

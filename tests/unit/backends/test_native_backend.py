@@ -24,3 +24,12 @@ def test_run_in_different_cwd():
     backend = NativeBackend()
     result = backend.run(cmd, Path(cwd))
     assert result.cwd == str(cwd)
+
+
+def test_backend_adds_final_newline_if_missing():
+    cmd = ["echo", "-n", "foo"]
+    cwd = os.getcwd()
+
+    backend = NativeBackend()
+    result = backend.run(cmd, Path(cwd))
+    assert result.output == "foo\n"

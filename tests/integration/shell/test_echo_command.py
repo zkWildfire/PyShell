@@ -1,6 +1,6 @@
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
     NullFileLogger
-from pyshell.shell.echo_command import EchoCommand
+from pyshell.modules.shell import Shell
 
 def test_echo_command():
     # Initialize a PyShell instance for running commands
@@ -13,8 +13,7 @@ def test_echo_command():
 
     # Run the commands
     msg = "foo bar"
-    cmd = EchoCommand(msg)
-    result = cmd(pyshell)
+    result = Shell.echo(msg, pyshell)
     assert result.success
 
     # Verify that the output is correct

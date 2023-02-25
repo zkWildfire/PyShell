@@ -45,10 +45,6 @@ class NativeBackend(IBackend):
             output += new_output + "\n"
             print(new_output)
 
-        # Add a final newline if the output doesn't end with one
-        if output and not output.endswith("\n"):
-            output += "\n"
-
         return CommandResult(
             command=command[0],
             args=command[1:],

@@ -1,6 +1,6 @@
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, KeepGoing, \
     NativeBackend, NullFileLogger
-from pyshell.shell.rm_command import RmCommand
+from pyshell.modules.shell import Shell
 from typing import Any
 
 
@@ -18,8 +18,7 @@ def test_rm_file(tmp_path: Any):
     file_path.write_text("foo")
 
     # Run the commands
-    cmd = RmCommand(file_path)
-    result = cmd(pyshell)
+    result = Shell.rm(file_path, pyshell=pyshell)
     assert result.success
 
     # Verify that the file was removed
@@ -40,8 +39,7 @@ def test_rm_empty_dir(tmp_path: Any):
     dir_path.mkdir()
 
     # Run the commands
-    cmd = RmCommand(dir_path)
-    result = cmd(pyshell)
+    result = Shell.rm(dir_path, pyshell=pyshell)
     assert result.success
 
     # Verify that the directory was removed
@@ -66,8 +64,7 @@ def test_rm_non_empty_dir(tmp_path: Any):
     file_path.write_text("foo")
 
     # Run the commands
-    cmd = RmCommand(dir_path)
-    result = cmd(pyshell)
+    result = Shell.rm(dir_path, pyshell=pyshell)
     assert result.success
 
     # Verify that the directory was removed
@@ -84,8 +81,7 @@ def test_rm_non_existent_file(tmp_path: Any):
     )
 
     # Run the commands
-    cmd = RmCommand(tmp_path / "foo.txt")
-    result = cmd(pyshell)
+    result = Shell.rm(tmp_path / "foo.txt", pyshell=pyshell)
     assert not result.success
 
 
@@ -99,8 +95,7 @@ def test_rm_non_existent_dir(tmp_path: Any):
     )
 
     # Run the commands
-    cmd = RmCommand(tmp_path / "foo")
-    result = cmd(pyshell)
+    result = Shell.rm(tmp_path / "foo", pyshell=pyshell)
     assert not result.success
 
 
@@ -118,8 +113,7 @@ def test_force_remove_file(tmp_path: Any):
     file_path.write_text("foo")
 
     # Run the commands
-    cmd = RmCommand(file_path, force=True)
-    result = cmd(pyshell)
+    result = Shell.rm(file_path, force=True, pyshell=pyshell)
     assert result.success
 
     # Verify that the file was removed
@@ -140,8 +134,7 @@ def test_force_remove_empty_dir(tmp_path: Any):
     dir_path.mkdir()
 
     # Run the commands
-    cmd = RmCommand(dir_path, force=True)
-    result = cmd(pyshell)
+    result = Shell.rm(dir_path, force=True, pyshell=pyshell)
     assert result.success
 
     # Verify that the directory was removed
@@ -166,8 +159,7 @@ def test_force_remove_non_empty_dir(tmp_path: Any):
     file_path.write_text("foo")
 
     # Run the commands
-    cmd = RmCommand(dir_path, force=True)
-    result = cmd(pyshell)
+    result = Shell.rm(dir_path, force=True, pyshell=pyshell)
     assert result.success
 
     # Verify that the directory was removed
@@ -184,8 +176,7 @@ def test_force_remove_non_existent_file(tmp_path: Any):
     )
 
     # Run the commands
-    cmd = RmCommand(tmp_path / "foo.txt", force=True)
-    result = cmd(pyshell)
+    result = Shell.rm(tmp_path / "foo.txt", force=True, pyshell=pyshell)
     assert result.success
 
 
@@ -199,6 +190,5 @@ def test_force_remove_non_existent_dir(tmp_path: Any):
     )
 
     # Run the commands
-    cmd = RmCommand(tmp_path / "foo", force=True)
-    result = cmd(pyshell)
+    result = Shell.rm(tmp_path / "foo", force=True, pyshell=pyshell)
     assert result.success
