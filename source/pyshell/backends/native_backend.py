@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.core.command_result import CommandResult
 import subprocess
@@ -8,10 +9,14 @@ class NativeBackend(IBackend):
     Backend that executes commands directly.
     """
 
-    def run(self, command: Sequence[str]) -> CommandResult:
+    def run(self,
+        command: Sequence[str],
+        cwd: Path) -> CommandResult:
         """
         Runs the specified command on the backend.
         @param command The command to run.
+        @param cwd The working directory to use for the command. Will always be
+          an absolute path.
         @return The output of the command.
         """
         output = ""
@@ -20,7 +25,8 @@ class NativeBackend(IBackend):
         process = subprocess.Popen(
             command,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT
+            stderr=subprocess.STDOUT,
+            cwd=str(cwd)
         )
 
         # Process all output from the process
@@ -38,7 +44,7 @@ class NativeBackend(IBackend):
         return CommandResult(
             command=command[0],
             args=command[1:],
-            full_command=" ".join(command),
+            cwd=str(cwd),
             output=output,
             exit_code=process.returncode,
             success=process.returncode == 0

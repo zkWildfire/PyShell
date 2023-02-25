@@ -1,10 +1,8 @@
 from pathlib import Path
-from pyshell.core.command import ICommand
-from pyshell.core.command_result import CommandResult
-from pyshell.core.pyshell import PyShell
-from typing import List, Optional
+from pyshell.core.external_command import IExternalCommand
+from typing import List
 
-class RmCommand(ICommand):
+class RmCommand(IExternalCommand):
     """
     Defines a command that runs `rm`.
     """
@@ -26,12 +24,3 @@ class RmCommand(ICommand):
 
         # TODO: Make this cross platform
         super().__init__("rm", flags + [path])
-
-
-    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
-        """
-        Runs the command on the specified backend.
-        @param pyshell PyShell instance to execute the command via.
-        """
-        pyshell = self._resolve_pyshell_instance(pyshell)
-        return pyshell.run(self.full_command)

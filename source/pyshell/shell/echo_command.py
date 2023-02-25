@@ -1,9 +1,7 @@
-from pyshell.core.command import ICommand
-from pyshell.core.command_result import CommandResult
-from pyshell.core.pyshell import PyShell
+from pyshell.core.external_command import IExternalCommand
 from typing import Optional
 
-class EchoCommand(ICommand):
+class EchoCommand(IExternalCommand):
     """
     Defines a command that runs `echo`.
     """
@@ -13,12 +11,3 @@ class EchoCommand(ICommand):
         @param message The message to write to stdout.
         """
         super().__init__("echo", message)
-
-
-    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
-        """
-        Runs the command on the specified backend.
-        @param pyshell PyShell instance to execute the command via.
-        """
-        pyshell = self._resolve_pyshell_instance(pyshell)
-        return pyshell.run(self.full_command)

@@ -1,12 +1,9 @@
-import os
 from pathlib import Path
-from pyshell.core.command import ICommand
-from pyshell.core.command_result import CommandResult
+from pyshell.core.external_command import IExternalCommand
 from pyshell.core.platform_statics import PlatformStatics
-from pyshell.core.pyshell import PyShell
 from typing import List, Optional
 
-class MoxygenCommand(ICommand):
+class MoxygenCommand(IExternalCommand):
     """
     Defines a command that runs `moxygen`.
     """
@@ -67,16 +64,3 @@ class MoxygenCommand(ICommand):
             flags.extend(["--language", language])
 
         super().__init__(moxygen_exe_path, flags + [doxygen_xml_dir])
-
-
-    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
-        """
-        Runs the command on the specified backend.
-        @param pyshell PyShell instance to execute the command via.
-        """
-        pyshell = self._resolve_pyshell_instance(pyshell)
-
-        # If the output path doesn't exist, Moxygen will fail
-        os.makedirs(self._output_path, exist_ok=True)
-
-        return pyshell.run(self.full_command)

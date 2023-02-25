@@ -1,10 +1,12 @@
+import os
+from pathlib import Path
 from pyshell.backends.dry_run_backend import DryRunBackend
 
 def test_run_echo():
     cmd = ["echo", "foo"]
 
     backend = DryRunBackend()
-    result = backend.run(cmd)
+    result = backend.run(cmd, Path(os.getcwd()))
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
     assert result.full_command == " ".join(cmd)
@@ -17,7 +19,7 @@ def test_run_invalid_cmd():
     cmd = ["invalid_cmd"]
 
     backend = DryRunBackend()
-    result = backend.run(cmd)
+    result = backend.run(cmd, Path(os.getcwd()))
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
     assert result.full_command == " ".join(cmd)

@@ -10,8 +10,9 @@ class CommandResult(NamedTuple):
     # Arguments passed to the command
     args: Sequence[str]
 
-    # Full command, including the command name and all arguments
-    full_command: str
+    # Working directory used for the command
+    # @invariant This will always be an absolute path.
+    cwd: str
 
     # Merged output from stdout and stderr
     output: str
@@ -21,3 +22,18 @@ class CommandResult(NamedTuple):
 
     # Whether the command was successful
     success: bool
+
+    @property
+    def error(self) -> bool:
+        """
+        Whether the command was not successful.
+        """
+        return not self.success
+
+
+    @property
+    def full_command(self) -> str:
+        """
+        The full command that was run, including the command and all arguments.
+        """
+        return " ".join([self.command] + list(self.args))

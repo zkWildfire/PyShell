@@ -1,11 +1,8 @@
 from pathlib import Path
-from pyshell.core.command import ICommand
-from pyshell.core.command_result import CommandResult
+from pyshell.core.external_command import IExternalCommand
 from pyshell.core.platform_statics import PlatformStatics
-from pyshell.core.pyshell import PyShell
-from typing import Optional
 
-class DoxygenCommand(ICommand):
+class DoxygenCommand(IExternalCommand):
     """
     Defines a command that runs `doxygen`.
     """
@@ -31,12 +28,3 @@ class DoxygenCommand(ICommand):
             raise ValueError(f"'{doxyfile_path}' is not a file.")
 
         super().__init__(doxygen_exe_path, doxyfile_path)
-
-
-    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
-        """
-        Runs the command on the specified backend.
-        @param pyshell PyShell instance to execute the command via.
-        """
-        pyshell = self._resolve_pyshell_instance(pyshell)
-        return pyshell.run(self.full_command)

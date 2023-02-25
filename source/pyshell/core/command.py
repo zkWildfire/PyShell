@@ -8,55 +8,44 @@ class ICommand(ABC):
     """
     Represents a command that may be executed by a backend.
     """
-    def __init__(self,
-        name: str | Path,
-        args: str | Path | Sequence[str | Path] | None = None):
-        """
-        Initializes the command.
-        @param name The name of the command being run. This should be the name
-          of the executable/command being run but should not include any of
-          the arguments.
-        @param args The argument(s) to pass to the command.
-        """
-        self._name = str(name)
-        if isinstance(args, str) or isinstance(args, Path):
-            args = [args]
-        elif not args:
-            args = []
-        self._args = [str(a) for a in args]
-
-
     @property
+    @abstractmethod
     def command_name(self) -> str:
         """
         The name of the command being run.
         This contains the name of the executable/command being run but does not
           include any of the arguments.
         """
-        return self._name
+        raise NotImplementedError()
 
 
     @property
+    @abstractmethod
     def args(self) -> Sequence[str]:
         """
         The arguments passed to the command.
         """
-        return self._args
+        raise NotImplementedError()
 
 
     @property
+    @abstractmethod
     def full_command(self) -> Sequence[str]:
         """
         The full command being run, including the command name and all arguments.
         """
-        return [self.command_name] + self._args
+        raise NotImplementedError()
 
 
     @abstractmethod
-    def __call__(self, pyshell: Optional[PyShell] = None) -> CommandResult:
+    def __call__(self,
+        pyshell: Optional[PyShell] = None,
+        cwd: str | Path | None = None) -> CommandResult:
         """
         Runs the command on the specified backend.
         @param pyshell PyShell instance to execute the command via.
+        @param cwd The current working directory to use for the command. If this
+          is not provided, the pyshell instance's cwd will be used.
         """
         raise NotImplementedError()
 
