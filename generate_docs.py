@@ -60,6 +60,5 @@ Doxygen.generate_docs(DOXYFILE_PATH)
 Moxygen.generate_docs(
     DOXYGEN_XML_PATH,
     Path.joinpath(MOXYGEN_MD_PATH, "%s.md"),
-    separate_classes=True,
-    language="cpp"
+    separate_classes=True
 )

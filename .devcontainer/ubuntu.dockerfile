@@ -31,6 +31,7 @@ RUN python3 -m pip install \
 	mkdocs-git-revision-date-localized-plugin \
 	pygments \
 	# Packages for documentation generation
+	mkdocs-awesome-pages-plugin \
 	doxypypy \
 	plantuml-markdown \
 	# Other

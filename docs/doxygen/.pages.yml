@@ -1,0 +1,33 @@
+nav:
+  - PyShell Class: pyshell::core::pyshell::PyShell.md
+  - Modules:
+    - Doxygen: pyshell::modules::doxygen::Doxygen.md
+    - Moxygen: pyshell::modules::moxygen::Moxygen.md
+    - Shell: pyshell::modules::shell::Shell.md
+  - Commands:
+    - ICommand: pyshell::core::command::ICommand.md
+    - Doxygen:
+      - doxygen: doxygen::DoxygenCommand.md
+    - Moxygen:
+      - moxygen: moxygen::MoxygenCommand.md
+    - Shell:
+      - echo: echo::EchoCommand.md
+      - ls: ls::LsCommand.md
+      - rm: rm::RmCommand.md
+  - Backends:
+    - IBackend: pyshell::backends::backend::IBackend.md
+    - Dry Run: pyshell::backends::dry_run_backend::DryRunBackend.md
+    - Native: pyshell::backends::native_backend::NativeBackend.md
+    - Docker: pyshell::backends::docker_backend::DockerBackend.md
+  - Loggers:
+    - ILogger: pyshell::logging::logger::ILogger.md
+    - Single File: pyshell::logging::single_file_logger::SingleFileLogger.md
+    - Multi File: pyshell::logging::multi_file_logger::MultiFileLogger.md
+  - Error Handlers:
+    - IErrorHandler: pyshell::error::error_handler::IErrorHandler.md
+    - Abort on Failure: pyshell::error::abort_on_failure::AbortOnFailure.md
+  - Other:
+    - Command Result: pyshell::core::command_result::CommandResult.md
+    - Platform Statics: pyshell::core::platform_statics::PlatformStatics.md
+    - ...
+sort_type: natural
