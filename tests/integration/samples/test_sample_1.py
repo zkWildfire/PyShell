@@ -4,7 +4,7 @@ from pathlib import Path
 class TestSample1:
     # Path to the directory containing the sample scripts
     SAMPLES_DIR = Path(__file__).joinpath(
-        "../../../samples/1-hello-world").absolute().resolve()
+        "../../../../samples/1-hello-world").absolute().resolve()
 
     # Script to run
     SCRIPT = "hello_world.py"
