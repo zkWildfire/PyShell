@@ -2,7 +2,7 @@
 import argparse
 from pathlib import Path
 from pyshell import PyShell, AbortOnFailure, NativeBackend, MultiFileLogger
-from pyshell.modules import Doxygen, Moxygen, Shell
+from pyshell.modules import Doxygen, Shell
 
 # Process arguments
 parser = argparse.ArgumentParser()
@@ -57,8 +57,3 @@ if args.clean:
 
 # Generate the documentation
 Doxygen.generate_docs(DOXYFILE_PATH)
-Moxygen.generate_docs(
-    DOXYGEN_XML_PATH,
-    Path.joinpath(MOXYGEN_MD_PATH, "%s.md"),
-    separate_classes=True
-)
