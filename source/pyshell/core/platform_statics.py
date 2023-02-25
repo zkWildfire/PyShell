@@ -50,5 +50,7 @@ class PlatformStatics:
         @return The executable name.
         """
         if PlatformStatics.is_windows():
-            return name + ".exe"
+            # Code coverage is recorded on Linux, so this line will never be
+            #   executed during testing.
+            return name + ".exe" # pragma: no cover
         return name
