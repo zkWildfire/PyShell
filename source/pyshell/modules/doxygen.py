@@ -8,6 +8,7 @@ from typing import Optional
 class Doxygen(IModule):
     """
     Module that simplifies doxygen command execution.
+    @ingroup modules
     """
     @staticmethod
     def generate_docs(

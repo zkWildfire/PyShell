@@ -7,4 +7,5 @@ class IModule(ABC):
       via `ICommand` instances. For complex modules that support multiple
       different types of commands, the module will define multiple methods that
       return `ICommand` instances.
+    @ingroup modules
     """

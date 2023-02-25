@@ -7,6 +7,7 @@ from typing import Sequence
 class NativeBackend(IBackend):
     """
     Backend that executes commands directly.
+    @ingroup backends
     """
 
     def run(self,

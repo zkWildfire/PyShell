@@ -11,3 +11,6 @@ from .logging.logger import ILogger
 from .logging.multi_file_logger import MultiFileLogger
 from .logging.null_file_logger import NullFileLogger
 from .logging.single_file_logger import SingleFileLogger
+
+## @package pyshell
+# Root namespace for all PyShell classes.

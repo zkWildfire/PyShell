@@ -8,6 +8,7 @@ class ILogger(ABC):
       command. This allows for logging of both successful and failed commands
       since the logger is executed before an error handler is called to handle
       a failed command.
+    @ingroup logging
     """
     @abstractmethod
     def log(self, result: CommandResult) -> None:

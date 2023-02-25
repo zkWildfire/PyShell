@@ -6,6 +6,7 @@ from typing import Sequence
 class DryRunBackend(IBackend):
     """
     Backend that prints commands without executing them.
+    @ingroup backends
     """
     def run(self,
         command: Sequence[str],

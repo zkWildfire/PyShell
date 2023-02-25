@@ -4,6 +4,7 @@ from pyshell.core.command_result import CommandResult
 class IErrorHandler(ABC):
     """
     Represents an error handler for PyShell commands.
+    @ingroup error
     """
     @abstractmethod
     def handle(self, result: CommandResult) -> None:

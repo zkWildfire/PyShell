@@ -5,6 +5,7 @@ from typing import List
 class RmCommand(IExternalCommand):
     """
     Defines a command that runs `rm`.
+    @ingroup commands
     """
     def __init__(self, path: str | Path, force: bool = False):
         """

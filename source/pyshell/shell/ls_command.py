@@ -4,6 +4,7 @@ from pyshell.core.external_command import IExternalCommand
 class LsCommand(IExternalCommand):
     """
     Defines a command that runs `ls`.
+    @ingroup commands
     """
     def __init__(self, target_path: str | Path | None = None):
         """

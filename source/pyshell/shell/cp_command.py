@@ -5,6 +5,7 @@ from typing import List
 class CpCommand(IExternalCommand):
     """
     Defines a command that runs `cp`.
+    @ingroup commands
     """
     def __init__(self,
         src: str | Path,

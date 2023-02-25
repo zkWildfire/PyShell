@@ -5,6 +5,7 @@ from pyshell.logging.logger import ILogger
 class SingleFileLogger(ILogger):
     """
     Logs all commands' output to a single file.
+    @ingroup logging
     """
     def __init__(self,
         file_path: str | Path,

@@ -4,6 +4,7 @@ from typing import Optional
 class EchoCommand(IExternalCommand):
     """
     Defines a command that runs `echo`.
+    @ingroup commands
     """
     def __init__(self, message: Optional[str] = None):
         """

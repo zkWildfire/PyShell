@@ -6,6 +6,7 @@ from pathlib import Path
 class MultiFileLogger(ILogger):
     """
     Logs each commands' output to a separate file.
+    @ingroup logging
     """
     # Name of the logs directory used by default.
     DEFAULT_LOGS_DIR = ".logs"

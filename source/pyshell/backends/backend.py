@@ -6,6 +6,7 @@ from typing import Sequence
 class IBackend(ABC):
     """
     Represents a backend for executing PyShell commands.
+    @ingroup backends
     """
     @abstractmethod
     def run(self,

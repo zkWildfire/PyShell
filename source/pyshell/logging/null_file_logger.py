@@ -4,6 +4,7 @@ from pyshell.logging.logger import ILogger
 class NullFileLogger(ILogger):
     """
     Logger that does not log anything.
+    @ingroup logging
     """
     def log(self, result: CommandResult) -> None:
         """

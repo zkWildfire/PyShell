@@ -8,6 +8,7 @@ from typing import Optional, Sequence
 class IExternalCommand(ICommand):
     """
     Base class for commands that run external executables.
+    @ingroup commands
     """
     def __init__(self,
         name: str | Path,

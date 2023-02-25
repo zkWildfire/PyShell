@@ -5,6 +5,7 @@ from pyshell.core.platform_statics import PlatformStatics
 class DoxygenCommand(IExternalCommand):
     """
     Defines a command that runs `doxygen`.
+    @ingroup commands
     """
     def __init__(self, doxyfile_path: str | Path):
         """

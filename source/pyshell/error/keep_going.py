@@ -5,6 +5,7 @@ import sys
 class KeepGoing(IErrorHandler):
     """
     Error handler that prints an error message but does not halt execution.
+    @ingroup error
     """
     def handle(self, result: CommandResult) -> None:
         """

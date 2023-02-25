@@ -13,6 +13,7 @@ class Shell(IModule):
     Module that provides access to shell commands.
     Shell commands that are not supported by the native underlying shell will
       be emulated.
+    @ingroup modules
     """
     @staticmethod
     def cp(

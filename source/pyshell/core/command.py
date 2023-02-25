@@ -7,6 +7,7 @@ from typing import Optional, Sequence
 class ICommand(ABC):
     """
     Represents a command that may be executed by a backend.
+    @ingroup commands
     """
     @property
     @abstractmethod

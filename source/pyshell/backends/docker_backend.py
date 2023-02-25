@@ -6,6 +6,7 @@ from typing import Sequence
 class DockerBackend(IBackend):
     """
     Backend that executes commands in a docker container.
+    @ingroup backends
     """
 
     def run(self,
