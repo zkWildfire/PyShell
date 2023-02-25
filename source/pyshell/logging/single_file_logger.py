@@ -60,6 +60,7 @@ class SingleFileLogger(ILogger):
             if self._print_cmd_footer:
                 file.write("\n")
                 file.write(f"[PyShell] Executed command: {result.full_command}\n")
+                file.write(f"[PyShell] cwd: {result.cwd}\n")
                 file.write(f"[PyShell] Command exited with code {result.exit_code}.\n")
 
             # Add a newline between different commands' output

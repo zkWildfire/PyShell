@@ -44,3 +44,51 @@ def test_log_multiple_commands(tmp_path: Any):
         True
     ))
     assert file_path.read_text() == "FOO\nBAR\n"
+
+
+def test_log_cmd_header(tmp_path: Any):
+    # Constants
+    file_path = tmp_path / "log.txt"
+    cmd = "foo"
+    cwd = "/cwd"
+
+    # Run the test
+    logger = SingleFileLogger(file_path, print_cmd_header=True)
+    logger.log(CommandResult(
+        cmd,
+        [],
+        cwd,
+        "FOO",
+        0,
+        True
+    ))
+
+    # Validate results
+    contents = file_path.read_text()
+    assert cmd in contents
+    assert cwd in contents
+
+
+def test_log_cmd_footer(tmp_path: Any):
+    # Constants
+    file_path = tmp_path / "log.txt"
+    cmd = "foo"
+    cwd = "/cwd"
+    exit_code = 123
+
+    # Run the test
+    logger = SingleFileLogger(file_path, print_cmd_footer=True)
+    logger.log(CommandResult(
+        cmd,
+        [],
+        cwd,
+        "FOO",
+        exit_code,
+        True
+    ))
+
+    # Validate results
+    contents = file_path.read_text()
+    assert cmd in contents
+    assert cwd in contents
+    assert str(exit_code) in contents
