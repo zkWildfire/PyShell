@@ -37,6 +37,13 @@ class NativeBackend(IBackend):
                 output += new_output + "\n"
                 print(new_output)
 
+        # Process any remaining output from the process
+        assert process.stdout
+        new_output = process.stdout.read().decode("utf-8").rstrip()
+        if new_output:
+            output += new_output + "\n"
+            print(new_output)
+
         # Add a final newline if the output doesn't end with one
         if output and not output.endswith("\n"):
             output += "\n"
