@@ -2,6 +2,7 @@ from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.core.module import IModule
 from pyshell.core.pyshell import PyShell
+from pyshell.shell.cp_command import CpCommand
 from pyshell.shell.echo_command import EchoCommand
 from pyshell.shell.ls_command import LsCommand
 from pyshell.shell.rm_command import RmCommand
@@ -14,11 +15,30 @@ class Shell(IModule):
       be emulated.
     """
     @staticmethod
+    def cp(
+        src: str | Path,
+        dest: str | Path,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
+        """
+        Runs `cp` on the specified source and destination.
+        @param src File or directory to copy. Can be a relative or absolute
+          path. If the path is relative, it will be resolved relative to the
+          script's current working directory.
+        @param dest Destination to copy the file or directory to. Can be a
+          relative or absolute path. If the path is relative, it will be
+          resolved relative to the script's current working directory.
+        @param pyshell PyShell instance to execute the command via.
+        @return The results of running `cp` on the source and destination.
+        """
+        return CpCommand(src, dest)(pyshell)
+
+
+    @staticmethod
     def echo(
         message: Optional[str] = None,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
-        Returns the results of running `echo` with the specified message.
+        Runs `echo` with the specified message.
         @param message The message to write to stdout.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `echo`.
@@ -31,7 +51,7 @@ class Shell(IModule):
         target_path: str | Path | None = None,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
-        Returns the results of running `ls` on the specified path.
+        Runs `ls` on the specified path.
         @param target_path The path to list the contents of.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `ls` on the target path.
@@ -45,7 +65,7 @@ class Shell(IModule):
         force: bool = False,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
-        Returns the results of running `rm` on the specified path.
+        Runs `rm` on the specified path.
         @param target_path The path to remove.
         @param force If True, the -f flag will be passed to `rm`.
         @param pyshell PyShell instance to execute the command via.
