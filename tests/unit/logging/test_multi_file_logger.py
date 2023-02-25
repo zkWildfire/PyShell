@@ -24,38 +24,9 @@ def test_log_writes_to_file(tmp_path: Any):
     assert (log_path / "1-foo.log").read_text() == "bar\n"
 
 
-def test_log_command_to_file(tmp_path: Any):
-    log_path = tmp_path / "logs"
-    logger = MultiFileLogger(log_path, print_cmds=True)
-    logger.log(CommandResult(
-        "foo",
-        [],
-        os.getcwd(),
-        "",
-        0,
-        True
-    ))
-    assert (log_path / "1-foo.log").read_text() == \
-        "[PyShell] Running command: foo\n\n"
-
-
-def test_skip_logging_command_to_file(tmp_path: Any):
-    log_path = tmp_path / "logs"
-    logger = MultiFileLogger(log_path, print_cmds=False)
-    logger.log(CommandResult(
-        "foo",
-        [],
-        os.getcwd(),
-        "",
-        0,
-        True
-    ))
-    assert (log_path / "1-foo.log").read_text() == "\n"
-
-
 def test_log_multiple_commands(tmp_path: Any):
     log_path = tmp_path / "logs"
-    logger = MultiFileLogger(log_path, print_cmds=False)
+    logger = MultiFileLogger(log_path)
     logger.log(CommandResult("foo", [], "foo", "FOO", 0, True))
     logger.log(CommandResult("bar", [], "bar", "BAR", 0, True))
     logger.log(CommandResult(
@@ -80,7 +51,7 @@ def test_log_multiple_commands(tmp_path: Any):
 
 def test_log_command_given_by_path(tmp_path: Any):
     log_path = tmp_path / "logs"
-    logger = MultiFileLogger(log_path, print_cmds=False)
+    logger = MultiFileLogger(log_path)
     logger.log(CommandResult(
         "/usr/bin/foo",
         [],

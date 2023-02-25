@@ -12,20 +12,24 @@ class MultiFileLogger(ILogger):
 
     def __init__(self,
         output_dir: str | Path = DEFAULT_LOGS_DIR,
-        print_cmds: bool = False,
+        print_cmd_header: bool = False,
+        print_cmd_footer: bool = False,
         clean_logs_dir: bool = False):
         """
         Creates a new MultiFileLogger.
         @param output_dir Directory to write log files to. Can be a relative or
           absolute path. If the path is a relative path, it will be interpreted
           relative to the directory that the PyShell script is run from.
-        @param print_cmds Whether to print the command string for each command
-          that is run at the start of the command's output file.
+        @param print_cmd_header Whether to print command info for each command
+          that is run before the command's output.
+        @param print_cmd_footer Whether to print command info for each command
+            that is run after the command's output.
         @param clean_logs_dir Whether to delete any existing log files in the
           output directory before logging begins.
         @throws ValueError If 'output_dir' is a file.
         """
-        self._print_cmds = print_cmds
+        self._print_cmd_header = print_cmd_header
+        self._print_cmd_footer = print_cmd_footer
         self._output_dir = Path(output_dir).resolve()
         if self._output_dir.is_file():
             raise ValueError(f"'{self._output_dir}' is a file.")
@@ -70,9 +74,21 @@ class MultiFileLogger(ILogger):
 
         # Write the command's output to the file
         with open(file_path, "w") as file:
-            if self._print_cmds:
+            # Add the header
+            if self._print_cmd_header:
                 file.write(f"[PyShell] Running command: {result.full_command}\n")
+                file.write(f"[PyShell] cwd: {result.cwd}\n")
+                file.write(f"[PyShell] Command output:\n")
+                file.write("\n")
+
+            # Write the command's output
             file.write(result.output)
+
+            # Add the footer
+            if self._print_cmd_footer:
+                file.write("\n")
+                file.write(f"[PyShell] Executed command: {result.full_command}\n")
+                file.write(f"[PyShell] Command exited with code {result.exit_code}.\n")
 
             # Add a final newline
             file.write("\n")
