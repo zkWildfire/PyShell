@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.multi_file_logger import MultiFileLogger
+import pytest
 from typing import Any
 
 def test_log_path_matches_ctor_arg(tmp_path: Any):
@@ -107,3 +108,27 @@ def test_log_cmd_footer(tmp_path: Any):
     assert cmd in contents
     assert cwd in contents
     assert str(exit_code) in contents
+
+
+def test_ctor_throws_if_output_dir_is_file(tmp_path: Any):
+    log_path = tmp_path / "logs"
+    log_path.mkdir()
+    log_file = log_path / "foo.log"
+    log_file.touch()
+
+    with pytest.raises(ValueError):
+        MultiFileLogger(log_file)
+
+
+def test_clean_old_logs(tmp_path: Any):
+    # Constants
+    log_path = tmp_path / "logs"
+    log_path.mkdir()
+    log_file = log_path / "foo.log"
+    log_file.touch()
+
+    # Run the test
+    MultiFileLogger(log_path, clean_logs_dir=True)
+
+    # Validate results
+    assert not log_file.exists()
