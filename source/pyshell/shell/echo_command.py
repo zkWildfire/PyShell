@@ -1,7 +1,7 @@
-from pyshell.core.external_command import IExternalCommand
+from pyshell.core.external_command import ExternalCommand
 from typing import Optional
 
-class EchoCommand(IExternalCommand):
+class EchoCommand(ExternalCommand):
     """
     Defines a command that runs `echo`.
     @ingroup commands

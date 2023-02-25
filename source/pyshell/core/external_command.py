@@ -5,9 +5,13 @@ from pyshell.core.pyshell import PyShell
 from pyshell.core.platform_statics import PlatformStatics
 from typing import Optional, Sequence
 
-class IExternalCommand(ICommand):
+class ExternalCommand(ICommand):
     """
     Base class for commands that run external executables.
+    PyShell scripts may use this command to run executables for which PyShell
+      does not have native support for. Running a command via this class instead
+      of running it via `subprocess` will allow PyShell to log the command and
+      handle any errors using the standard PyShell error handling mechanisms.
     @ingroup commands
     """
     def __init__(self,

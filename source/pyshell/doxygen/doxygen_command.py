@@ -1,8 +1,8 @@
 from pathlib import Path
-from pyshell.core.external_command import IExternalCommand
+from pyshell.core.external_command import ExternalCommand
 from pyshell.core.platform_statics import PlatformStatics
 
-class DoxygenCommand(IExternalCommand):
+class DoxygenCommand(ExternalCommand):
     """
     Defines a command that runs `doxygen`.
     @ingroup commands

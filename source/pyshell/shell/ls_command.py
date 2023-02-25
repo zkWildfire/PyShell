@@ -1,7 +1,7 @@
 from pathlib import Path
-from pyshell.core.external_command import IExternalCommand
+from pyshell.core.external_command import ExternalCommand
 
-class LsCommand(IExternalCommand):
+class LsCommand(ExternalCommand):
     """
     Defines a command that runs `ls`.
     @ingroup commands

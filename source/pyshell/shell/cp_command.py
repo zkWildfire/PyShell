@@ -1,8 +1,8 @@
 from pathlib import Path
-from pyshell.core.external_command import IExternalCommand
+from pyshell.core.external_command import ExternalCommand
 from typing import List
 
-class CpCommand(IExternalCommand):
+class CpCommand(ExternalCommand):
     """
     Defines a command that runs `cp`.
     @ingroup commands
