@@ -9,4 +9,7 @@
 
 ## Overview
 PyShell is a Python library that simplifies writing shell scripts in Python
-instead of platform-specific languages like Bash or Batch.
+instead of platform-specific languages like Bash or Batch. Documentation and
+tutorials for how to use the library can be found at
+[pyshell.dev](https://www.pyshell.dev). API reference documentation can be
+found at [pyshell.dev/doxygen](https://www.pyshell.dev/doxygen).
