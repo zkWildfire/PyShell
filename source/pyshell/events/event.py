@@ -1,3 +1,4 @@
+from __future__ import annotations
 from pyshell.events.event_handler import EventHandler
 from typing import Callable, Generic, TypeVar
 
@@ -16,6 +17,28 @@ class Event(Generic[SenderType, ArgsType]):
         @param event_handler The `EventHandler` that will be wrapped.
         """
         self._event_handler = event_handler
+
+
+    def __iadd__(self, observer: Callable[[SenderType, ArgsType], None]) \
+        -> Event[SenderType, ArgsType]:
+        """
+        Adds an observer to the event.
+        @param observer The observer to add.
+        @return This object instance.
+        """
+        self._event_handler.add_observer(observer)
+        return self
+
+
+    def __isub__(self, observer: Callable[[SenderType, ArgsType], None]) \
+        -> Event[SenderType, ArgsType]:
+        """
+        Removes an observer from the event.
+        @param observer The observer to remove.
+        @return This object instance.
+        """
+        self._event_handler.remove_observer(observer)
+        return self
 
 
     def add_observer(self, observer: Callable[[SenderType, ArgsType], None]):

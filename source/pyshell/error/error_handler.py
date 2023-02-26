@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 
 class IErrorHandler(ABC):
@@ -7,16 +6,6 @@ class IErrorHandler(ABC):
     Represents an error handler for PyShell commands.
     @ingroup error
     """
-    @abstractmethod
-    def should_run(self, metadata: CommandMetadata) -> bool:
-        """
-        Whether the command should be allowed to run.
-        @param metadata Metadata for the command about to be run.
-        @returns True if the command should be allowed to run.
-        """
-        raise NotImplementedError()
-
-
     @abstractmethod
     def handle(self, result: CommandResult) -> None:
         """
