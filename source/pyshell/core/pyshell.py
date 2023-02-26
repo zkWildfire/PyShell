@@ -2,14 +2,18 @@ from __future__ import annotations
 import os
 from pathlib import Path
 from pyshell.backends.backend import IBackend
+from pyshell.backends.native_backend import NativeBackend
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell_events import PyShellEvents
 from pyshell.core.pyshell_options import PyShellOptions
+from pyshell.error.abort_on_failure import AbortOnFailure
 from pyshell.error.error_handler import IErrorHandler
 from pyshell.events.event_handler import EventHandler
 from pyshell.executors.executor import IExecutor
+from pyshell.executors.allow_all import AllowAll
 from pyshell.logging.logger import ILogger
+from pyshell.logging.null_file_logger import NullFileLogger
 from typing import Optional
 
 class PyShell:
@@ -21,11 +25,11 @@ class PyShell:
 
 
     def __init__(self,
-        backend: IBackend,
-        logger: ILogger,
-        executor: IExecutor,
-        error_handler: IErrorHandler,
-        options: PyShellOptions,
+        backend: IBackend = NativeBackend(),
+        logger: ILogger = NullFileLogger(),
+        executor: IExecutor = AllowAll(),
+        error_handler: IErrorHandler = AbortOnFailure(),
+        options: PyShellOptions = PyShellOptions(),
         cwd: str | Path | None = None,
         set_as_active_instance: bool = True):
         """

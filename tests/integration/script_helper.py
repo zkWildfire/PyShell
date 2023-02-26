@@ -1,7 +1,7 @@
 from pathlib import Path
 import shutil
 import subprocess
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Tuple
 
 class ScriptHelper:
     """
@@ -58,6 +58,42 @@ class ScriptHelper:
             self.clean_logs()
 
 
+    @property
+    def script_dir(self) -> Path:
+        """
+        Path to the directory containing the script.
+        @invariant This will be an absolute path.
+        """
+        return self._script_dir
+
+
+    @property
+    def script_path(self) -> Path:
+        """
+        Path to the script.
+        @invariant This will be an absolute path.
+        """
+        return self._script_path
+
+
+    @property
+    def log_path(self) -> Optional[Path]:
+        """
+        Path to the log file.
+        @invariant This will be an absolute path.
+        """
+        return self._log_path
+
+
+    @property
+    def logs_dir(self) -> Optional[Path]:
+        """
+        Path to the logs directory.
+        @invariant This will be an absolute path.
+        """
+        return self._logs_dir
+
+
     def clean_logs(self):
         """
         Delete all log files.
@@ -102,13 +138,16 @@ class ScriptHelper:
         return None
 
 
-    def run_script(self, args: Sequence[str] = []) -> int:
+    def run_script(self, args: Sequence[str] = []) -> Tuple[int, str]:
         """
         Runs the pyshell script.
         @param args Arguments to pass to the script.
-        @returns The exit code from the script.
+        @returns The exit code from the script and the console output from the
+          script.
         """
-        return subprocess.run(
+        process = subprocess.run(
             ["python3", str(self._script_path), *args],
-            cwd=self._script_dir
-        ).returncode
+            cwd=self._script_dir,
+            capture_output=True
+        )
+        return process.returncode, process.stdout.decode("utf-8")

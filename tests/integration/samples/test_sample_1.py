@@ -15,13 +15,39 @@ class TestSample1:
     # Logs folder used by the script when running in multi-file mode
     LOGS_DIR = ".logs"
 
+    def test_log_to_console_only(self):
+        helper = ScriptHelper(
+            self.SAMPLES_DIR,
+            self.SCRIPT,
+            self.LOG_FILE,
+            self.LOGS_DIR
+        )
+
+        exit_code, output = helper.run_script()
+        assert exit_code == 0
+        assert "Hello, world!" in output
+        assert "Hello world again!" in output
+        assert "Howdy y'all!" in output
+
+        log_contents = helper.find_log_file(self.LOG_FILE)
+        assert not log_contents
+        assert helper.logs_dir
+        assert not helper.logs_dir.exists()
+
+
     def test_log_to_single_file(self):
         helper = ScriptHelper(
             self.SAMPLES_DIR,
             self.SCRIPT,
-            log_file=self.LOG_FILE
+            log_file=self.LOG_FILE,
+            logs_dir=self.LOGS_DIR
         )
-        assert helper.run_script(["--log", "single"]) == 0
+
+        exit_code, output = helper.run_script(["--log", "single"])
+        assert exit_code == 0
+        assert "Hello, world!" in output
+        assert "Hello world again!" in output
+        assert "Howdy y'all!" in output
 
         log_contents = helper.find_log_file(self.LOG_FILE)
         assert log_contents
@@ -34,9 +60,15 @@ class TestSample1:
         helper = ScriptHelper(
             self.SAMPLES_DIR,
             self.SCRIPT,
+            log_file=self.LOG_FILE,
             logs_dir=self.LOGS_DIR
         )
-        assert helper.run_script(["--log", "multi"]) == 0
+
+        exit_code, output = helper.run_script(["--log", "multi"])
+        assert exit_code == 0
+        assert "Hello, world!" in output
+        assert "Hello world again!" in output
+        assert "Howdy y'all!" in output
 
         # Check each of the log files that should have been generated
         # Note that this check is not comprehensive since it does not check for

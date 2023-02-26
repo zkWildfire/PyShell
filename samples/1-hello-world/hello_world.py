@@ -1,35 +1,27 @@
 #!/usr/bin/env python3
 import argparse
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    NativeBackend, SingleFileLogger, MultiFileLogger
+from pyshell import PyShell, NullFileLogger, SingleFileLogger, MultiFileLogger
 from pyshell.modules import Shell
 
 # Decide whether to log to a single file or multiple files
 parser = argparse.ArgumentParser()
-parser.add_argument("--log", choices=["single", "multi"], default="multi")
-parser.add_argument("--verbose", action="store_true")
+parser.add_argument("--log", choices=["single", "multi"], default=None)
 args = parser.parse_args()
 if args.log == "single":
     logger = SingleFileLogger("hello_world.log")
-else:
+elif args.log == "multi":
     logger = MultiFileLogger(
         ".logs",
         print_cmd_header=True,
         print_cmd_footer=True
     )
+else:
+    logger = NullFileLogger()
 
 # Initialize a PyShell instance for running commands
 # PyShell commands that don't explicitly specify a PyShell instance to use
 #   will use the default instance.
-pyshell = PyShell(
-    NativeBackend(),
-    logger,
-    AllowAll(),
-    AbortOnFailure(),
-    PyShellOptions(
-        verbose=args.verbose
-    )
-)
+pyshell = PyShell(logger=logger)
 
 # Run some commands
 Shell.echo("Hello, world!")
