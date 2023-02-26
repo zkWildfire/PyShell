@@ -1,6 +1,0 @@
-<map id="pyshell.doxygen.doxygen_command.DoxygenCommand" name="pyshell.doxygen.doxygen_command.DoxygenCommand">
-<area shape="rect" id="node1" title="Defines a command that runs doxygen." alt="" coords="17,244,239,285"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1core_1_1external__command_1_1ExternalCommand.html" title="Base class for commands that run external executables." alt="" coords="19,155,237,196"/>
-<area shape="rect" id="node3" href="$classpyshell_1_1core_1_1command_1_1ICommand.html" title="Represents a command that may be executed by a backend." alt="" coords="5,80,251,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="103,5,153,32"/>
-</map>
