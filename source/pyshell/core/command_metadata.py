@@ -42,7 +42,7 @@ class CommandMetadata:
         """
         Returns the full command to run.
         """
-        return self._command + " " + " ".join(self._args)
+        return " ".join([self._command] + list(self._args))
 
 
     @property
