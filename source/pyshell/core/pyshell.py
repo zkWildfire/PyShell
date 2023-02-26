@@ -168,11 +168,25 @@ class PyShell:
         # Determine whether to run the command
         if not self._executor.should_run(metadata):
             self._on_command_skipped.broadcast(self._events, metadata)
-            return CommandResult(metadata, str(cwd), "", 0, True)
+            return CommandResult(
+                metadata.command,
+                metadata.args,
+                str(cwd),
+                "",
+                0,
+                True
+            )
 
         # Run the command
         self._on_command_started.broadcast(self._events, metadata)
         result = self._backend.run(metadata, cwd)
+
+        # Log the command output and result
+        if metadata.scanner:
+            scanner_results = metadata.scanner.scan_for_errors(result)
+        else:
+            scanner_results = []
+        self._logger.log(result, scanner_results)
 
         # Handle post-command tasks
         if result.success:
@@ -180,7 +194,8 @@ class PyShell:
         else:
             self._on_command_failed.broadcast(self._events, result)
 
-        self._logger.log(result)
+        # This must be done after broadcasting to events since error handlers
+        #   could cause the script to abort
         if not result.success:
             self._error_handler.handle(result)
         return result

@@ -1,6 +1,9 @@
 from pathlib import Path
 from pyshell.core.external_command import ExternalCommand
 from pyshell.core.platform_statics import PlatformStatics
+from pyshell.doxygen.doxygen_scanner import DoxygenScanner
+from pyshell.scanners.scanner import IScanner
+from typing import Optional
 
 class DoxygenCommand(ExternalCommand):
     """
@@ -30,3 +33,13 @@ class DoxygenCommand(ExternalCommand):
             raise ValueError(f"'{doxyfile_path}' is not a file.")
 
         super().__init__(doxygen_exe_path, doxyfile_path)
+
+
+    @property
+    def scanner(self) -> Optional[IScanner]:
+        """
+        The scanner to use for the command.
+        @return The scanner to use for the command, or None if no scanner should
+          be used.
+        """
+        return DoxygenScanner()

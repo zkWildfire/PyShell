@@ -1,6 +1,8 @@
 from abc import abstractmethod
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell_component import IPyShellComponent
+from pyshell.scanners.entry import Entry
+from typing import List
 
 class ILogger(IPyShellComponent):
     """
@@ -12,9 +14,13 @@ class ILogger(IPyShellComponent):
     @ingroup logging
     """
     @abstractmethod
-    def log(self, result: CommandResult) -> None:
+    def log(self,
+        result: CommandResult,
+        scanner_output: List[Entry]) -> None:
         """
         Writes the result of a command to a log file.
         @param result The result of the command.
+        @param scanner_output The output of the scanner assigned to the command,
+          if any.
         """
         raise NotImplementedError()

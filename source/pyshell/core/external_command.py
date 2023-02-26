@@ -39,13 +39,7 @@ class ExternalCommand(ICommand):
         elif not args:
             args = []
         self._args = [str(a) for a in args]
-
-        # Create the metadata for the command
-        self._metadata = CommandMetadata(
-            self._name,
-            self._args,
-            flags
-        )
+        self._flags = flags
 
         # Verify that the executable exists in the PATH if requested
         if locate_executable:
@@ -63,7 +57,12 @@ class ExternalCommand(ICommand):
         """
         The metadata for the command.
         """
-        return self._metadata
+        return CommandMetadata(
+            str(self._exe_path),
+            self._args,
+            self._flags,
+            self.scanner
+        )
 
 
     @property

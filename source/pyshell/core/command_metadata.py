@@ -1,5 +1,6 @@
 from pyshell.core.command_flags import CommandFlags
-from typing import Sequence
+from pyshell.scanners.scanner import IScanner
+from typing import Optional, Sequence
 
 class CommandMetadata:
     """
@@ -9,16 +10,19 @@ class CommandMetadata:
         self,
         command: str,
         args: Sequence[str],
-        flags: CommandFlags = CommandFlags.STANDARD):
+        flags: CommandFlags = CommandFlags.STANDARD,
+        scanner: Optional[IScanner] = None):
         """
         Initializes the object.
         @param command Command to run.
         @param args Arguments to pass to the command.
         @param flags Flags for the command.
+        @param scanner Scanner to use for the command, if any.
         """
         self._command = command
         self._args = args
         self._flags = flags
+        self._scanner = scanner
 
 
     @property
@@ -54,6 +58,14 @@ class CommandMetadata:
 
 
     @property
+    def is_standard(self) -> bool:
+        """
+        Returns True if the command is a standard command.
+        """
+        return self._flags & CommandFlags.STANDARD != 0
+
+
+    @property
     def is_inactive(self) -> bool:
         """
         Returns True if the command is inactive.
@@ -67,3 +79,11 @@ class CommandMetadata:
         Returns True if the command is a cleanup command.
         """
         return self._flags & CommandFlags.CLEANUP != 0
+
+
+    @property
+    def scanner(self) -> Optional[IScanner]:
+        """
+        Returns the scanner to use for the command, if any.
+        """
+        return self._scanner

@@ -1,7 +1,9 @@
-from pyshell.core.command_result import CommandResult
-from pyshell.logging.logger import ILogger
 import os
 from pathlib import Path
+from pyshell.core.command_result import CommandResult
+from pyshell.logging.logger import ILogger
+from pyshell.scanners.entry import Entry
+from typing import List
 
 class MultiFileLogger(ILogger):
     """
@@ -56,10 +58,14 @@ class MultiFileLogger(ILogger):
         return self._output_dir
 
 
-    def log(self, result: CommandResult) -> None:
+    def log(self,
+        result: CommandResult,
+        scanner_output: List[Entry]) -> None:
         """
         Writes the result of a command to a log file.
         @param result The result of the command.
+        @param scanner_output The output of the scanner assigned to the command,
+          if any.
         """
         # Make sure the output directory exists
         # This is necessary in case the directory is removed, e.g. because a
@@ -84,6 +90,13 @@ class MultiFileLogger(ILogger):
 
             # Write the command's output
             file.write(result.output)
+
+            # Write any scanner entries
+            if scanner_output:
+                file.write(f"[PyShell] Scanner output:\n")
+            for entry in scanner_output:
+                file.write("\n")
+                file.write(entry.scanner_output)
 
             # Add the footer
             if self._print_cmd_footer:

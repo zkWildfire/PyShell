@@ -3,6 +3,7 @@ from pathlib import Path
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
+from pyshell.scanners.scanner import IScanner
 from typing import Optional, Sequence
 
 class ICommand(ABC):
@@ -46,6 +47,16 @@ class ICommand(ABC):
         The full command being run, including the command name and all arguments.
         """
         raise NotImplementedError()
+
+
+    @property
+    def scanner(self) -> Optional[IScanner]:
+        """
+        The scanner to use for the command.
+        @return The scanner to use for the command, or None if no scanner should
+          be used.
+        """
+        return None
 
 
     @abstractmethod

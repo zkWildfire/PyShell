@@ -5,11 +5,11 @@ class CommandFlags(IntEnum):
     Flags that identify various properties of a command.
     """
     # Standard command, no special properties.
-    STANDARD = 0x0
+    STANDARD = 0x1
 
     # The command's trigger condition has not been met.
     # Inactive commands should not be run.
-    INACTIVE = 0x1
+    INACTIVE = 0x2
 
     # Command is a command that should be run even if a failure occurs.
-    CLEANUP = 0x2
+    CLEANUP = 0x4

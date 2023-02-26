@@ -21,7 +21,8 @@ class DryRunBackend(IBackend):
         print(metadata.full_command)
 
         return CommandResult(
-            metadata=metadata,
+            command=metadata.command,
+            args=metadata.args,
             cwd=str(cwd),
             output="",
             exit_code=0,

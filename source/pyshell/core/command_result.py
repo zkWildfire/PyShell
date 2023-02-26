@@ -1,4 +1,3 @@
-from pyshell.core.command_metadata import CommandMetadata
 from typing import Sequence
 
 class CommandResult:
@@ -6,22 +5,24 @@ class CommandResult:
     Stores the result of a command execution.
     """
     def __init__(self,
-        metadata: CommandMetadata,
+        command: str,
+        args: Sequence[str],
         cwd: str,
         output: str,
         exit_code: int,
         skipped: bool):
         """
         Initializes the object.
-        @param metadata Metadata for the command that was run.
+        @param command Name of the command/executable that was run.
+        @param args Arguments passed to the command.
         @param cwd Working directory used for the command.
         @param output Merged output from stdout and stderr.
         @param exit_code Exit code from the command. If the command was skipped,
           this may be any value.
         @param skipped Whether the command was skipped.
         """
-        self._command = metadata.command
-        self._args = metadata.args
+        self._command = command
+        self._args = args
         self._cwd = cwd
         self._output = output
         self._exit_code = exit_code
