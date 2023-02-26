@@ -102,4 +102,4 @@ class ExternalCommand(ICommand):
           is not provided, the pyshell instance's cwd will be used.
         """
         pyshell = self._resolve_pyshell_instance(pyshell)
-        return pyshell.run(self.full_command, cwd)
+        return pyshell.run(self.metadata, cwd)

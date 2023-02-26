@@ -1,5 +1,5 @@
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
-    NullFileLogger
+from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
+    NativeBackend, NullFileLogger
 from pyshell.modules.shell import Shell
 
 def test_echo_command():
@@ -7,6 +7,7 @@ def test_echo_command():
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )

@@ -8,7 +8,7 @@ class DoxygenFixture:
     """
 
     # Path to the repo's doxyfile
-    DOXYFILE_PATH = Path(__file__).parent.joinpath("../../../doxygen/doxyfile")
+    DOXYFILE_PATH = Path(__file__).parent.joinpath("doxyfile")
 
     # Working directory that each command must use
     # This is the directory that relative paths in the doxyfile are relative to

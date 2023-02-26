@@ -1,7 +1,7 @@
 # pyright: reportUnusedImport=false
 from integration.doxygen.doxygen_fixture import DoxygenFixture, doxy
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
-    SingleFileLogger
+from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
+    NativeBackend, SingleFileLogger
 from pyshell.modules import Doxygen
 
 def test_generate_docs(doxy: DoxygenFixture):
@@ -9,6 +9,7 @@ def test_generate_docs(doxy: DoxygenFixture):
     pyshell = PyShell(
         NativeBackend(),
         SingleFileLogger("doxygen.log"),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )

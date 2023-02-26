@@ -1,5 +1,5 @@
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, KeepGoing, \
-    NativeBackend, NullFileLogger
+from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
+    KeepGoing, NativeBackend, NullFileLogger
 from pyshell.modules.shell import Shell
 from typing import Any
 
@@ -9,6 +9,7 @@ def test_rm_file(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -30,6 +31,7 @@ def test_rm_empty_dir(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -51,6 +53,7 @@ def test_rm_non_empty_dir(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -76,6 +79,7 @@ def test_rm_non_existent_file(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         KeepGoing(),
         PyShellOptions()
     )
@@ -90,6 +94,7 @@ def test_rm_non_existent_dir(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         KeepGoing(),
         PyShellOptions()
     )
@@ -104,6 +109,7 @@ def test_force_remove_file(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -125,6 +131,7 @@ def test_force_remove_empty_dir(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -146,6 +153,7 @@ def test_force_remove_non_empty_dir(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -171,6 +179,7 @@ def test_force_remove_non_existent_file(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
@@ -185,6 +194,7 @@ def test_force_remove_non_existent_dir(tmp_path: Any):
     pyshell = PyShell(
         NativeBackend(),
         NullFileLogger(),
+        AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
     )
