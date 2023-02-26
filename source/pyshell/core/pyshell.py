@@ -1,5 +1,4 @@
 from __future__ import annotations
-import os
 from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.backends.native_backend import NativeBackend
@@ -158,13 +157,13 @@ class PyShell:
         @return The output of the command.
         """
         # Determine what cwd to use for the command
-        if isinstance(cwd, str):
-            cwd = Path(cwd)
-        elif not cwd:
+        if not cwd:
             cwd = self._cwd
+        cwd = Path(cwd)
 
         if not cwd.is_absolute():
             cwd = self._cwd.joinpath(cwd)
+        cwd = cwd.resolve()
 
         # Determine whether to run the command
         if not self._executor.should_run(metadata):
