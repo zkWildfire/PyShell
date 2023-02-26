@@ -52,7 +52,7 @@ class Shell(IModule):
     @staticmethod
     def run(
         command: str,
-        args: str | Sequence[str] | None = None,
+        args: str | Path | Sequence[str | Path] | None = None,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs an arbitrary command via PyShell.
