@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
+from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from typing import Optional, Sequence
@@ -9,6 +10,15 @@ class ICommand(ABC):
     Represents a command that may be executed by a backend.
     @ingroup commands
     """
+    @property
+    @abstractmethod
+    def metadata(self) -> CommandMetadata:
+        """
+        The metadata for the command.
+        """
+        raise NotImplementedError()
+
+
     @property
     @abstractmethod
     def command_name(self) -> str:

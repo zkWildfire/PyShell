@@ -1,5 +1,7 @@
 from pathlib import Path
 from pyshell.core.command import ICommand
+from pyshell.core.command_flags import CommandFlags
+from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.core.platform_statics import PlatformStatics
@@ -17,7 +19,8 @@ class ExternalCommand(ICommand):
     def __init__(self,
         name: str | Path,
         args: str | Path | Sequence[str | Path] | None = None,
-        locate_executable: bool = True):
+        locate_executable: bool = True,
+        flags: CommandFlags = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param name The name of the command being run. This should be the name
@@ -27,13 +30,22 @@ class ExternalCommand(ICommand):
         @param locate_executable Whether to locate the executable in the PATH.
           If this is true, this constructor will throw if the executable cannot
           be found in the PATH.
+        @param flags Flags for the command.
         """
+        # Store arguments in a uniform state regardless of input type
         self._name = str(name)
         if isinstance(args, str) or isinstance(args, Path):
             args = [args]
         elif not args:
             args = []
         self._args = [str(a) for a in args]
+
+        # Create the metadata for the command
+        self._metadata = CommandMetadata(
+            self._name,
+            self._args,
+            flags
+        )
 
         # Verify that the executable exists in the PATH if requested
         if locate_executable:
@@ -44,6 +56,14 @@ class ExternalCommand(ICommand):
                 raise FileNotFoundError(
                     f"Executable '{self._exe_path}' not found"
                 )
+
+
+    @property
+    def metadata(self) -> CommandMetadata:
+        """
+        The metadata for the command.
+        """
+        return self._metadata
 
 
     @property

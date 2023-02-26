@@ -1,22 +1,36 @@
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.error.error_handler import IErrorHandler
+import sys
 
-class AbortOnFailure(IErrorHandler):
+class AllowCleanup(IErrorHandler):
     """
-    Error handler that stops a PyShell script if a command fails.
+    Error handler that prevents non-cleanup commands from running after an error.
     @ingroup error
     """
+    def __init__(self):
+        """
+        Initializes the object.
+        """
+        # Whether an error has occurred
+        self._has_failed = False
+
+
     def handle(self, result: CommandResult) -> None:
         """
         Handles a command that returned a non-zero exit code.
         @param result The result of the command.
         """
-        raise RuntimeError(
+        print(
             f"Command '{result.command}' failed with exit code " + \
-                f"{result.exit_code}.\n" +
-            f"Note: Full command was '{result.full_command}'."
+                f"{result.exit_code}.\n",
+            file=sys.stderr
         )
+        print(
+            f"Note: Full command was '{result.full_command}'.",
+            file=sys.stderr
+        )
+        self._has_failed = True
 
 
     def should_run(self, metadata: CommandMetadata) -> bool:
@@ -25,6 +39,8 @@ class AbortOnFailure(IErrorHandler):
         @param metadata Metadata for the command about to be run.
         @returns True if the command should be allowed to run.
         """
-        # If a failure occurs, the script will be aborted. Therefore, this
-        #   error handler doesn't need to block any commands from being run.
-        return True
+        # If a failure has occurred, only allow cleanup commands to run
+        if self._has_failed:
+            return metadata.is_cleanup
+        else:
+            return True
