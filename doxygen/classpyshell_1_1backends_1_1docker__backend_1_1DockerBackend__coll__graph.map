@@ -1,0 +1,5 @@
+<map id="pyshell.backends.docker_backend.DockerBackend" name="pyshell.backends.docker_backend.DockerBackend">
+<area shape="rect" id="node1" title="Backend that executes commands in a docker container." alt="" coords="10,169,197,211"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1backends_1_1backend_1_1IBackend.html" title="Represents a backend for executing PyShell commands." alt="" coords="5,80,201,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="79,5,128,32"/>
+</map>
