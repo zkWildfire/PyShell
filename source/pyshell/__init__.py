@@ -7,6 +7,9 @@ from .core.pyshell_options import PyShellOptions
 from .error.abort_on_failure import AbortOnFailure
 from .error.error_handler import IErrorHandler
 from .error.keep_going import KeepGoing
+from .executors.allow_all import AllowAll
+from .executors.executor import IExecutor
+from .executors.permit_cleanup import PermitCleanup
 from .logging.logger import ILogger
 from .logging.multi_file_logger import MultiFileLogger
 from .logging.null_file_logger import NullFileLogger

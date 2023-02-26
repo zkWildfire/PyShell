@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
-    SingleFileLogger, MultiFileLogger
+from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
+    NativeBackend, SingleFileLogger, MultiFileLogger
 from pyshell.modules import Shell
 
 # Decide whether to log to a single file or multiple files
@@ -24,6 +24,7 @@ else:
 pyshell = PyShell(
     NativeBackend(),
     logger,
+    AllowAll(),
     AbortOnFailure(),
     PyShellOptions(
         verbose=args.verbose
