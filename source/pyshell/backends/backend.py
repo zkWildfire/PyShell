@@ -1,9 +1,10 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from pathlib import Path
 from pyshell.core.command_result import CommandResult
+from pyshell.core.pyshell_component import IPyShellComponent
 from typing import Sequence
 
-class IBackend(ABC):
+class IBackend(IPyShellComponent):
     """
     Represents a backend for executing PyShell commands.
     @ingroup backends

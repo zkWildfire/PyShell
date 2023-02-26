@@ -1,7 +1,8 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from pyshell.core.command_result import CommandResult
+from pyshell.core.pyshell_component import IPyShellComponent
 
-class IErrorHandler(ABC):
+class IErrorHandler(IPyShellComponent):
     """
     Represents an error handler for PyShell commands.
     @ingroup error

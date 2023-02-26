@@ -2,9 +2,13 @@ from __future__ import annotations
 import os
 from pathlib import Path
 from pyshell.backends.backend import IBackend
+from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
+from pyshell.core.pyshell_events import PyShellEvents
 from pyshell.core.pyshell_options import PyShellOptions
 from pyshell.error.error_handler import IErrorHandler
+from pyshell.events.event_handler import EventHandler
+from pyshell.executors.executor import IExecutor
 from pyshell.logging.logger import ILogger
 from typing import Optional, Sequence
 
@@ -19,6 +23,7 @@ class PyShell:
     def __init__(self,
         backend: IBackend,
         logger: ILogger,
+        executor: IExecutor,
         error_handler: IErrorHandler,
         options: PyShellOptions,
         cwd: str | Path | None = None,
@@ -27,6 +32,7 @@ class PyShell:
         Initializes the PyShell script.
         @param backend The backend to use to execute commands.
         @param logger The logger to use to log commands.
+        @param executor The executor to use to determine which commands to run.
         @param error_handler The error handler to use to handle failed commands.
         @param options Options for this PyShell instance.
         @param cwd The current working directory for this PyShell instance. If
@@ -36,9 +42,37 @@ class PyShell:
           currently active PyShell instance.
         """
         self._backend = backend
+        self._executor = executor
         self._logger = logger
         self._options = options
         self._error_handler = error_handler
+
+        # Initialize the events
+        # Note that the event handlers are stored in this class instead of the
+        #   PyShellEvents class because the events will be broadcast to by this
+        #   class, not the PyShellEvents class. However, the sender for each
+        #   event will be the PyShellEvents instance to avoid circular
+        #   references in class definitions.
+        self._on_command_started: EventHandler[PyShellEvents, CommandMetadata] = \
+            EventHandler()
+        self._on_command_skipped: EventHandler[PyShellEvents, CommandMetadata] = \
+            EventHandler()
+        self._on_command_finished: EventHandler[PyShellEvents, CommandResult] = \
+            EventHandler()
+        self._on_command_failed: EventHandler[PyShellEvents, CommandResult] = \
+            EventHandler()
+        self._events = PyShellEvents(
+            self._on_command_started,
+            self._on_command_skipped,
+            self._on_command_finished,
+            self._on_command_failed
+        )
+
+        # Initialize each component
+        self._backend.initialize(self._events)
+        self._logger.initialize(self._events)
+        self._executor.initialize(self._events)
+        self._error_handler.initialize(self._events)
 
         # Initialize the cwd
         if cwd:
@@ -100,10 +134,12 @@ class PyShell:
 
 
     def run(self,
+        metadata: CommandMetadata,
         command: Sequence[str],
         cwd: str | Path | None) -> CommandResult:
         """
         Runs the specified command on the backend.
+        @param metadata The metadata for the command.
         @param command The command to run.
         @param cwd The current working directory to use when running the
           command. If not specified, the current working directory of this
@@ -119,10 +155,21 @@ class PyShell:
         if not cwd.is_absolute():
             cwd = self._cwd.joinpath(cwd)
 
+        # Determine whether to run the command
+        if not self._executor.should_run(metadata):
+            self._on_command_skipped.broadcast(self._events, metadata)
+            return CommandResult(metadata, str(cwd), "", 0, True)
+
         # Run the command
+        self._on_command_started.broadcast(self._events, metadata)
         result = self._backend.run(command, cwd)
 
         # Handle post-command tasks
+        if result.success:
+            self._on_command_finished.broadcast(self._events, result)
+        else:
+            self._on_command_failed.broadcast(self._events, result)
+
         self._logger.log(result)
         if not result.success:
             self._error_handler.handle(result)

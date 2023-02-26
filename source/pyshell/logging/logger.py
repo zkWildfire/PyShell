@@ -1,7 +1,8 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from pyshell.core.command_result import CommandResult
+from pyshell.core.pyshell_component import IPyShellComponent
 
-class ILogger(ABC):
+class ILogger(IPyShellComponent):
     """
     Represents a logger for PyShell.
     Loggers are executed after a command is run regardless of the result of the

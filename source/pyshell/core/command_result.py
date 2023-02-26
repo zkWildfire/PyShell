@@ -1,3 +1,4 @@
+from pyshell.core.command_metadata import CommandMetadata
 from typing import Sequence
 
 class CommandResult:
@@ -5,24 +6,26 @@ class CommandResult:
     Stores the result of a command execution.
     """
     def __init__(self,
-        command: str,
-        args: Sequence[str],
+        metadata: CommandMetadata,
         cwd: str,
         output: str,
-        exit_code: int):
+        exit_code: int,
+        skipped: bool):
         """
         Initializes the object.
-        @param command Name of the command/executable that was run.
-        @param args Arguments passed to the command.
+        @param metadata Metadata for the command that was run.
         @param cwd Working directory used for the command.
         @param output Merged output from stdout and stderr.
-        @param exit_code Exit code from the command.
+        @param exit_code Exit code from the command. If the command was skipped,
+          this may be any value.
+        @param skipped Whether the command was skipped.
         """
-        self._command = command
-        self._args = args
+        self._command = metadata.command
+        self._args = metadata.args
         self._cwd = cwd
         self._output = output
         self._exit_code = exit_code
+        self._skipped = skipped
 
 
     @property
@@ -61,7 +64,10 @@ class CommandResult:
     def exit_code(self) -> int:
         """
         Exit code from the command.
+        @throws RuntimeError If the command was skipped.
         """
+        if self.skipped:
+            raise RuntimeError("Cannot get exit code for skipped command.")
         return self._exit_code
 
 
@@ -70,7 +76,7 @@ class CommandResult:
         """
         Whether the command was successful.
         """
-        return self.exit_code == 0
+        return not self.skipped and self.exit_code == 0
 
 
     @property
@@ -78,7 +84,15 @@ class CommandResult:
         """
         Whether the command was not successful.
         """
-        return not self.success
+        return not self.skipped and not self.success
+
+
+    @property
+    def skipped(self) -> bool:
+        """
+        Whether the command was skipped.
+        """
+        return self._skipped
 
 
     @property
