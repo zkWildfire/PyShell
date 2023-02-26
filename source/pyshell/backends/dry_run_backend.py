@@ -13,7 +13,7 @@ class DryRunBackend(IBackend):
         cwd: Path) -> CommandResult:
         """
         Runs the specified command on the backend.
-        @param command The command to run.
+        @param metadata Metadata for the command to run.
         @param cwd The working directory to use for the command. Will always be
           an absolute path.
         @return The output of the command.

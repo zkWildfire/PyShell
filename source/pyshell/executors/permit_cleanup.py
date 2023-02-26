@@ -48,6 +48,7 @@ class PermitCleanup(IExecutor):
     def _on_failure(self, sender: PyShellEvents, result: CommandResult) -> None:
         """
         Callback bound to the on_command_failed event.
+        @param sender Sender of the event.
         @param result Result of the command that failed.
         """
         self._failed = True

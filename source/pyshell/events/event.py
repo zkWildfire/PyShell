@@ -7,7 +7,7 @@ ArgsType = TypeVar("ArgsType")
 
 class Event(Generic[SenderType, ArgsType]):
     """
-    Class intended to be publicly exposed via an @property.
+    Class intended to be publicly exposed via a property.
     This class wraps an EventHandler and ensures that external code can only
       bind to the event and can't broadcast to it.
     """

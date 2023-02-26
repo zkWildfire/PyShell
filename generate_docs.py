@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 from pathlib import Path
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, NativeBackend, \
-    MultiFileLogger
+from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
+    NativeBackend, MultiFileLogger
 from pyshell.modules import Doxygen, Shell
 import sys
 
@@ -62,17 +62,18 @@ DOCS_HTML_DIR = SCRIPT_DIR.joinpath("doxygen")
 
 # Initialize a PyShell instance for running commands
 pyshell = PyShell(
-    NativeBackend(),
-    MultiFileLogger(
+    backend=NativeBackend(),
+    logger=MultiFileLogger(
         LOGS_DIR,
         print_cmd_header=True,
         print_cmd_footer=True
     ),
-    AbortOnFailure(),
-    PyShellOptions(
+    executor=AllowAll(),
+    error_handler=AbortOnFailure(),
+    options=PyShellOptions(
         verbose=args.verbose
     ),
-    cwd = SCRIPT_DIR
+    cwd=SCRIPT_DIR
 )
 
 # If the --clean flag was specified, delete generated directories
