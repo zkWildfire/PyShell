@@ -1,12 +1,13 @@
 from pathlib import Path
 from pyshell.core.command_result import CommandResult
+from pyshell.core.external_command import ExternalCommand
 from pyshell.core.module import IModule
 from pyshell.core.pyshell import PyShell
 from pyshell.shell.cp_command import CpCommand
 from pyshell.shell.echo_command import EchoCommand
 from pyshell.shell.ls_command import LsCommand
 from pyshell.shell.rm_command import RmCommand
-from typing import Optional
+from typing import Optional, Sequence
 
 class Shell(IModule):
     """
@@ -46,6 +47,21 @@ class Shell(IModule):
         @return The results of running `echo`.
         """
         return EchoCommand(message)(pyshell)
+
+
+    @staticmethod
+    def run(
+        command: str,
+        args: str | Sequence[str] | None = None,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
+        """
+        Runs an arbitrary command via PyShell.
+        @param command The command to run.
+        @param args Arguments to pass to the command.
+        @param pyshell PyShell instance to execute the command via.
+        @return The results of running the command.
+        """
+        return ExternalCommand(command, args)(pyshell)
 
 
     @staticmethod
