@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.single_file_logger import SingleFileLogger
 from typing import Any
@@ -15,12 +14,13 @@ def test_log_writes_to_file(tmp_path: Any):
     file_path = tmp_path / "log.txt"
     logger = SingleFileLogger(file_path)
     logger.log(CommandResult(
-        CommandMetadata("foo", []),
+        "foo",
+        [],
         os.getcwd(),
         "bar",
         0,
         False
-    ))
+    ), [])
     assert file_path.read_text() == "bar\n"
 
 
@@ -28,19 +28,21 @@ def test_log_multiple_commands(tmp_path: Any):
     file_path = tmp_path / "log.txt"
     logger = SingleFileLogger(file_path)
     logger.log(CommandResult(
-        CommandMetadata("foo", []),
+        "foo",
+        [],
         os.getcwd(),
         "FOO",
         0,
         False
-    ))
+    ), [])
     logger.log(CommandResult(
-        CommandMetadata("bar", []),
+        "bar",
+        [],
         os.getcwd(),
         "BAR",
         0,
         False
-    ))
+    ), [])
     assert file_path.read_text() == "FOO\nBAR\n"
 
 
@@ -53,12 +55,13 @@ def test_log_cmd_header(tmp_path: Any):
     # Run the test
     logger = SingleFileLogger(file_path, print_cmd_header=True)
     logger.log(CommandResult(
-        CommandMetadata(cmd, []),
+        cmd,
+        [],
         cwd,
         "FOO",
         0,
         False
-    ))
+    ), [])
 
     # Validate results
     contents = file_path.read_text()
@@ -76,12 +79,13 @@ def test_log_cmd_footer(tmp_path: Any):
     # Run the test
     logger = SingleFileLogger(file_path, print_cmd_footer=True)
     logger.log(CommandResult(
-        CommandMetadata(cmd, []),
+        cmd,
+        [],
         cwd,
         "FOO",
         exit_code,
         False
-    ))
+    ), [])
 
     # Validate results
     contents = file_path.read_text()

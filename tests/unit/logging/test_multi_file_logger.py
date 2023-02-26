@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.multi_file_logger import MultiFileLogger
 import pytest
@@ -16,12 +15,13 @@ def test_log_writes_to_file(tmp_path: Any):
     log_path = tmp_path / "logs"
     logger = MultiFileLogger(log_path)
     logger.log(CommandResult(
-        CommandMetadata("foo", []),
+        "foo",
+        [],
         os.getcwd(),
         "bar",
         0,
         False
-    ))
+    ), [])
     assert (log_path / "1-foo.log").read_text() == "bar\n"
 
 
@@ -29,19 +29,21 @@ def test_log_multiple_commands(tmp_path: Any):
     log_path = tmp_path / "logs"
     logger = MultiFileLogger(log_path)
     logger.log(CommandResult(
-        CommandMetadata("foo", []),
+        "foo",
+        [],
         os.getcwd(),
         "FOO",
         0,
         False
-    ))
+    ), [])
     logger.log(CommandResult(
-        CommandMetadata("bar", []),
+        "bar",
+        [],
         os.getcwd(),
         "BAR",
         0,
         False
-    ))
+    ), [])
     assert (log_path / "1-foo.log").read_text() == "FOO\n"
     assert (log_path / "2-bar.log").read_text() == "BAR\n"
 
@@ -50,12 +52,13 @@ def test_log_command_given_by_path(tmp_path: Any):
     log_path = tmp_path / "logs"
     logger = MultiFileLogger(log_path)
     logger.log(CommandResult(
-        CommandMetadata("/usr/bin/foo", []),
+        "/usr/bin/foo",
+        [],
         os.getcwd(),
         "FOO",
         0,
         False
-    ))
+    ), [])
     assert (log_path / "1-foo.log").read_text() == "FOO\n"
 
 
@@ -68,12 +71,13 @@ def test_log_cmd_header(tmp_path: Any):
     # Run the test
     logger = MultiFileLogger(log_path, print_cmd_header=True)
     logger.log(CommandResult(
-        CommandMetadata(cmd, []),
+        cmd,
+        [],
         cwd,
         "FOO",
         0,
         False
-    ))
+    ), [])
 
     # Validate results
     log_file = log_path / "1-foo.log"
@@ -94,12 +98,13 @@ def test_log_cmd_footer(tmp_path: Any):
     # Run the test
     logger = MultiFileLogger(log_path, print_cmd_footer=True)
     logger.log(CommandResult(
-        CommandMetadata(cmd, []),
+        cmd,
+        [],
         cwd,
         "FOO",
         exit_code,
         False
-    ))
+    ), [])
 
     # Validate results
     log_file = log_path / "1-foo.log"

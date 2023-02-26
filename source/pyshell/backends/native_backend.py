@@ -75,7 +75,7 @@ class NativeBackend(IBackend):
             line = stream.readline().decode("utf-8").rstrip()
             if not line:
                 break
-            output += line + "\n"
+            output += line
             line_count += 1
 
         return output if output else None

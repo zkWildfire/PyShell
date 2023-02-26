@@ -53,7 +53,14 @@ def test_block_standard_command_after_failure(fixture: PermitCleanupFixture):
     metadata = CommandMetadata("foo", [], CommandFlags.STANDARD)
 
     # Simulate a command failure
-    result = CommandResult(metadata, "/foo", "", 1, False)
+    result = CommandResult(
+        metadata.command,
+        metadata.args,
+        "/foo",
+        "",
+        1,
+        False
+    )
     fixture.on_command_failed.broadcast(fixture.events, result)
 
     # Standard commands should be blocked from running after a failure
@@ -64,7 +71,14 @@ def test_block_inactive_command_after_failure(fixture: PermitCleanupFixture):
     metadata = CommandMetadata("foo", [], CommandFlags.INACTIVE)
 
     # Simulate a command failure
-    result = CommandResult(metadata, "/foo", "", 1, False)
+    result = CommandResult(
+        metadata.command,
+        metadata.args,
+        "/foo",
+        "",
+        1,
+        False
+    )
     fixture.on_command_failed.broadcast(fixture.events, result)
 
     # Inactive commands should be blocked from running after a failure
@@ -75,7 +89,14 @@ def test_allow_cleanup_command_after_failure(fixture: PermitCleanupFixture):
     metadata = CommandMetadata("foo", [], CommandFlags.CLEANUP)
 
     # Simulate a command failure
-    result = CommandResult(metadata, "/foo", "", 1, False)
+    result = CommandResult(
+        metadata.command,
+        metadata.args,
+        "/foo",
+        "",
+        1,
+        False
+    )
     fixture.on_command_failed.broadcast(fixture.events, result)
 
     # Cleanup commands should be allowed to run after a failure

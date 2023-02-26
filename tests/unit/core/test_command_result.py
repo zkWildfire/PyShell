@@ -1,10 +1,10 @@
-from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 import pytest
 
 def test_success_error_properties_on_successful_command():
     result = CommandResult(
-        CommandMetadata("foo", ["bar"]),
+        "foo",
+        ["bar"],
         "/foo/bar",
         "baz",
         0,
@@ -17,7 +17,8 @@ def test_success_error_properties_on_successful_command():
 
 def test_success_error_properties_on_failed_command():
     result = CommandResult(
-        CommandMetadata("foo", ["bar"]),
+        "foo",
+        ["bar"],
         "/foo/bar",
         "baz",
         1,
@@ -30,7 +31,8 @@ def test_success_error_properties_on_failed_command():
 
 def test_full_command_on_command_with_no_args():
     result = CommandResult(
-        CommandMetadata("foo", []),
+        "foo",
+        [],
         "/foo/bar",
         "baz",
         0,
@@ -42,7 +44,8 @@ def test_full_command_on_command_with_no_args():
 
 def test_full_command_on_command_with_args():
     result = CommandResult(
-        CommandMetadata("foo", ["bar", "baz"]),
+        "foo",
+        ["bar", "baz"],
         "/foo/bar",
         "baz",
         0,
@@ -54,7 +57,8 @@ def test_full_command_on_command_with_args():
 
 def test_skipped_command():
     result = CommandResult(
-        CommandMetadata("foo", ["bar", "baz"]),
+        "foo",
+        ["bar", "baz"],
         "/foo/bar",
         "baz",
         0,
