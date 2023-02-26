@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.multi_file_logger import MultiFileLogger
+from pyshell.scanners.entry import Entry
+from pyshell.scanners.severity import ESeverity
 import pytest
 from typing import Any
 
@@ -138,3 +140,33 @@ def test_clean_old_logs(tmp_path: Any):
 
     # Validate results
     assert not log_file.exists()
+
+
+def test_print_scanner_entries(tmp_path: Any):
+    # Constants
+    log_path = tmp_path / "logs"
+    cmd = "foo"
+    log_file_path = log_path / f"1-{cmd}.log"
+    scanner_msg = "baz"
+
+    # Run the test
+    logger = MultiFileLogger(log_path)
+    logger.log(CommandResult(
+        cmd,
+        [],
+        os.getcwd(),
+        "bar",
+        0,
+        False
+    ), [
+        Entry(
+            ESeverity.ERROR,
+            cmd,
+            1,
+            1,
+            scanner_msg
+        )
+    ])
+
+    # Validate output
+    assert scanner_msg in log_file_path.read_text()

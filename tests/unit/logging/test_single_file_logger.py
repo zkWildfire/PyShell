@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.single_file_logger import SingleFileLogger
+from pyshell.scanners.entry import Entry
+from pyshell.scanners.severity import ESeverity
 from typing import Any
 
 def test_file_path_matches_ctor_arg(tmp_path: Any):
@@ -92,3 +94,32 @@ def test_log_cmd_footer(tmp_path: Any):
     assert cmd in contents
     assert cwd in contents
     assert str(exit_code) in contents
+
+
+def test_print_scanner_entries(tmp_path: Any):
+    # Constants
+    file_path = tmp_path / "log.txt"
+    cmd = "foo"
+    scanner_msg = "baz"
+
+    # Run the test
+    logger = SingleFileLogger(file_path)
+    logger.log(CommandResult(
+        "foo",
+        [],
+        os.getcwd(),
+        "bar",
+        0,
+        False
+    ), [
+        Entry(
+            ESeverity.ERROR,
+            cmd,
+            1,
+            1,
+            scanner_msg
+        )
+    ])
+
+    # Validate output
+    assert scanner_msg in file_path.read_text()
