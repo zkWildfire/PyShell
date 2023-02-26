@@ -1,12 +1,19 @@
 from pathlib import Path
 from pyshell.backends.dry_run_backend import DryRunBackend
+from pyshell.core.command_metadata import CommandMetadata
 
 def test_run_echo():
     cmd = ["echo", "foo"]
     cwd = "/foo/bar"
 
     backend = DryRunBackend()
-    result = backend.run(cmd, Path(cwd))
+    result = backend.run(
+        CommandMetadata(
+            cmd[0],
+            cmd[1:]
+        ),
+        Path(cwd)
+    )
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
     assert result.full_command == " ".join(cmd)
@@ -21,7 +28,13 @@ def test_run_invalid_cmd():
     cwd = "/foo/bar"
 
     backend = DryRunBackend()
-    result = backend.run(cmd, Path(cwd))
+    result = backend.run(
+        CommandMetadata(
+            cmd[0],
+            cmd[1:]
+        ),
+        Path(cwd)
+    )
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
     assert result.full_command == " ".join(cmd)
