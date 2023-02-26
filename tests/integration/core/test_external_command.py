@@ -15,8 +15,8 @@ def test_run_external_executable_on_path():
 
     # Run the commands
     cmd = ExternalCommand(
-        "git",
-        "status"
+        "ls",
+        "/usr/bin"
     )
     result = cmd(pyshell)
     assert result.success
