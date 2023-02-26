@@ -73,7 +73,6 @@ class DoxygenScanner(ILineScanner):
         line_number: int) -> Entry:
         """
         Generates an entry for a missing parameter error.
-        @param line The line to process.
         @param next_lines The next line(s) in the command output.
         @param line_number The line number of the line.
         @returns An entry for the line if an error is detected, otherwise None.

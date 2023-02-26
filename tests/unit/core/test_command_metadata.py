@@ -26,15 +26,20 @@ def test_full_command_on_command_with_args():
 
 def test_standard_command():
     cmd = CommandMetadata("foo", ["bar", "baz"])
+    assert cmd.is_standard
     assert not cmd.is_inactive
     assert not cmd.is_cleanup
 
 
 def test_inactive_command():
     cmd = CommandMetadata("foo", ["bar", "baz"], CommandFlags.INACTIVE)
+    assert not cmd.is_standard
     assert cmd.is_inactive
+    assert not cmd.is_cleanup
 
 
 def test_cleanup_command():
     cmd = CommandMetadata("foo", ["bar", "baz"], CommandFlags.CLEANUP)
+    assert not cmd.is_standard
+    assert not cmd.is_inactive
     assert cmd.is_cleanup
