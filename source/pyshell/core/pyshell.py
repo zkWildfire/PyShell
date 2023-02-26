@@ -82,7 +82,7 @@ class PyShell:
         if cwd:
             self._cwd = Path(cwd).resolve()
         else:
-            self._cwd = Path(os.getcwd()).resolve()
+            self._cwd = Path.cwd()
 
         # Set this instance as the active instance if requested
         if set_as_active_instance:
@@ -95,6 +95,14 @@ class PyShell:
         The currently active PyShell instance.
         """
         return PyShell._active_instance
+
+
+    @staticmethod
+    def clear_active_instance() -> None:
+        """
+        Clears the currently active PyShell instance.
+        """
+        PyShell._active_instance = None
 
 
     @staticmethod
@@ -112,6 +120,7 @@ class PyShell:
     def cwd(self) -> Path:
         """
         The current working directory for this PyShell instance.
+        @invariant This will always be an absolute path.
         """
         return self._cwd
 
