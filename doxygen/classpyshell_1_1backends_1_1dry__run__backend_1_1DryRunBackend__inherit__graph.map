@@ -1,0 +1,5 @@
+<map id="pyshell.backends.dry_run_backend.DryRunBackend" name="pyshell.backends.dry_run_backend.DryRunBackend">
+<area shape="rect" id="node1" title="Backend that prints commands without executing them." alt="" coords="5,169,224,211"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1backends_1_1backend_1_1IBackend.html" title="Represents a backend for executing PyShell commands." alt="" coords="17,80,213,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="90,5,139,32"/>
+</map>
