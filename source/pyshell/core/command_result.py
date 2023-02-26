@@ -1,24 +1,68 @@
-from typing import NamedTuple, Sequence
+from typing import Sequence
 
-class CommandResult(NamedTuple):
+class CommandResult:
     """
     Stores the result of a command execution.
     """
-    # Name of the command/executable that was run
-    command: str
+    def __init__(self,
+        command: str,
+        args: Sequence[str],
+        cwd: str,
+        output: str,
+        exit_code: int):
+        """
+        Initializes the object.
+        @param command Name of the command/executable that was run.
+        @param args Arguments passed to the command.
+        @param cwd Working directory used for the command.
+        @param output Merged output from stdout and stderr.
+        @param exit_code Exit code from the command.
+        """
+        self._command = command
+        self._args = args
+        self._cwd = cwd
+        self._output = output
+        self._exit_code = exit_code
 
-    # Arguments passed to the command
-    args: Sequence[str]
 
-    # Working directory used for the command
-    # @invariant This will always be an absolute path.
-    cwd: str
+    @property
+    def command(self) -> str:
+        """
+        Name of the command/executable that was run.
+        """
+        return self._command
 
-    # Merged output from stdout and stderr
-    output: str
 
-    # Exit code from the command
-    exit_code: int
+    @property
+    def args(self) -> Sequence[str]:
+        """
+        Arguments passed to the command.
+        """
+        return self._args
+
+
+    @property
+    def cwd(self) -> str:
+        """
+        Working directory used for the command.
+        """
+        return self._cwd
+
+
+    @property
+    def output(self) -> str:
+        """
+        Merged output from stdout and stderr.
+        """
+        return self._output
+
+
+    @property
+    def exit_code(self) -> int:
+        """
+        Exit code from the command.
+        """
+        return self._exit_code
 
 
     @property
