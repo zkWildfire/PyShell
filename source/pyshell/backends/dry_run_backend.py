@@ -1,7 +1,7 @@
 from pathlib import Path
 from pyshell.backends.backend import IBackend
+from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
-from typing import Sequence
 
 class DryRunBackend(IBackend):
     """
@@ -9,7 +9,7 @@ class DryRunBackend(IBackend):
     @ingroup backends
     """
     def run(self,
-        command: Sequence[str],
+        metadata: CommandMetadata,
         cwd: Path) -> CommandResult:
         """
         Runs the specified command on the backend.
@@ -18,13 +18,12 @@ class DryRunBackend(IBackend):
           an absolute path.
         @return The output of the command.
         """
-        full_cmd = " ".join(command)
-        print(full_cmd)
+        print(metadata.full_command)
 
         return CommandResult(
-            command=command[0],
-            args=command[1:],
+            metadata=metadata,
             cwd=str(cwd),
             output="",
-            exit_code=0
+            exit_code=0,
+            skipped=False
         )

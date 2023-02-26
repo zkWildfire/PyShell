@@ -1,8 +1,8 @@
 from pathlib import Path
 from pyshell.backends.backend import IBackend
+from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 import subprocess
-from typing import Sequence
 
 class NativeBackend(IBackend):
     """
@@ -11,11 +11,11 @@ class NativeBackend(IBackend):
     """
 
     def run(self,
-        command: Sequence[str],
+        metadata: CommandMetadata,
         cwd: Path) -> CommandResult:
         """
         Runs the specified command on the backend.
-        @param command The command to run.
+        @param metadata Metadata for the command to run.
         @param cwd The working directory to use for the command. Will always be
           an absolute path.
         @return The output of the command.
@@ -24,7 +24,7 @@ class NativeBackend(IBackend):
 
         # Start the process
         process = subprocess.Popen(
-            command,
+            [metadata.command] + list(metadata.args),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             cwd=str(cwd)
@@ -46,9 +46,9 @@ class NativeBackend(IBackend):
             print(new_output)
 
         return CommandResult(
-            command=command[0],
-            args=command[1:],
+            metadata=metadata,
             cwd=str(cwd),
             output=output,
-            exit_code=process.returncode
+            exit_code=process.returncode,
+            skipped=False
         )

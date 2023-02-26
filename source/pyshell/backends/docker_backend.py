@@ -1,7 +1,7 @@
 from pathlib import Path
 from pyshell.backends.backend import IBackend
+from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
-from typing import Sequence
 
 class DockerBackend(IBackend):
     """
@@ -10,7 +10,7 @@ class DockerBackend(IBackend):
     """
 
     def run(self,
-        command: Sequence[str],
+        metadata: CommandMetadata,
         cwd: Path) -> CommandResult:
         """
         Runs the specified command on the backend.

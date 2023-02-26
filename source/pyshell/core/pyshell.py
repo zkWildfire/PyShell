@@ -10,7 +10,7 @@ from pyshell.error.error_handler import IErrorHandler
 from pyshell.events.event_handler import EventHandler
 from pyshell.executors.executor import IExecutor
 from pyshell.logging.logger import ILogger
-from typing import Optional, Sequence
+from typing import Optional
 
 class PyShell:
     """
@@ -135,12 +135,10 @@ class PyShell:
 
     def run(self,
         metadata: CommandMetadata,
-        command: Sequence[str],
         cwd: str | Path | None) -> CommandResult:
         """
         Runs the specified command on the backend.
         @param metadata The metadata for the command.
-        @param command The command to run.
         @param cwd The current working directory to use when running the
           command. If not specified, the current working directory of this
           PyShell instance will be used.
@@ -162,7 +160,7 @@ class PyShell:
 
         # Run the command
         self._on_command_started.broadcast(self._events, metadata)
-        result = self._backend.run(command, cwd)
+        result = self._backend.run(metadata, cwd)
 
         # Handle post-command tasks
         if result.success:
