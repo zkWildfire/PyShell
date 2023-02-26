@@ -1,0 +1,5 @@
+<map id="pyshell.backends.native_backend.NativeBackend" name="pyshell.backends.native_backend.NativeBackend">
+<area shape="rect" id="node1" title="Backend that executes commands directly." alt="" coords="11,169,196,211"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1backends_1_1backend_1_1IBackend.html" title="Represents a backend for executing PyShell commands." alt="" coords="5,80,201,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="79,5,128,32"/>
+</map>
