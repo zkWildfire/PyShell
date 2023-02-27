@@ -275,9 +275,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Motivation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Motivation
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#shell-scripts" class="md-nav__link">
+    Shell Scripts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error Handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -303,6 +341,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#shell-scripts" class="md-nav__link">
+    Shell Scripts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error Handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -320,11 +380,12 @@
 
 
 <h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h1>
+<h2 id="shell-scripts">Shell Scripts<a class="headerlink" href="#shell-scripts" title="Permanent link">&para;</a></h2>
 <p>PyShell was born out of a desire to unify platform specific shell scripts into
 a single script that would provide a uniform feature set regardless of the OS
 a script is executing on. For example, bash offers the <code>set -e</code> command to
 abort a script as soon as a script command fails:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><a href="#__codelineno-0-1"><span class="linenos" data-linenos="1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
+<div class="highlight"><span class="filename">error.sh</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><a href="#__codelineno-0-1"><span class="linenos" data-linenos="1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a><a href="#__codelineno-0-2"><span class="linenos" data-linenos="2 "></span></a><span class="nb">set</span><span class="w"> </span>-e
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a><a href="#__codelineno-0-3"><span class="linenos" data-linenos="3 "></span></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><a href="#__codelineno-0-4"><span class="linenos" data-linenos="4 "></span></a>ls<span class="w"> </span>/foo<span class="w"> </span><span class="c1"># &lt;&lt;&lt; The script will exit here if /foo doesn&#39;t exist</span>
@@ -332,7 +393,7 @@ abort a script as soon as a script command fails:
 </code></pre></div></p>
 <p>Batch does not offer an equivalent feature, instead requiring developers to
 write multiple extra lines to accomplish the same functionality:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><a href="#__codelineno-1-1"><span class="linenos" data-linenos="1 "></span></a><span class="k">dir</span> <span class="s2">&quot;C:\foo&quot;</span>
+<div class="highlight"><span class="filename">error.bat</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><a href="#__codelineno-1-1"><span class="linenos" data-linenos="1 "></span></a><span class="k">dir</span> <span class="s2">&quot;C:\foo&quot;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a><a href="#__codelineno-1-2"><span class="linenos" data-linenos="2 "></span></a><span class="k">if</span> <span class="k">errorlevel</span> <span class="mi">1</span> <span class="p">(</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3"></a><a href="#__codelineno-1-3"><span class="linenos" data-linenos="3 "></span></a>    <span class="k">exit</span> /b 1
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><a href="#__codelineno-1-4"><span class="linenos" data-linenos="4 "></span></a><span class="p">)</span>
@@ -419,12 +480,25 @@ CMake module, that <code>cmake.py</code> script could be written this way instea
 <a id="__codelineno-7-14" name="__codelineno-7-14"></a><a href="#__codelineno-7-14"><span class="linenos" data-linenos="14 "></span></a>    <span class="n">build</span><span class="o">=</span><span class="s2">&quot;_build&quot;</span><span class="p">,</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15"></a><a href="#__codelineno-7-15"><span class="linenos" data-linenos="15 "></span></a>    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;install&quot;</span>
 <a id="__codelineno-7-16" name="__codelineno-7-16"></a><a href="#__codelineno-7-16"><span class="linenos" data-linenos="16 "></span></a><span class="p">)</span>
+</code></pre></div>
+Without the named function arguments, the script is almost on par with the
+bash script:
+<div class="highlight"><span class="filename">cmake.py</span><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><a href="#__codelineno-8-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="kn">from</span> <span class="nn">pyshell</span> <span class="kn">import</span> <span class="n">PyShell</span><span class="p">,</span> <span class="n">AbortOnFailure</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><a href="#__codelineno-8-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="kn">from</span> <span class="nn">pyshell.modules</span> <span class="kn">import</span> <span class="n">CMake</span><span class="p">,</span> <span class="n">ECMakeBuildType</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><a href="#__codelineno-8-3"><span class="linenos" data-linenos=" 3 "></span></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><a href="#__codelineno-8-4"><span class="linenos" data-linenos=" 4 "></span></a><span class="n">pyshell</span> <span class="o">=</span> <span class="n">PyShell</span><span class="p">(</span><span class="n">error_handler</span><span class="o">=</span><span class="n">AbortOnFailure</span><span class="p">())</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5"></a><a href="#__codelineno-8-5"><span class="linenos" data-linenos=" 5 "></span></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a><a href="#__codelineno-8-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="c1"># Run CMake&#39;s configure step</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7"></a><a href="#__codelineno-8-7"><span class="linenos" data-linenos=" 7 "></span></a><span class="n">CMake</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;_build&quot;</span><span class="p">,</span> <span class="s2">&quot;_out&quot;</span><span class="p">,</span> <span class="n">ECMakeBuildType</span><span class="o">.</span><span class="n">Debug</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8"></a><a href="#__codelineno-8-8"><span class="linenos" data-linenos=" 8 "></span></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><a href="#__codelineno-8-9"><span class="linenos" data-linenos=" 9 "></span></a><span class="c1"># Run CMake&#39;s build step</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><a href="#__codelineno-8-10"><span class="linenos" data-linenos="10 "></span></a><span class="n">CMake</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;_build&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">)</span>
 </code></pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>PyShell's CMake module has not been released yet. Also, consider making use
-of PyShell's sibling project, <a href="https://www.pymake.dev">PyMake</a>! PyMake is to
-CMake as PyShell is to shell scripts.</p>
+<p>PyShell's CMake module has not been released yet. You may also want to
+consider making use of PyShell's sibling project, <a href="https://www.pymake.dev">PyMake</a>!
+PyMake is to CMake as PyShell is to shell scripts.</p>
 </div>
 <p>Unlike the previous python script, the PyShell-based script is much more
 strongly typed. When writing the PyShell script, developers don't have to
@@ -432,6 +506,119 @@ remember the exact flags that CMake requires for setting its source directory
 or build type since IDEs can display the method's parameters to developers.
 PyShell will also do additional validation when the script runs, such as
 verifying that the CMake executable can be found.</p>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<p>Though PyShell's foundation was rooted in using Python for shell scripts,
+PyShell has grown into much more. PyShell shines particularly bright when it
+comes to error handling, where PyShell scripts have significant improvements
+over their batch/bash counterparts.</p>
+<p>For example, consider this bash script:
+<div class="highlight"><span class="filename">error.sh</span><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><a href="#__codelineno-9-1"><span class="linenos" data-linenos="1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><a href="#__codelineno-9-2"><span class="linenos" data-linenos="2 "></span></a><span class="nb">set</span><span class="w"> </span>-e
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><a href="#__codelineno-9-3"><span class="linenos" data-linenos="3 "></span></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><a href="#__codelineno-9-4"><span class="linenos" data-linenos="4 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;before failed command&quot;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a><a href="#__codelineno-9-5"><span class="linenos" data-linenos="5 "></span></a>ls<span class="w"> </span>/foo/bar
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a><a href="#__codelineno-9-6"><span class="linenos" data-linenos="6 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;after failed command&quot;</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a><a href="#__codelineno-9-7"><span class="linenos" data-linenos="7 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;perform cleanup&quot;</span>
+</code></pre></div></p>
+<p>The output of that script is:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><a href="#__codelineno-10-1"><span class="linenos" data-linenos="1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell$ </span>./error.sh
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><a href="#__codelineno-10-2"><span class="linenos" data-linenos="2 "></span></a><span class="go">before failed command</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><a href="#__codelineno-10-3"><span class="linenos" data-linenos="3 "></span></a><span class="go">ls: cannot access &#39;/foo/bar&#39;: No such file or directory</span>
+</code></pre></div></p>
+<p>This script is just a toy script, but imagine if the script's cleanup command
+had to run something more important. What if the cleanup command was one that
+modified file permissions on a CI/CD system, and now every subsequent CI/CD
+run on that machine will now fail? That's obviously no good, so the script
+clearly must be adjusted to handle that. There's more than one way to go about
+this, such as:
+<div class="highlight"><span class="filename">error.sh</span><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><a href="#__codelineno-11-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><a href="#__codelineno-11-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="nb">set</span><span class="w"> </span>-e
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a><a href="#__codelineno-11-3"><span class="linenos" data-linenos=" 3 "></span></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><a href="#__codelineno-11-4"><span class="linenos" data-linenos=" 4 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;before failed command&quot;</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a><a href="#__codelineno-11-5"><span class="linenos" data-linenos=" 5 "></span></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><a href="#__codelineno-11-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>ls<span class="w"> </span>/foo/bar<span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><a href="#__codelineno-11-7"><span class="linenos" data-linenos=" 7 "></span></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;error&quot;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><a href="#__codelineno-11-8"><span class="linenos" data-linenos=" 8 "></span></a><span class="k">fi</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9"></a><a href="#__codelineno-11-9"><span class="linenos" data-linenos=" 9 "></span></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a><a href="#__codelineno-11-10"><span class="linenos" data-linenos="10 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;after failed command&quot;</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a><a href="#__codelineno-11-11"><span class="linenos" data-linenos="11 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;perform cleanup&quot;</span>
+</code></pre></div></p>
+<p>The updated script's output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><a href="#__codelineno-12-1"><span class="linenos" data-linenos="1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell$ </span>./error.sh
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><a href="#__codelineno-12-2"><span class="linenos" data-linenos="2 "></span></a><span class="go">before failed command</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><a href="#__codelineno-12-3"><span class="linenos" data-linenos="3 "></span></a><span class="go">ls: cannot access &#39;/foo/bar&#39;: No such file or directory</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><a href="#__codelineno-12-4"><span class="linenos" data-linenos="4 "></span></a><span class="go">error</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><a href="#__codelineno-12-5"><span class="linenos" data-linenos="5 "></span></a><span class="go">after failed command</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6"></a><a href="#__codelineno-12-6"><span class="linenos" data-linenos="6 "></span></a><span class="go">perform cleanup</span>
+</code></pre></div></p>
+<p>This is better, but now there's a different problem. If the "after failed
+command" command is only valid to be executed if our failing command finished
+successfully, then now the script will now terminate on that line instead.
+That command could be moved into the if statement, but a real script may have
+many lines between the two commands or many dependent commands. Alternatively,
+the cleanup code could be moved into its own function:
+<div class="highlight"><span class="filename">error.sh</span><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><a href="#__codelineno-13-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2"></a><a href="#__codelineno-13-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="nb">set</span><span class="w"> </span>-e
+<a id="__codelineno-13-3" name="__codelineno-13-3"></a><a href="#__codelineno-13-3"><span class="linenos" data-linenos=" 3 "></span></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a><a href="#__codelineno-13-4"><span class="linenos" data-linenos=" 4 "></span></a>cleanup<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5"></a><a href="#__codelineno-13-5"><span class="linenos" data-linenos=" 5 "></span></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;perform cleanup&quot;</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><a href="#__codelineno-13-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="nv">$1</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7"></a><a href="#__codelineno-13-7"><span class="linenos" data-linenos=" 7 "></span></a><span class="o">}</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8"></a><a href="#__codelineno-13-8"><span class="linenos" data-linenos=" 8 "></span></a>
+<a id="__codelineno-13-9" name="__codelineno-13-9"></a><a href="#__codelineno-13-9"><span class="linenos" data-linenos=" 9 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;before failed command&quot;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10"></a><a href="#__codelineno-13-10"><span class="linenos" data-linenos="10 "></span></a>ls<span class="w"> </span>/foo/bar<span class="w"> </span><span class="o">||</span><span class="w"> </span>cleanup<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11"></a><a href="#__codelineno-13-11"><span class="linenos" data-linenos="11 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;after failed command&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>cleanup<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12"></a><a href="#__codelineno-13-12"><span class="linenos" data-linenos="12 "></span></a>cleanup<span class="w"> </span><span class="m">0</span>
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><a href="#__codelineno-14-1"><span class="linenos" data-linenos="1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell$ </span>./error.sh
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a><a href="#__codelineno-14-2"><span class="linenos" data-linenos="2 "></span></a><span class="go">before failed command</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><a href="#__codelineno-14-3"><span class="linenos" data-linenos="3 "></span></a><span class="go">ls: cannot access &#39;/foo/bar&#39;: No such file or directory</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a><a href="#__codelineno-14-4"><span class="linenos" data-linenos="4 "></span></a><span class="go">perform cleanup</span>
+</code></pre></div></p>
+<p>That's a significant improvement, but PyShell can do even better:
+<div class="highlight"><span class="filename">error.py</span><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><a href="#__codelineno-15-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="ch">#!/usr/bin/env python3</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2"></a><a href="#__codelineno-15-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="kn">from</span> <span class="nn">pyshell</span> <span class="kn">import</span> <span class="n">PyShell</span><span class="p">,</span> <span class="n">KeepGoing</span><span class="p">,</span> <span class="n">PermitCleanup</span><span class="p">,</span> <span class="n">CommandFlags</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3"></a><a href="#__codelineno-15-3"><span class="linenos" data-linenos=" 3 "></span></a><span class="kn">from</span> <span class="nn">pyshell.modules</span> <span class="kn">import</span> <span class="n">Shell</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4"></a><a href="#__codelineno-15-4"><span class="linenos" data-linenos=" 4 "></span></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5"></a><a href="#__codelineno-15-5"><span class="linenos" data-linenos=" 5 "></span></a><span class="n">pyshell</span> <span class="o">=</span> <span class="n">PyShell</span><span class="p">(</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6"></a><a href="#__codelineno-15-6"><span class="linenos" data-linenos=" 6 "></span></a>    <span class="n">executor</span><span class="o">=</span><span class="n">PermitCleanup</span><span class="p">(),</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7"></a><a href="#__codelineno-15-7"><span class="linenos" data-linenos=" 7 "></span></a>    <span class="n">error_handler</span><span class="o">=</span><span class="n">KeepGoing</span><span class="p">()</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8"></a><a href="#__codelineno-15-8"><span class="linenos" data-linenos=" 8 "></span></a><span class="p">)</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9"></a><a href="#__codelineno-15-9"><span class="linenos" data-linenos=" 9 "></span></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10"></a><a href="#__codelineno-15-10"><span class="linenos" data-linenos="10 "></span></a><span class="c1"># No commands have failed, so this command will be run</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11"></a><a href="#__codelineno-15-11"><span class="linenos" data-linenos="11 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;before failed command&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12"></a><a href="#__codelineno-15-12"><span class="linenos" data-linenos="12 "></span></a>
+<a id="__codelineno-15-13" name="__codelineno-15-13"></a><a href="#__codelineno-15-13"><span class="linenos" data-linenos="13 "></span></a><span class="c1"># This command will fail, but the error handler will ignore it because the</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14"></a><a href="#__codelineno-15-14"><span class="linenos" data-linenos="14 "></span></a><span class="c1">#   error handler is set to `KeepGoing`</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15"></a><a href="#__codelineno-15-15"><span class="linenos" data-linenos="15 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="s2">&quot;/foo/bar&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16"></a><a href="#__codelineno-15-16"><span class="linenos" data-linenos="16 "></span></a>
+<a id="__codelineno-15-17" name="__codelineno-15-17"></a><a href="#__codelineno-15-17"><span class="linenos" data-linenos="17 "></span></a><span class="c1"># This command won&#39;t run because it&#39;s a standard command</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18"></a><a href="#__codelineno-15-18"><span class="linenos" data-linenos="18 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;after failed command&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19"></a><a href="#__codelineno-15-19"><span class="linenos" data-linenos="19 "></span></a>
+<a id="__codelineno-15-20" name="__codelineno-15-20"></a><a href="#__codelineno-15-20"><span class="linenos" data-linenos="20 "></span></a><span class="c1"># This command will run because it&#39;s a cleanup command</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21"></a><a href="#__codelineno-15-21"><span class="linenos" data-linenos="21 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;perform cleanup&quot;</span><span class="p">,</span> <span class="n">cmd_flags</span><span class="o">=</span><span class="n">CommandFlags</span><span class="o">.</span><span class="n">CLEANUP</span><span class="p">)</span>
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a><a href="#__codelineno-16-1"><span class="linenos" data-linenos="1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell$ </span>./sample.py
+<a id="__codelineno-16-2" name="__codelineno-16-2"></a><a href="#__codelineno-16-2"><span class="linenos" data-linenos="2 "></span></a><span class="go">before failed command</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3"></a><a href="#__codelineno-16-3"><span class="linenos" data-linenos="3 "></span></a><span class="go">/usr/bin/ls: cannot access &#39;/foo/bar&#39;: No such file or directory</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4"></a><a href="#__codelineno-16-4"><span class="linenos" data-linenos="4 "></span></a><span class="go">Command &#39;/usr/bin/ls&#39; failed with exit code 2.</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5"></a><a href="#__codelineno-16-5"><span class="linenos" data-linenos="5 "></span></a><span class="go">Note: Full command was &#39;/usr/bin/ls /foo/bar&#39;.</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6"></a><a href="#__codelineno-16-6"><span class="linenos" data-linenos="6 "></span></a><span class="go">perform cleanup</span>
+</code></pre></div></p>
+<p>This example introduces a new PyShell concept, the executor. This is a component
+that decides whether a command is allowed to execute. In this example, the
+<code>PermitCleanup</code> executor is used along with the <code>KeepGoing</code> error handler. This
+is necessary to avoid stopping the script immediately, which is what would
+happen if the script had used the <code>AbortOnFailure</code> error handler. The <code>KeepGoing</code>
+error handler also isn't usable in this scenario on its own, as otherwise it
+would allow the "after failed command" echo command to be executed.</p>
+<p>Instead, the combination of the <code>PermitCleanup</code> executor and the <code>KeepGoing</code>
+error handler ensures that all commands after the failed command do not
+execute... <em>except</em> cleanup commands. By using these two PyShell components,
+the script can be written with a linear structure that does not require the
+reader to jump to the cleanup method to discover what the script runs.</p>
 
 
 

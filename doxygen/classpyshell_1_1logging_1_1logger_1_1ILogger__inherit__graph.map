@@ -1,8 +1,0 @@
-<map id="pyshell.logging.logger.ILogger" name="pyshell.logging.logger.ILogger">
-<area shape="rect" id="node1" title="Represents a logger for PyShell." alt="" coords="384,78,601,105"/>
-<area shape="rect" id="node4" href="$classpyshell_1_1logging_1_1multi__file__logger_1_1MultiFileLogger.html" title="Logs each commands&#39; output to a separate file." alt="" coords="653,5,853,47"/>
-<area shape="rect" id="node5" href="$classpyshell_1_1logging_1_1null__file__logger_1_1NullFileLogger.html" title="Logger that does not log anything." alt="" coords="656,71,849,112"/>
-<area shape="rect" id="node6" href="$classpyshell_1_1logging_1_1single__file__logger_1_1SingleFileLogger.html" title="Logs all commands&#39; output to a single file." alt="" coords="649,136,856,177"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1core_1_1pyshell__component_1_1IPyShellComponent.html" title="Base class for all components used by a PyShell instance." alt="" coords="103,71,336,112"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,78,55,105"/>
-</map>
