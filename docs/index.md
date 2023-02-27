@@ -41,7 +41,7 @@ implement proper error handling in scripts.
 
 * Automatic validation
 
-It's all to easy to write scripts that assume certain conditions are true and
+It's all too easy to write scripts that assume certain conditions are true and
 end up erroring out far away from where the invalid assumption is located.
 PyShell commands automatically validate their input and any external state
 required to run the command when the command instance is constructed, allowing
@@ -53,6 +53,6 @@ errors to be detected as early as possible.
     This feature is in development and will be added soon!
 
 PyShell instances can be configured to target a docker container instead of
-running commands on the host system. This means that PyShell scripts can
-execute commands on the host system as well as within a docker container, and
-all from a single script.
+running commands on the host system. This means that a PyShell script can
+execute commands on the host system as well as within a docker container -
+all from a single script and with a non-branching code path.
