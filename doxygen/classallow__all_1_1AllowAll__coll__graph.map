@@ -1,4 +1,0 @@
-<map id="allow_all.AllowAll" name="allow_all.AllowAll">
-<area shape="rect" id="node1" title="Executor that allows all commands except inactive commands to run." alt="" coords="5,80,143,107"/>
-<area shape="rect" id="node2" title=" " alt="" coords="33,5,115,32"/>
-</map>

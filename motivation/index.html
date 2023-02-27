@@ -313,6 +313,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    Logging
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -361,6 +368,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    Logging
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -382,16 +396,15 @@
 <h1 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h1>
 <h2 id="shell-scripts">Shell Scripts<a class="headerlink" href="#shell-scripts" title="Permanent link">&para;</a></h2>
 <p>PyShell was born out of a desire to unify platform specific shell scripts into
-a single script that would provide a uniform feature set regardless of the OS
-a script is executing on. For example, bash offers the <code>set -e</code> command to
-abort a script as soon as a script command fails:
+a single script with a uniform feature set regardless of OS. For example, bash
+offers the <code>set -e</code> command to abort a script as soon as a script command fails:
 <div class="highlight"><span class="filename">error.sh</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><a href="#__codelineno-0-1"><span class="linenos" data-linenos="1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a><a href="#__codelineno-0-2"><span class="linenos" data-linenos="2 "></span></a><span class="nb">set</span><span class="w"> </span>-e
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a><a href="#__codelineno-0-3"><span class="linenos" data-linenos="3 "></span></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><a href="#__codelineno-0-4"><span class="linenos" data-linenos="4 "></span></a>ls<span class="w"> </span>/foo<span class="w"> </span><span class="c1"># &lt;&lt;&lt; The script will exit here if /foo doesn&#39;t exist</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a><a href="#__codelineno-0-5"><span class="linenos" data-linenos="5 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;This will not be printed.&quot;</span>
 </code></pre></div></p>
-<p>Batch does not offer an equivalent feature, instead requiring developers to
+<p>But Batch does not offer an equivalent feature, instead requiring developers to
 write multiple extra lines to accomplish the same functionality:
 <div class="highlight"><span class="filename">error.bat</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><a href="#__codelineno-1-1"><span class="linenos" data-linenos="1 "></span></a><span class="k">dir</span> <span class="s2">&quot;C:\foo&quot;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a><a href="#__codelineno-1-2"><span class="linenos" data-linenos="2 "></span></a><span class="k">if</span> <span class="k">errorlevel</span> <span class="mi">1</span> <span class="p">(</span>
@@ -399,9 +412,8 @@ write multiple extra lines to accomplish the same functionality:
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><a href="#__codelineno-1-4"><span class="linenos" data-linenos="4 "></span></a><span class="p">)</span>
 </code></pre></div></p>
 <p>Using two different shell scripting languages also requires developers to be
-familiar with both languages. Even so, it's still extremely easy to
-inadvertently introduce small differences in behavior, such as when using the
-<code>echo</code> command:
+familiar with both languages. Even so, it's extremely easy to inadvertently
+introduce small differences in behavior, such as when using the <code>echo</code> command:
 <div class="highlight"><span class="filename">echo.sh</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><a href="#__codelineno-2-1"><span class="linenos" data-linenos="1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2"></a><a href="#__codelineno-2-2"><span class="linenos" data-linenos="2 "></span></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;foo&quot;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3"></a><a href="#__codelineno-2-3"><span class="linenos" data-linenos="3 "></span></a>
@@ -414,8 +426,8 @@ inadvertently introduce small differences in behavior, such as when using the
 <a id="__codelineno-3-4" name="__codelineno-3-4"></a><a href="#__codelineno-3-4"><span class="linenos" data-linenos="4 "></span></a><span class="c1">REM Output:</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5"></a><a href="#__codelineno-3-5"><span class="linenos" data-linenos="5 "></span></a><span class="s2">&quot;foo&quot;</span>
 </code></pre></div></p>
-<p>Standard out of the box python fares better in regards to standardization
-between platforms, but suffers when it comes to running commands:
+<p>Standard out-of-the-box python fares better in regards to standardization
+between platforms, but suffers when running commands:
 <div class="highlight"><span class="filename">cmake.sh</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><a href="#__codelineno-4-1"><span class="linenos" data-linenos="1 "></span></a><span class="ch">#!/usr/bin/env bash</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2"></a><a href="#__codelineno-4-2"><span class="linenos" data-linenos="2 "></span></a><span class="nb">set</span><span class="w"> </span>-e
 <a id="__codelineno-4-3" name="__codelineno-4-3"></a><a href="#__codelineno-4-3"><span class="linenos" data-linenos="3 "></span></a>
@@ -527,7 +539,7 @@ over their batch/bash counterparts.</p>
 </code></pre></div></p>
 <p>This script is just a toy script, but imagine if the script's cleanup command
 had to run something more important. What if the cleanup command was one that
-modified file permissions on a CI/CD system, and now every subsequent CI/CD
+corrected file permissions on a CI/CD system, and now every subsequent CI/CD
 run on that machine will now fail? That's obviously no good, so the script
 clearly must be adjusted to handle that. There's more than one way to go about
 this, such as:
@@ -552,7 +564,7 @@ this, such as:
 <a id="__codelineno-12-6" name="__codelineno-12-6"></a><a href="#__codelineno-12-6"><span class="linenos" data-linenos="6 "></span></a><span class="go">perform cleanup</span>
 </code></pre></div></p>
 <p>This is better, but now there's a different problem. If the "after failed
-command" command is only valid to be executed if our failing command finished
+command" command is only valid to be executed if the failing command finished
 successfully, then now the script will now terminate on that line instead.
 That command could be moved into the if statement, but a real script may have
 many lines between the two commands or many dependent commands. Alternatively,
@@ -610,15 +622,165 @@ the cleanup code could be moved into its own function:
 <p>This example introduces a new PyShell concept, the executor. This is a component
 that decides whether a command is allowed to execute. In this example, the
 <code>PermitCleanup</code> executor is used along with the <code>KeepGoing</code> error handler. This
-is necessary to avoid stopping the script immediately, which is what would
-happen if the script had used the <code>AbortOnFailure</code> error handler. The <code>KeepGoing</code>
-error handler also isn't usable in this scenario on its own, as otherwise it
-would allow the "after failed command" echo command to be executed.</p>
+is necessary to avoid stopping the script immediately upon a command failing,
+which is what would happen if the script had used the <code>AbortOnFailure</code> error
+handler. The <code>KeepGoing</code> error handler also isn't usable on its own in this
+scenario, as otherwise it would allow the "after failed command" echo command
+to be executed.</p>
 <p>Instead, the combination of the <code>PermitCleanup</code> executor and the <code>KeepGoing</code>
 error handler ensures that all commands after the failed command do not
 execute... <em>except</em> cleanup commands. By using these two PyShell components,
 the script can be written with a linear structure that does not require the
 reader to jump to the cleanup method to discover what the script runs.</p>
+<h2 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h2>
+<p>PyShell was designed with a heavy emphasis on logging, resulting in a number of
+features that assist developers in processing log files generated by a script.
+PyShell defaults to only writing information to the console, but its behavior
+can be easily adjusted to also write to log files on disk while also printing
+to the console. For example, PyShell offers the <code>SingleFileLogger</code> and
+<code>MultiFileLogger</code> classes, which are used in the "Hello World" sample script:
+<div class="highlight"><span class="filename">hello_world.py</span><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a><a href="#__codelineno-17-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="ch">#!/usr/bin/env python3</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2"></a><a href="#__codelineno-17-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="kn">import</span> <span class="nn">argparse</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3"></a><a href="#__codelineno-17-3"><span class="linenos" data-linenos=" 3 "></span></a><span class="kn">from</span> <span class="nn">pyshell</span> <span class="kn">import</span> <span class="n">PyShell</span><span class="p">,</span> <span class="n">NullFileLogger</span><span class="p">,</span> <span class="n">SingleFileLogger</span><span class="p">,</span> <span class="n">MultiFileLogger</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4"></a><a href="#__codelineno-17-4"><span class="linenos" data-linenos=" 4 "></span></a><span class="kn">from</span> <span class="nn">pyshell.modules</span> <span class="kn">import</span> <span class="n">Shell</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5"></a><a href="#__codelineno-17-5"><span class="linenos" data-linenos=" 5 "></span></a>
+<a id="__codelineno-17-6" name="__codelineno-17-6"></a><a href="#__codelineno-17-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="c1"># Decide whether to log to a single file or multiple files</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7"></a><a href="#__codelineno-17-7"><span class="linenos" data-linenos=" 7 "></span></a><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8"></a><a href="#__codelineno-17-8"><span class="linenos" data-linenos=" 8 "></span></a><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--log&quot;</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;single&quot;</span><span class="p">,</span> <span class="s2">&quot;multi&quot;</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9"></a><a href="#__codelineno-17-9"><span class="linenos" data-linenos=" 9 "></span></a><span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10"></a><a href="#__codelineno-17-10"><span class="linenos" data-linenos="10 "></span></a>
+<a id="__codelineno-17-11" name="__codelineno-17-11"></a><a href="#__codelineno-17-11"><span class="linenos" data-linenos="11 "></span></a><span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span> <span class="o">==</span> <span class="s2">&quot;single&quot;</span><span class="p">:</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12"></a><a href="#__codelineno-17-12"><span class="linenos" data-linenos="12 "></span></a>    <span class="n">logger</span> <span class="o">=</span> <span class="n">SingleFileLogger</span><span class="p">(</span><span class="s2">&quot;hello_world.log&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13"></a><a href="#__codelineno-17-13"><span class="linenos" data-linenos="13 "></span></a><span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span> <span class="o">==</span> <span class="s2">&quot;multi&quot;</span><span class="p">:</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14"></a><a href="#__codelineno-17-14"><span class="linenos" data-linenos="14 "></span></a>    <span class="n">logger</span> <span class="o">=</span> <span class="n">MultiFileLogger</span><span class="p">(</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15"></a><a href="#__codelineno-17-15"><span class="linenos" data-linenos="15 "></span></a>        <span class="s2">&quot;.logs&quot;</span><span class="p">,</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16"></a><a href="#__codelineno-17-16"><span class="linenos" data-linenos="16 "></span></a>        <span class="n">print_cmd_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17"></a><a href="#__codelineno-17-17"><span class="linenos" data-linenos="17 "></span></a>        <span class="n">print_cmd_footer</span><span class="o">=</span><span class="kc">True</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18"></a><a href="#__codelineno-17-18"><span class="linenos" data-linenos="18 "></span></a>    <span class="p">)</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19"></a><a href="#__codelineno-17-19"><span class="linenos" data-linenos="19 "></span></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20"></a><a href="#__codelineno-17-20"><span class="linenos" data-linenos="20 "></span></a>    <span class="n">logger</span> <span class="o">=</span> <span class="n">NullFileLogger</span><span class="p">()</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21"></a><a href="#__codelineno-17-21"><span class="linenos" data-linenos="21 "></span></a>
+<a id="__codelineno-17-22" name="__codelineno-17-22"></a><a href="#__codelineno-17-22"><span class="linenos" data-linenos="22 "></span></a><span class="c1"># Initialize a PyShell instance for running commands</span>
+<a id="__codelineno-17-23" name="__codelineno-17-23"></a><a href="#__codelineno-17-23"><span class="linenos" data-linenos="23 "></span></a><span class="c1"># PyShell commands that don&#39;t explicitly specify a PyShell instance to use</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24"></a><a href="#__codelineno-17-24"><span class="linenos" data-linenos="24 "></span></a><span class="c1">#   will use the default instance.</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25"></a><a href="#__codelineno-17-25"><span class="linenos" data-linenos="25 "></span></a><span class="n">pyshell</span> <span class="o">=</span> <span class="n">PyShell</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+<a id="__codelineno-17-26" name="__codelineno-17-26"></a><a href="#__codelineno-17-26"><span class="linenos" data-linenos="26 "></span></a>
+<a id="__codelineno-17-27" name="__codelineno-17-27"></a><a href="#__codelineno-17-27"><span class="linenos" data-linenos="27 "></span></a><span class="c1"># Run some commands</span>
+<a id="__codelineno-17-28" name="__codelineno-17-28"></a><a href="#__codelineno-17-28"><span class="linenos" data-linenos="28 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-29" name="__codelineno-17-29"></a><a href="#__codelineno-17-29"><span class="linenos" data-linenos="29 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;Hello world again!&quot;</span><span class="p">)</span>
+<a id="__codelineno-17-30" name="__codelineno-17-30"></a><a href="#__codelineno-17-30"><span class="linenos" data-linenos="30 "></span></a><span class="n">Shell</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;Howdy y&#39;all!&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<p>When the <code>NullFileLogger</code> class is used, the only output from the script is
+to the console:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a><a href="#__codelineno-18-1"><span class="linenos" data-linenos="1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>./hello_world.py<span class="w"> </span>
+<a id="__codelineno-18-2" name="__codelineno-18-2"></a><a href="#__codelineno-18-2"><span class="linenos" data-linenos="2 "></span></a><span class="go">Hello, world!</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3"></a><a href="#__codelineno-18-3"><span class="linenos" data-linenos="3 "></span></a><span class="go">Hello world again!</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4"></a><a href="#__codelineno-18-4"><span class="linenos" data-linenos="4 "></span></a><span class="go">Howdy y&#39;all!</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5"></a><a href="#__codelineno-18-5"><span class="linenos" data-linenos="5 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>ll
+<a id="__codelineno-18-6" name="__codelineno-18-6"></a><a href="#__codelineno-18-6"><span class="linenos" data-linenos="6 "></span></a><span class="go">total 12</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7"></a><a href="#__codelineno-18-7"><span class="linenos" data-linenos="7 "></span></a><span class="go">drwxr-xr-x 2 pyshell pyshell 4096 Feb 27 02:55 ./</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8"></a><a href="#__codelineno-18-8"><span class="linenos" data-linenos="8 "></span></a><span class="go">drwxrwxr-x 3 pyshell pyshell 4096 Feb 23 20:52 ../</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9"></a><a href="#__codelineno-18-9"><span class="linenos" data-linenos="9 "></span></a><span class="go">-rwxr-xr-x 1 pyshell pyshell  903 Feb 27 02:54 hello_world.py*</span>
+</code></pre></div></p>
+<p>If the <code>--log single</code> flag is provided, output will be written to both the
+console and a log file on disk:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><a href="#__codelineno-19-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>./hello_world.py<span class="w"> </span>--log<span class="w"> </span>single
+<a id="__codelineno-19-2" name="__codelineno-19-2"></a><a href="#__codelineno-19-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="go">Hello, world!</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3"></a><a href="#__codelineno-19-3"><span class="linenos" data-linenos=" 3 "></span></a><span class="go">Hello world again!</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4"></a><a href="#__codelineno-19-4"><span class="linenos" data-linenos=" 4 "></span></a><span class="go">Howdy y&#39;all!</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5"></a><a href="#__codelineno-19-5"><span class="linenos" data-linenos=" 5 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>ll
+<a id="__codelineno-19-6" name="__codelineno-19-6"></a><a href="#__codelineno-19-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="go">total 16</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7"></a><a href="#__codelineno-19-7"><span class="linenos" data-linenos=" 7 "></span></a><span class="go">drwxr-xr-x 2 pyshell pyshell 4096 Feb 27 02:56 ./</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8"></a><a href="#__codelineno-19-8"><span class="linenos" data-linenos=" 8 "></span></a><span class="go">drwxrwxr-x 3 pyshell pyshell 4096 Feb 23 20:52 ../</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9"></a><a href="#__codelineno-19-9"><span class="linenos" data-linenos=" 9 "></span></a><span class="go">-rw-r--r-- 1 pyshell pyshell   49 Feb 27 02:56 hello_world.log</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10"></a><a href="#__codelineno-19-10"><span class="linenos" data-linenos="10 "></span></a><span class="go">-rwxr-xr-x 1 pyshell pyshell  903 Feb 27 02:54 hello_world.py*</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11"></a><a href="#__codelineno-19-11"><span class="linenos" data-linenos="11 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>cat<span class="w"> </span>hello_world.log
+<a id="__codelineno-19-12" name="__codelineno-19-12"></a><a href="#__codelineno-19-12"><span class="linenos" data-linenos="12 "></span></a><span class="go">Hello, world!</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13"></a><a href="#__codelineno-19-13"><span class="linenos" data-linenos="13 "></span></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14"></a><a href="#__codelineno-19-14"><span class="linenos" data-linenos="14 "></span></a><span class="go">Hello world again!</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15"></a><a href="#__codelineno-19-15"><span class="linenos" data-linenos="15 "></span></a>
+<a id="__codelineno-19-16" name="__codelineno-19-16"></a><a href="#__codelineno-19-16"><span class="linenos" data-linenos="16 "></span></a><span class="go">Howdy y&#39;all!</span>
+</code></pre></div></p>
+<p>Alternatively, if <code>--log multi</code> is used, each command's output is written to its
+own file:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><a href="#__codelineno-20-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>./hello_world.py<span class="w"> </span>--log<span class="w"> </span>multi
+<a id="__codelineno-20-2" name="__codelineno-20-2"></a><a href="#__codelineno-20-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="go">Hello, world!</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3"></a><a href="#__codelineno-20-3"><span class="linenos" data-linenos=" 3 "></span></a><span class="go">Hello world again!</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4"></a><a href="#__codelineno-20-4"><span class="linenos" data-linenos=" 4 "></span></a><span class="go">Howdy y&#39;all!</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5"></a><a href="#__codelineno-20-5"><span class="linenos" data-linenos=" 5 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>ll
+<a id="__codelineno-20-6" name="__codelineno-20-6"></a><a href="#__codelineno-20-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="go">total 16</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7"></a><a href="#__codelineno-20-7"><span class="linenos" data-linenos=" 7 "></span></a><span class="go">drwxr-xr-x 3 pyshell pyshell 4096 Feb 27 02:57 ./</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8"></a><a href="#__codelineno-20-8"><span class="linenos" data-linenos=" 8 "></span></a><span class="go">drwxrwxr-x 3 pyshell pyshell 4096 Feb 23 20:52 ../</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9"></a><a href="#__codelineno-20-9"><span class="linenos" data-linenos=" 9 "></span></a><span class="go">drwxr-xr-x 2 pyshell pyshell 4096 Feb 27 02:57 .logs/</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10"></a><a href="#__codelineno-20-10"><span class="linenos" data-linenos="10 "></span></a><span class="go">-rwxr-xr-x 1 pyshell pyshell  903 Feb 27 02:54 hello_world.py*</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11"></a><a href="#__codelineno-20-11"><span class="linenos" data-linenos="11 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>ll<span class="w"> </span>.logs
+<a id="__codelineno-20-12" name="__codelineno-20-12"></a><a href="#__codelineno-20-12"><span class="linenos" data-linenos="12 "></span></a><span class="go">total 20</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13"></a><a href="#__codelineno-20-13"><span class="linenos" data-linenos="13 "></span></a><span class="go">drwxr-xr-x 2 pyshell pyshell 4096 Feb 27 02:57 ./</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14"></a><a href="#__codelineno-20-14"><span class="linenos" data-linenos="14 "></span></a><span class="go">drwxr-xr-x 3 pyshell pyshell 4096 Feb 27 02:57 ../</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15"></a><a href="#__codelineno-20-15"><span class="linenos" data-linenos="15 "></span></a><span class="go">-rw-r--r-- 1 pyshell pyshell  306 Feb 27 02:57 1-echo.log</span>
+<a id="__codelineno-20-16" name="__codelineno-20-16"></a><a href="#__codelineno-20-16"><span class="linenos" data-linenos="16 "></span></a><span class="go">-rw-r--r-- 1 pyshell pyshell  321 Feb 27 02:57 2-echo.log</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17"></a><a href="#__codelineno-20-17"><span class="linenos" data-linenos="17 "></span></a><span class="go">-rw-r--r-- 1 pyshell pyshell  303 Feb 27 02:57 3-echo.log</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18"></a><a href="#__codelineno-20-18"><span class="linenos" data-linenos="18 "></span></a><span class="gp">pyshell@85afc3805162:/workspaces/PyShell/samples/1-hello-world$ </span>cat<span class="w"> </span>.logs/1-echo.log<span class="w"> </span>
+<a id="__codelineno-20-19" name="__codelineno-20-19"></a><a href="#__codelineno-20-19"><span class="linenos" data-linenos="19 "></span></a><span class="go">[PyShell] Running command: /usr/bin/echo Hello, world!</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20"></a><a href="#__codelineno-20-20"><span class="linenos" data-linenos="20 "></span></a><span class="go">[PyShell] cwd: /workspaces/PyShell/samples/1-hello-world</span>
+<a id="__codelineno-20-21" name="__codelineno-20-21"></a><a href="#__codelineno-20-21"><span class="linenos" data-linenos="21 "></span></a><span class="go">[PyShell] Command output:</span>
+<a id="__codelineno-20-22" name="__codelineno-20-22"></a><a href="#__codelineno-20-22"><span class="linenos" data-linenos="22 "></span></a>
+<a id="__codelineno-20-23" name="__codelineno-20-23"></a><a href="#__codelineno-20-23"><span class="linenos" data-linenos="23 "></span></a><span class="go">Hello, world!</span>
+<a id="__codelineno-20-24" name="__codelineno-20-24"></a><a href="#__codelineno-20-24"><span class="linenos" data-linenos="24 "></span></a>
+<a id="__codelineno-20-25" name="__codelineno-20-25"></a><a href="#__codelineno-20-25"><span class="linenos" data-linenos="25 "></span></a><span class="go">[PyShell] Executed command: /usr/bin/echo Hello, world!</span>
+<a id="__codelineno-20-26" name="__codelineno-20-26"></a><a href="#__codelineno-20-26"><span class="linenos" data-linenos="26 "></span></a><span class="go">[PyShell] cwd: /workspaces/PyShell/samples/1-hello-world</span>
+<a id="__codelineno-20-27" name="__codelineno-20-27"></a><a href="#__codelineno-20-27"><span class="linenos" data-linenos="27 "></span></a><span class="go">[PyShell] Command exited with code 0.</span>
+</code></pre></div></p>
+<p>Visible in the multi-file logger example is PyShell's optional header and footer
+sections. These sections are enabled by passing these arguments to the multi-file
+logger's constructor:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a><a href="#__codelineno-21-1"><span class="linenos" data-linenos="1 "></span></a><span class="n">logger</span> <span class="o">=</span> <span class="n">MultiFileLogger</span><span class="p">(</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2"></a><a href="#__codelineno-21-2"><span class="linenos" data-linenos="2 "></span></a>    <span class="s2">&quot;.logs&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3"></a><a href="#__codelineno-21-3"><span class="linenos" data-linenos="3 "></span></a>    <span class="n">print_cmd_header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="c1"># &lt;&lt;&lt;</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4"></a><a href="#__codelineno-21-4"><span class="linenos" data-linenos="4 "></span></a>    <span class="n">print_cmd_footer</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># &lt;&lt;&lt;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5"></a><a href="#__codelineno-21-5"><span class="linenos" data-linenos="5 "></span></a><span class="p">)</span>
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>These parameters are also supported by the <code>SingleFileLogger</code> class's
+constructor.</p>
+</div>
+<p>PyShell also allows a scanner class to be attached to commands, which enables
+PyShell to output extra information to help developers. This is particularly
+helpful when dealing with long log files that would otherwise require developers
+to scroll through the log to find what they're looking for.</p>
+<p>For example, PyShell's <code>generate_docs.py</code> script invokes Doxygen and generates
+a ~500 line file. Should the command fail, such as due to a parameter lacking
+documentation, the <code>generate_docs.py</code> script will stop and report an error.
+A developer would then need to scroll through the log file generated for the
+Doxygen command, find the error message from Doxygen, then open the file and
+fix the issue. With PyShell's Doxygen scanner however, the bottom of the log
+file contains all the information necessary to fix the issue:
+<div class="highlight"><span class="filename">doxygen.log</span><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a><a href="#__codelineno-22-1"><span class="linenos" data-linenos=" 1 "></span></a><span class="go">Patching output file 34/36</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2"></a><a href="#__codelineno-22-2"><span class="linenos" data-linenos=" 2 "></span></a><span class="go">Patching output file 35/36</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3"></a><a href="#__codelineno-22-3"><span class="linenos" data-linenos=" 3 "></span></a><span class="go">Patching output file 36/36</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4"></a><a href="#__codelineno-22-4"><span class="linenos" data-linenos=" 4 "></span></a><span class="go">lookup cache used 645/65536 hits=1314 misses=768</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5"></a><a href="#__codelineno-22-5"><span class="linenos" data-linenos=" 5 "></span></a><span class="go">finished...</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6"></a><a href="#__codelineno-22-6"><span class="linenos" data-linenos=" 6 "></span></a><span class="go">Exiting...</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7"></a><a href="#__codelineno-22-7"><span class="linenos" data-linenos=" 7 "></span></a>
+<a id="__codelineno-22-8" name="__codelineno-22-8"></a><a href="#__codelineno-22-8"><span class="linenos" data-linenos=" 8 "></span></a><span class="go">[PyShell] Scanner output:</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9"></a><a href="#__codelineno-22-9"><span class="linenos" data-linenos=" 9 "></span></a>
+<a id="__codelineno-22-10" name="__codelineno-22-10"></a><a href="#__codelineno-22-10"><span class="linenos" data-linenos="10 "></span></a><span class="go">[PyShell] Missing parameter documentation for:</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11"></a><a href="#__codelineno-22-11"><span class="linenos" data-linenos="11 "></span></a><span class="go">[PyShell]   File: /workspaces/PyShell/source/pyshell/core/command_metadata.py:15</span>
+<a id="__codelineno-22-12" name="__codelineno-22-12"></a><a href="#__codelineno-22-12"><span class="linenos" data-linenos="12 "></span></a><span class="go">[PyShell]   Method: pyshell.core.command_metadata.CommandMetadata.__init__(self, str command, Sequence[str] args, CommandFlags flags=CommandFlags.STANDARD, Optional[IScanner] scanner=None)</span>
+<a id="__codelineno-22-13" name="__codelineno-22-13"></a><a href="#__codelineno-22-13"><span class="linenos" data-linenos="13 "></span></a><span class="go">[PyShell]   Parameter: scanner</span>
+<a id="__codelineno-22-14" name="__codelineno-22-14"></a><a href="#__codelineno-22-14"><span class="linenos" data-linenos="14 "></span></a>
+<a id="__codelineno-22-15" name="__codelineno-22-15"></a><a href="#__codelineno-22-15"><span class="linenos" data-linenos="15 "></span></a><span class="go">[PyShell] Missing parameter documentation for:</span>
+<a id="__codelineno-22-16" name="__codelineno-22-16"></a><a href="#__codelineno-22-16"><span class="linenos" data-linenos="16 "></span></a><span class="go">[PyShell]   File: /workspaces/PyShell/source/pyshell/doxygen/doxygen_scanner.py:81</span>
+<a id="__codelineno-22-17" name="__codelineno-22-17"></a><a href="#__codelineno-22-17"><span class="linenos" data-linenos="17 "></span></a><span class="go">[PyShell]   Method: pyshell.doxygen.doxygen_scanner.DoxygenScanner._generate_missing_parameter_entry(self, CommandResult result, str line, List[str] next_lines, int line_number)</span>
+<a id="__codelineno-22-18" name="__codelineno-22-18"></a><a href="#__codelineno-22-18"><span class="linenos" data-linenos="18 "></span></a><span class="go">[PyShell]   Parameter: result</span>
+<a id="__codelineno-22-19" name="__codelineno-22-19"></a><a href="#__codelineno-22-19"><span class="linenos" data-linenos="19 "></span></a>
+<a id="__codelineno-22-20" name="__codelineno-22-20"></a><a href="#__codelineno-22-20"><span class="linenos" data-linenos="20 "></span></a><span class="go">[PyShell] Executed command: /usr/bin/doxygen /workspaces/PyShell/doxygen/doxyfile</span>
+<a id="__codelineno-22-21" name="__codelineno-22-21"></a><a href="#__codelineno-22-21"><span class="linenos" data-linenos="21 "></span></a><span class="go">[PyShell] cwd: /workspaces/PyShell</span>
+<a id="__codelineno-22-22" name="__codelineno-22-22"></a><a href="#__codelineno-22-22"><span class="linenos" data-linenos="22 "></span></a><span class="go">[PyShell] Command exited with code 1.</span>
+</code></pre></div></p>
+<p>Though scanners are nothing complex, their addition to PyShell is a solid
+quality of life addition for developers.</p>
 
 
 
