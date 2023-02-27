@@ -1,4 +1,5 @@
 from pathlib import Path
+from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_result import CommandResult
 from pyshell.core.external_command import ExternalCommand
 from pyshell.modules.module import IModule
@@ -21,7 +22,8 @@ class Shell(IModule):
     def cp(
         src: str | Path,
         dest: str | Path,
-        pyshell: Optional[PyShell] = None) -> CommandResult:
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `cp` on the specified source and destination.
         @param src File or directory to copy. Can be a relative or absolute
@@ -31,62 +33,71 @@ class Shell(IModule):
           relative or absolute path. If the path is relative, it will be
           resolved relative to the script's current working directory.
         @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
         @return The results of running `cp` on the source and destination.
         """
-        return CpCommand(src, dest)(pyshell)
+        return CpCommand(src, dest, cmd_flags)(pyshell)
 
 
     @staticmethod
     def echo(
         message: Optional[str] = None,
-        pyshell: Optional[PyShell] = None) -> CommandResult:
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `echo` with the specified message.
         @param message The message to write to stdout.
         @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
         @return The results of running `echo`.
         """
-        return EchoCommand(message)(pyshell)
+        return EchoCommand(message, cmd_flags)(pyshell)
 
 
     @staticmethod
     def run(
         command: str,
         args: str | Path | Sequence[str | Path] | None = None,
-        pyshell: Optional[PyShell] = None) -> CommandResult:
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs an arbitrary command via PyShell.
         @param command The command to run.
         @param args Arguments to pass to the command.
         @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
         @return The results of running the command.
         """
-        return ExternalCommand(command, args)(pyshell)
+        return ExternalCommand(command, args, cmd_flags)(pyshell)
 
 
     @staticmethod
     def ls(
         target_path: str | Path | None = None,
-        pyshell: Optional[PyShell] = None) -> CommandResult:
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `ls` on the specified path.
         @param target_path The path to list the contents of.
         @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
         @return The results of running `ls` on the target path.
         """
-        return LsCommand(target_path)(pyshell)
+        return LsCommand(target_path, cmd_flags)(pyshell)
 
 
     @staticmethod
     def rm(
         target_path: str | Path,
         force: bool = False,
-        pyshell: Optional[PyShell] = None) -> CommandResult:
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `rm` on the specified path.
         @param target_path The path to remove.
         @param force If True, the -f flag will be passed to `rm`.
         @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
         @return The results of running `rm` on the target path.
         """
-        return RmCommand(target_path, force)(pyshell)
+        return RmCommand(target_path, force, cmd_flags)(pyshell)

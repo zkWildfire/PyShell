@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 from pathlib import Path
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    NativeBackend, MultiFileLogger
+from pyshell import PyShell, PyShellOptions, KeepGoing, PermitCleanup, \
+    NativeBackend, MultiFileLogger, CommandFlags
 from pyshell.modules import Doxygen, Shell
 import sys
 
@@ -68,8 +68,8 @@ pyshell = PyShell(
         print_cmd_header=True,
         print_cmd_footer=True
     ),
-    executor=AllowAll(),
-    error_handler=AbortOnFailure(),
+    executor=PermitCleanup(),
+    error_handler=KeepGoing(),
     options=PyShellOptions(
         verbose=args.verbose
     ),
@@ -128,4 +128,4 @@ if args.publish:
     Shell.run("git", "push")
 
     # Switch back to the original branch as cleanup
-    Shell.run("git", ["switch", curr_branch])
+    Shell.run("git", ["switch", curr_branch], cmd_flags=CommandFlags.CLEANUP)

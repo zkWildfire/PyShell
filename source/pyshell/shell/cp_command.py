@@ -1,4 +1,5 @@
 from pathlib import Path
+from pyshell.core.command_flags import CommandFlags
 from pyshell.core.external_command import ExternalCommand
 from typing import List
 
@@ -10,7 +11,8 @@ class CpCommand(ExternalCommand):
     """
     def __init__(self,
         src: str | Path,
-        dest: str | Path):
+        dest: str | Path,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param src File or directory to copy. Can be a relative or absolute
@@ -19,6 +21,7 @@ class CpCommand(ExternalCommand):
         @param dest Destination to copy the file or directory to. Can be a
           relative or absolute path. If the path is relative, it will be
           resolved relative to the script's current working directory.
+        @param cmd_flags The flags to set for the command.
         @throws ValueError If the source path does not exist.
         """
         # Validate input
@@ -34,4 +37,8 @@ class CpCommand(ExternalCommand):
             flags.append("-r")
 
         # TODO: Make this cross platform
-        super().__init__("cp", flags + [src, dest])
+        super().__init__(
+            "cp",
+            flags + [src, dest],
+            flags=cmd_flags
+        )
