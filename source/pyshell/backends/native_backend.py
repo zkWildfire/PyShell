@@ -40,11 +40,14 @@ class NativeBackend(IBackend):
                 print(new_output)
 
         # Process any remaining output from the process
-        new_output = NativeBackend._get_output(process.stdout)
-        if new_output:
-            # These lines are timing dependent; don't track them for coverage
-            output += new_output + "\n" # pragma: no cover
-            print(new_output) # pragma: no cover
+        while True:
+            new_output = NativeBackend._get_output(process.stdout)
+            if new_output:
+                # These lines are timing dependent; don't track them for coverage
+                output += new_output + "\n" # pragma: no cover
+                print(new_output) # pragma: no cover
+            else:
+                break
 
         return CommandResult(
             command=metadata.command,
