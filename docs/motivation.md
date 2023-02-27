@@ -103,7 +103,7 @@ CMake.configure(
     source=".",
     build="_build",
     install="_out",
-    build_type=ECMakeBuildType.Debug,
+    build_type=ECMakeBuildType.Debug
 )
 CMake.build(
     build="_build",
