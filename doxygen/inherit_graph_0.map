@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,31,88,57"/>
+<area shape="rect" id="node2" href="$classallow__all_1_1AllowAll.html" title="Executor that allows all commands except inactive commands to run." alt="" coords="179,5,316,32"/>
+<area shape="rect" id="node3" href="$classpermit__cleanup_1_1PermitCleanup.html" title="Executor that allows only cleanup commands to be run after a failure." alt="" coords="136,56,359,83"/>
+</map>
