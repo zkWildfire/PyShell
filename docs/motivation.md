@@ -377,9 +377,9 @@ Hello, world!
 [PyShell] Command exited with code 0.
 ```
 
-Visible in the multi-file logger example is PyShell's optional header and footer
-sections. These sections are enabled by passing these arguments to the multi-file
-logger's constructor:
+Visible in the multi-file logger example are PyShell's optional header and
+footer sections. These sections are enabled by passing these arguments to the
+multi-file logger's constructor:
 ```py
 logger = MultiFileLogger(
     ".logs",
