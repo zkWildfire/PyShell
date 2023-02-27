@@ -1,9 +1,8 @@
 # Motivation
 ## Shell Scripts
 PyShell was born out of a desire to unify platform specific shell scripts into
-a single script that would provide a uniform feature set regardless of the OS
-a script is executing on. For example, bash offers the `set -e` command to
-abort a script as soon as a script command fails:
+a single script with a uniform feature set regardless of OS. For example, bash
+offers the `set -e` command to abort a script as soon as a script command fails:
 ```sh title="error.sh"
 #!/usr/bin/env bash
 set -e
@@ -12,7 +11,7 @@ ls /foo # <<< The script will exit here if /foo doesn't exist
 echo "This will not be printed."
 ```
 
-Batch does not offer an equivalent feature, instead requiring developers to
+But Batch does not offer an equivalent feature, instead requiring developers to
 write multiple extra lines to accomplish the same functionality:
 ```bat title="error.bat"
 dir "C:\foo"
@@ -22,9 +21,8 @@ if errorlevel 1 (
 ```
 
 Using two different shell scripting languages also requires developers to be
-familiar with both languages. Even so, it's still extremely easy to
-inadvertently introduce small differences in behavior, such as when using the
-`echo` command:
+familiar with both languages. Even so, it's extremely easy to inadvertently
+introduce small differences in behavior, such as when using the `echo` command:
 ```sh title="echo.sh"
 #!/usr/bin/env bash
 echo "foo"
@@ -40,8 +38,8 @@ REM Output:
 "foo"
 ```
 
-Standard out of the box python fares better in regards to standardization
-between platforms, but suffers when it comes to running commands:
+Standard out-of-the-box python fares better in regards to standardization
+between platforms, but suffers when running commands:
 ```sh title="cmake.sh"
 #!/usr/bin/env bash
 set -e
@@ -165,7 +163,7 @@ ls: cannot access '/foo/bar': No such file or directory
 
 This script is just a toy script, but imagine if the script's cleanup command
 had to run something more important. What if the cleanup command was one that
-modified file permissions on a CI/CD system, and now every subsequent CI/CD
+corrected file permissions on a CI/CD system, and now every subsequent CI/CD
 run on that machine will now fail? That's obviously no good, so the script
 clearly must be adjusted to handle that. There's more than one way to go about
 this, such as:
@@ -194,7 +192,7 @@ perform cleanup
 ```
 
 This is better, but now there's a different problem. If the "after failed
-command" command is only valid to be executed if our failing command finished
+command" command is only valid to be executed if the failing command finished
 successfully, then now the script will now terminate on that line instead.
 That command could be moved into the if statement, but a real script may have
 many lines between the two commands or many dependent commands. Alternatively,
@@ -260,10 +258,11 @@ perform cleanup
 This example introduces a new PyShell concept, the executor. This is a component
 that decides whether a command is allowed to execute. In this example, the
 `PermitCleanup` executor is used along with the `KeepGoing` error handler. This
-is necessary to avoid stopping the script immediately, which is what would
-happen if the script had used the `AbortOnFailure` error handler. The `KeepGoing`
-error handler also isn't usable in this scenario on its own, as otherwise it
-would allow the "after failed command" echo command to be executed.
+is necessary to avoid stopping the script immediately upon a command failing,
+which is what would happen if the script had used the `AbortOnFailure` error
+handler. The `KeepGoing` error handler also isn't usable on its own in this
+scenario, as otherwise it would allow the "after failed command" echo command
+to be executed.
 
 Instead, the combination of the `PermitCleanup` executor and the `KeepGoing`
 error handler ensures that all commands after the failed command do not
