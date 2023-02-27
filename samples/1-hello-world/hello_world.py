@@ -7,6 +7,7 @@ from pyshell.modules import Shell
 parser = argparse.ArgumentParser()
 parser.add_argument("--log", choices=["single", "multi"], default=None)
 args = parser.parse_args()
+
 if args.log == "single":
     logger = SingleFileLogger("hello_world.log")
 elif args.log == "multi":
