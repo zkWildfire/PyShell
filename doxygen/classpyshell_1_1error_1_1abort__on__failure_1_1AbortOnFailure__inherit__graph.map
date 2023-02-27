@@ -1,0 +1,6 @@
+<map id="pyshell.error.abort_on_failure.AbortOnFailure" name="pyshell.error.abort_on_failure.AbortOnFailure">
+<area shape="rect" id="node1" title="Error handler that stops a PyShell script if a command fails." alt="" coords="25,259,219,300"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1error_1_1error__handler_1_1IErrorHandler.html" title="Represents an error handler for PyShell commands." alt="" coords="39,169,205,211"/>
+<area shape="rect" id="node3" href="$classpyshell_1_1core_1_1pyshell__component_1_1IPyShellComponent.html" title="Base class for all components used by a PyShell instance." alt="" coords="5,80,239,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="97,5,147,32"/>
+</map>
