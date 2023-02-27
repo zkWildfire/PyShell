@@ -1,6 +1,0 @@
-<map id="pyshell.error.error_handler.IErrorHandler" name="pyshell.error.error_handler.IErrorHandler">
-<area shape="rect" id="node1" title="Represents an error handler for PyShell commands." alt="" coords="114,80,281,121"/>
-<area shape="rect" id="node3" href="$classpyshell_1_1error_1_1abort__on__failure_1_1AbortOnFailure.html" title="Error handler that stops a PyShell script if a command fails." alt="" coords="5,169,200,211"/>
-<area shape="rect" id="node4" href="$classpyshell_1_1error_1_1keep__going_1_1KeepGoing.html" title="Error handler that prints an error message but does not halt execution." alt="" coords="224,169,363,211"/>
-<area shape="rect" id="node2" title=" " alt="" coords="173,5,222,32"/>
-</map>

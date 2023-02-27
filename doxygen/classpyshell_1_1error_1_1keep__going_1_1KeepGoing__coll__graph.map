@@ -1,5 +1,0 @@
-<map id="pyshell.error.keep_going.KeepGoing" name="pyshell.error.keep_going.KeepGoing">
-<area shape="rect" id="node1" title="Error handler that prints an error message but does not halt execution." alt="" coords="19,169,158,211"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1error_1_1error__handler_1_1IErrorHandler.html" title="Represents an error handler for PyShell commands." alt="" coords="5,80,172,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="64,5,113,32"/>
-</map>
