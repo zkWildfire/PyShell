@@ -57,7 +57,7 @@ class ExecCommand(DockerCommand):
             exec_args.extend(args)
 
         super().__init__(
-            "run",
+            "exec",
             exec_args,
             use_sudo=use_sudo,
             cmd_flags=cmd_flags

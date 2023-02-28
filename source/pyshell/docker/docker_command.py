@@ -1,6 +1,6 @@
 from pyshell.core.command_flags import CommandFlags
 from pyshell.core.external_command import ExternalCommand
-from typing import List
+from typing import List, Optional
 
 class DockerCommand(ExternalCommand):
     """
@@ -10,31 +10,34 @@ class DockerCommand(ExternalCommand):
     @ingroup docker
     """
     def __init__(self,
-        docker_cmd: str,
+        docker_cmd: Optional[str],
         args: str | List[str] | None = None,
         use_sudo: bool = False,
         cmd_flags: CommandFlags = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param docker_cmd The docker command to run, e.g. `ps`, `pull`, etc.
+          If this is `None`, then `args` will be passed to `docker` directly.
         @param args The arguments to pass to the `docker [cmd]` command.
         @param use_sudo Whether to use `sudo` when running the command.
         @param cmd_flags The flags to set for the command.
         """
-        cmd = "docker"
-        if args is None:
-            args = [docker_cmd]
-        elif isinstance(args, str):
-            args = [docker_cmd, args]
-        else:
-            args.insert(0, docker_cmd)
-
+        # Construct the command to execute
+        cmd: List[str] = []
         if use_sudo:
-            args.insert(0, cmd)
-            cmd = "sudo"
+            cmd.append("sudo")
+        cmd.append("docker")
+        if docker_cmd is not None:
+            cmd.append(docker_cmd)
+        if not args:
+            pass
+        elif isinstance(args, str):
+            cmd.append(args)
+        else:
+            cmd.extend(args)
 
         super().__init__(
-            cmd,
-            args,
+            cmd[0],
+            cmd[1:],
             cmd_flags=cmd_flags
         )

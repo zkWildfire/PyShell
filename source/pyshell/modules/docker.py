@@ -172,14 +172,17 @@ class Docker(IModule):
     @staticmethod
     def start(
         container: str,
-        detach: bool = False,
+        attach: bool = False,
+        interactive: bool = False,
         use_sudo: bool = False,
         pyshell: Optional[PyShell] = None,
         cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `docker start`.
         @param container Name or ID of the container to start.
-        @param detach Whether to start the container in detached mode.
+        @param attach Whether to attach to the container.
+        @param interactive Whether to attach to the container in interactive
+          mode.
         @param use_sudo Whether to use `sudo` when running the command.
         @param pyshell PyShell instance to execute the command via.
         @param cmd_flags The flags to set for the command.
@@ -187,7 +190,8 @@ class Docker(IModule):
         """
         return StartCommand(
             container,
-            detach,
+            attach,
+            interactive,
             use_sudo,
             cmd_flags
         )(pyshell)
