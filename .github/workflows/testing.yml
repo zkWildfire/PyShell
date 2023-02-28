@@ -23,6 +23,8 @@ jobs:
         docker run --rm -itd --name pyshell -v "$GITHUB_WORKSPACE:/repo"
         --env DEV_CONTAINER=1
         --env PYTHONPATH="/repo/source"
+        -v /var/run/docker.sock:/var/run/docker.sock
+        -v /usr/bin/docker:/usr/bin/docker
         pyshell:latest
 
     - name: Run unit tests
