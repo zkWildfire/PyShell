@@ -21,6 +21,7 @@ jobs:
     - name: Start docker container
       run: >
         docker run --rm -itd --name pyshell -v "$GITHUB_WORKSPACE:/repo"
+        --env DEV_CONTAINER=1
         --env PYTHONPATH="/repo/source"
         pyshell:latest
 
