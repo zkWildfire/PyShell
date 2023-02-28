@@ -20,7 +20,7 @@ class ExternalCommand(ICommand):
         name: str | Path,
         args: str | Path | Sequence[str | Path] | None = None,
         locate_executable: bool = True,
-        flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: CommandFlags = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param name The name of the command being run. This should be the name
@@ -39,7 +39,7 @@ class ExternalCommand(ICommand):
         elif not args:
             args = []
         self._args = [str(a) for a in args]
-        self._flags = flags
+        self._flags = cmd_flags
 
         # Verify that the executable exists in the PATH if requested
         if locate_executable:

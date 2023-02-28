@@ -1,4 +1,5 @@
 # pyright: reportUnusedImport=false
+from .docker import Docker
 from .doxygen import Doxygen
 from .shell import Shell
 

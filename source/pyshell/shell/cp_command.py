@@ -40,5 +40,5 @@ class CpCommand(ExternalCommand):
         super().__init__(
             "cp",
             flags + [src, dest],
-            flags=cmd_flags
+            cmd_flags=cmd_flags
         )

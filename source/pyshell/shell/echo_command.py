@@ -19,5 +19,5 @@ class EchoCommand(ExternalCommand):
         super().__init__(
             "echo",
             message,
-            flags=cmd_flags
+            cmd_flags=cmd_flags
         )

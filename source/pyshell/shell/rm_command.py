@@ -30,4 +30,4 @@ class RmCommand(ExternalCommand):
             flags.append("-r")
 
         # TODO: Make this cross platform
-        super().__init__("rm", flags + [path], flags=cmd_flags)
+        super().__init__("rm", flags + [path], cmd_flags=cmd_flags)

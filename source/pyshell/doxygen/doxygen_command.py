@@ -39,7 +39,7 @@ class DoxygenCommand(ExternalCommand):
         super().__init__(
             doxygen_exe_path,
             doxyfile_path,
-            flags=cmd_flags
+            cmd_flags=cmd_flags
         )
 
 

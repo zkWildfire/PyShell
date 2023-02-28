@@ -1,9 +1,9 @@
 from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_result import CommandResult
-from pyshell.modules.module import IModule
 from pyshell.core.pyshell import PyShell
 from pyshell.doxygen.doxygen_command import DoxygenCommand
+from pyshell.modules.module import IModule
 from typing import Optional
 
 class Doxygen(IModule):

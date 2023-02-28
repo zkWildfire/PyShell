@@ -28,7 +28,8 @@ class NativeBackend(IBackend):
             [metadata.command] + list(metadata.args),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            cwd=str(cwd)
+            cwd=str(cwd),
+            universal_newlines=True
         )
 
         # Process all output from the process
@@ -60,7 +61,7 @@ class NativeBackend(IBackend):
 
 
     @staticmethod
-    def _get_output(stream: IO[bytes]) -> str:
+    def _get_output(stream: IO[str]) -> str:
         """
         Gets the current output from the specified stream.
         This method will only return full lines of output. If the stream has
@@ -68,4 +69,4 @@ class NativeBackend(IBackend):
         @param stream The stream to get output from.
         @return The current output from the stream.
         """
-        return stream.readline().decode("utf-8").rstrip()
+        return stream.readline()

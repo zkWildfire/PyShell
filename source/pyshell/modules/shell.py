@@ -2,8 +2,8 @@ from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_result import CommandResult
 from pyshell.core.external_command import ExternalCommand
-from pyshell.modules.module import IModule
 from pyshell.core.pyshell import PyShell
+from pyshell.modules.module import IModule
 from pyshell.shell.cp_command import CpCommand
 from pyshell.shell.echo_command import EchoCommand
 from pyshell.shell.ls_command import LsCommand
@@ -68,7 +68,7 @@ class Shell(IModule):
         @param cmd_flags The flags to set for the command.
         @return The results of running the command.
         """
-        return ExternalCommand(command, args, cmd_flags)(pyshell)
+        return ExternalCommand(command, args, cmd_flags=cmd_flags)(pyshell)
 
 
     @staticmethod

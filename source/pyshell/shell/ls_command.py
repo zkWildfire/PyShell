@@ -19,5 +19,5 @@ class LsCommand(ExternalCommand):
         super().__init__(
             "ls",
             target_path,
-            flags=cmd_flags
+            cmd_flags=cmd_flags
         )
