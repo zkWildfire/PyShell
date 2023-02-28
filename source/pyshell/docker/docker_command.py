@@ -10,22 +10,24 @@ class DockerCommand(ExternalCommand):
     @ingroup docker
     """
     def __init__(self,
-        cmd: str,
+        docker_cmd: str,
         args: str | List[str] | None = None,
         use_sudo: bool = False,
         cmd_flags: CommandFlags = CommandFlags.STANDARD):
         """
         Initializes the command.
-        @param cmd The docker command to run, e.g. `ps`, `pull`, etc.
+        @param docker_cmd The docker command to run, e.g. `ps`, `pull`, etc.
         @param args The arguments to pass to the `docker [cmd]` command.
         @param use_sudo Whether to use `sudo` when running the command.
         @param cmd_flags The flags to set for the command.
         """
         cmd = "docker"
         if args is None:
-            args = []
+            args = [docker_cmd]
         elif isinstance(args, str):
-            args = [args]
+            args = [docker_cmd, args]
+        else:
+            args.insert(0, docker_cmd)
 
         if use_sudo:
             args.insert(0, cmd)

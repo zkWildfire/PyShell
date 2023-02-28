@@ -87,3 +87,5 @@ RUN mkdir -p /tmp/${USERNAME} && \
 		--slave /usr/bin/ctest ctest /tools/cmake/3.25.2/bin/ctest && \
 	# Clean up temporary files
 	rm -rf /tmp/${USERNAME}
+
+ENV DEV_CONTAINER=1

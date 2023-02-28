@@ -43,7 +43,7 @@ class ExecCommand(DockerCommand):
         if env is not None:
             for key, value in env.items():
                 exec_args.append("-e")
-                exec_args.append(key + "=" + value)
+                exec_args.append(f"{key}={value}")
         if env_file is not None:
             exec_args.append("--env-file")
             exec_args.append(env_file)

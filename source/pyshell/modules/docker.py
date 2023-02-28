@@ -4,6 +4,8 @@ from pyshell.core.pyshell import PyShell
 from pyshell.docker.exec_command import ExecCommand
 from pyshell.docker.ps_command import PsCommand
 from pyshell.docker.pull_command import PullCommand
+from pyshell.docker.rm_command import RmCommand
+from pyshell.docker.run_command import RunCommand
 from pyshell.docker.start_command import StartCommand
 from pyshell.docker.stop_command import StopCommand
 from pyshell.modules.module import IModule
@@ -91,17 +93,92 @@ class Docker(IModule):
 
 
     @staticmethod
-    def start(
-        image_name: str,
+    def rm(
+        container: str,
+        force: bool = False,
+        use_sudo: bool = False,
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        """
+        Runs `docker rm`.
+        @param container The container to remove.
+        @param force Whether to force the removal of the container.
+        @param use_sudo Whether to use `sudo` when running the command.
+        @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
+        @return The results of running `docker rm`.
+        """
+        return RmCommand(container, force, use_sudo, cmd_flags)(pyshell)
+
+
+    @staticmethod
+    def run(
+        image: str,
+        command: Optional[str] = None,
+        args: str | List[str] | None = None,
         container_name: Optional[str] = None,
+        detach: bool = False,
+        interactive: bool = False,
+        tty: bool = False,
+        user: Optional[str] = None,
+        workdir: Optional[str] = None,
+        env: Optional[Dict[str, str]] = None,
+        env_file: Optional[str] = None,
+        volumes: Optional[List[str]] = None,
+        remove_after: bool = False,
+        use_sudo: bool = False,
+        pyshell: Optional[PyShell] = None,
+        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        """
+        Runs `docker run`.
+        @param image The image to run.
+        @param command Command to run inside the container.
+        @param args Arguments to pass to the command.
+        @param container_name The name to give the container.
+        @param detach Whether to run the container in detached mode.
+        @param interactive Whether to run the container in interactive mode.
+        @param tty Whether to run the container with a TTY.
+        @param user The user to run the container as.
+        @param workdir The working directory to use when running the container.
+        @param env The environment variables to set when running the container.
+        @param env_file The path to a file containing environment variables to
+          set when running the container.
+        @param volumes The volumes to mount when running the container.
+        @param remove_after Whether to remove the container after it exits.
+        @param use_sudo Whether to use `sudo` when running the command.
+        @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
+        @return The results of running `docker run`.
+        """
+        return RunCommand(
+            image,
+            command,
+            args,
+            container_name,
+            detach,
+            interactive,
+            tty,
+            user,
+            workdir,
+            env,
+            env_file,
+            volumes,
+            remove_after,
+            use_sudo,
+            cmd_flags
+        )(pyshell)
+
+
+    @staticmethod
+    def start(
+        container: str,
         detach: bool = False,
         use_sudo: bool = False,
         pyshell: Optional[PyShell] = None,
         cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `docker start`.
-        @param image_name The name of the image to start.
-        @param container_name The name to assign to the container.
+        @param container Name or ID of the container to start.
         @param detach Whether to start the container in detached mode.
         @param use_sudo Whether to use `sudo` when running the command.
         @param pyshell PyShell instance to execute the command via.
@@ -109,8 +186,7 @@ class Docker(IModule):
         @return The results of running `docker start`.
         """
         return StartCommand(
-            image_name,
-            container_name,
+            container,
             detach,
             use_sudo,
             cmd_flags

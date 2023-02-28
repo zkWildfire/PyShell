@@ -37,18 +37,22 @@ class NativeBackend(IBackend):
         while process.poll() is None:
             new_output = NativeBackend._get_output(process.stdout)
             if new_output:
-                output += new_output + "\n"
-                print(new_output)
+                output += new_output
+                print(new_output, end="")
 
         # Process any remaining output from the process
         while True:
             new_output = NativeBackend._get_output(process.stdout)
             if new_output:
                 # These lines are timing dependent; don't track them for coverage
-                output += new_output + "\n" # pragma: no cover
-                print(new_output) # pragma: no cover
+                output += new_output # pragma: no cover
+                print(new_output, end="") # pragma: no cover
             else:
                 break
+
+        # Add a final newline if the output doesn't end with one
+        if not output.endswith("\n"):
+            output += "\n"
 
         return CommandResult(
             command=metadata.command,
@@ -69,4 +73,4 @@ class NativeBackend(IBackend):
         @param stream The stream to get output from.
         @return The current output from the stream.
         """
-        return stream.readline()
+        return stream.read()
