@@ -1,5 +1,6 @@
 import os
 from pyshell import PyShell, KeepGoing
+from pyshell.docker.docker_command import DockerCommand
 from pyshell.modules.docker import Docker
 from typing import Any
 
@@ -732,3 +733,20 @@ class TestDocker:
         assert run_result.success
         assert exec_result.success
         assert stop_result.success
+
+
+    def test_run_docker_command_directly(self):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Run a docker command directly
+        # Note that this does *not* require using `use_sudo=True` regardless of
+        #   whether the command is being run from within a container or not
+        cmd = DockerCommand(docker_cmd=None, args="--version")
+        result = cmd(pyshell=pyshell)
+
+        # Validate results
+        assert result.success
+        # The output of `docker --version` is something like:
+        #   Docker version 20.10.17, build 100c701
+        assert "Docker version" in result.output
