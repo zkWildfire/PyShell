@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
@@ -123,7 +124,7 @@ class Docker(IModule):
         user: Optional[str] = None,
         workdir: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
-        env_file: Optional[str] = None,
+        env_file: str | Path | None = None,
         volumes: Optional[List[str]] = None,
         remove_after: bool = False,
         use_sudo: bool = False,
@@ -172,17 +173,12 @@ class Docker(IModule):
     @staticmethod
     def start(
         container: str,
-        attach: bool = False,
-        interactive: bool = False,
         use_sudo: bool = False,
         pyshell: Optional[PyShell] = None,
         cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
         """
         Runs `docker start`.
         @param container Name or ID of the container to start.
-        @param attach Whether to attach to the container.
-        @param interactive Whether to attach to the container in interactive
-          mode.
         @param use_sudo Whether to use `sudo` when running the command.
         @param pyshell PyShell instance to execute the command via.
         @param cmd_flags The flags to set for the command.
@@ -190,8 +186,6 @@ class Docker(IModule):
         """
         return StartCommand(
             container,
-            attach,
-            interactive,
             use_sudo,
             cmd_flags
         )(pyshell)
