@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.docker.docker_command import DockerCommand
 from typing import Dict, List, Optional
@@ -19,7 +20,7 @@ class RunCommand(DockerCommand):
         user: Optional[str] = None,
         workdir: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
-        env_file: Optional[str] = None,
+        env_file: str | Path | None = None,
         volumes: Optional[List[str]] = None,
         remove_after: bool = False,
         use_sudo: bool = False,
@@ -61,7 +62,7 @@ class RunCommand(DockerCommand):
             for key, value in env.items():
                 cmd_args.extend(["-e", f"{key}={value}"])
         if env_file:
-            cmd_args.extend(["--env-file", env_file])
+            cmd_args.extend(["--env-file", str(env_file)])
         if volumes:
             for volume in volumes:
                 cmd_args.extend(["-v", volume])
