@@ -15,7 +15,7 @@ class DockerBackend(IBackend):
     def __init__(self,
         pyshell: PyShell,
         image: str,
-        container_name: Optional[str],
+        container_name: Optional[str] = None,
         use_sudo: bool = False):
         """
         Initializes the backend.
@@ -48,9 +48,12 @@ class DockerBackend(IBackend):
             )
 
         # Start the docker container
-        result = Docker.start(
+        result = Docker.run(
             image,
             container_name=container_name,
+            interactive=True,
+            tty=True,
+            detach=True,
             use_sudo=use_sudo,
             pyshell=pyshell
         )
@@ -60,7 +63,18 @@ class DockerBackend(IBackend):
             )
 
         # Store the docker container's ID
-        self._docker_container_id = result.output
+        self._docker_container_id = result.output.strip()
+        assert self._docker_container_id
+        print(f"Container ID: {self._docker_container_id}")
+
+        # Make sure the container doesn't exit immediately
+        # Note that `docker ps` will print the first 12 characters of the
+        #   container ID, hence why `[:12]` is used here
+        result = Docker.ps(use_sudo=use_sudo, pyshell=pyshell)
+        if not self._docker_container_id[:12] in result.output:
+            raise RuntimeError(
+                f"Container '{container_name}' exited immediately."
+            )
 
 
     @property
@@ -90,6 +104,7 @@ class DockerBackend(IBackend):
         #   significantly less error prone to just invoke the docker exec
         #   command directly.
         process = subprocess.Popen(
+            (["sudo"] if self._use_sudo else []) +
             [
                 "docker",
                 "exec",
@@ -108,18 +123,22 @@ class DockerBackend(IBackend):
         while process.poll() is None:
             new_output = DockerBackend._get_output(process.stdout)
             if new_output:
-                output += new_output + "\n"
-                print(new_output)
+                output += new_output
+                print(new_output, end="")
 
         # Process any remaining output from the process
         while True:
             new_output = DockerBackend._get_output(process.stdout)
             if new_output:
                 # These lines are timing dependent; don't track them for coverage
-                output += new_output + "\n" # pragma: no cover
-                print(new_output) # pragma: no cover
+                output += new_output # pragma: no cover
+                print(new_output, end="") # pragma: no cover
             else:
                 break
+
+        # Add a final newline if the output doesn't end with one
+        if not output.endswith("\n"):
+            output += "\n"
 
         return CommandResult(
             command=metadata.command,
@@ -155,4 +174,4 @@ class DockerBackend(IBackend):
         @param stream The stream to get output from.
         @return The current output from the stream.
         """
-        return stream.readline()
+        return stream.read()

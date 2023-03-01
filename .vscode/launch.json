@@ -9,6 +9,14 @@
 			"justMyCode": true
 		},
 		{
+			"name": "Docker Hello World",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/samples/2-docker-hello-world/docker_hello_world.py",
+			"console": "integratedTerminal",
+			"justMyCode": true
+		},
+		{
 			"name": "Generate Docs",
 			"type": "python",
 			"request": "launch",

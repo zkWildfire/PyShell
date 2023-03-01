@@ -3,6 +3,7 @@ from .backends.backend import IBackend
 from .backends.docker_backend import DockerBackend
 from .backends.native_backend import NativeBackend
 from .core.command_flags import CommandFlags
+from .core.command_helpers import enable_if
 from .core.pyshell import PyShell
 from .core.pyshell_options import PyShellOptions
 from .error.abort_on_failure import AbortOnFailure
