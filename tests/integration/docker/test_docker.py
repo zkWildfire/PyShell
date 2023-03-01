@@ -478,3 +478,257 @@ class TestDocker:
         # Validate results
         assert run_result.success
         assert stop_result.success
+
+
+    def test_exec_command_in_different_workdir(self):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Start the container
+        container_name = "ubuntu-test"
+        workdir = "/tmp"
+        run_result = Docker.run(
+            "ubuntu:jammy",
+            "bash",
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            container_name=container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Execute a command in the container as a different user
+        exec_result = Docker.exec(
+            container_name,
+            "bash",
+            ["-c", "echo $PWD"],
+            workdir=workdir,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Clean up the container
+        stop_result = Docker.stop(
+            container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Validate results
+        assert run_result.success
+        assert exec_result.success
+        assert stop_result.success
+        assert workdir in exec_result.output
+
+
+    def test_exec_command_under_different_user(self):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Start the container
+        container_name = "ubuntu-test"
+        run_result = Docker.run(
+            "ubuntu:jammy",
+            "bash",
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            container_name=container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Execute a command in the container as a different user
+        user = "1000:1000"
+        exec_result = Docker.exec(
+            container_name,
+            "bash",
+            ["-c", "echo $(id -u):$(id -g)"],
+            user=user,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Clean up the container
+        stop_result = Docker.stop(
+            container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Validate results
+        assert run_result.success
+        assert exec_result.success
+        assert stop_result.success
+        assert user in exec_result.output
+
+
+    def test_exec_command_with_env_vars(self):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Start the container
+        container_name = "ubuntu-test"
+        run_result = Docker.run(
+            "ubuntu:jammy",
+            "bash",
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            container_name=container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Execute a command in the container as a different user
+        env_vars = {"FOO": "bar"}
+        exec_result = Docker.exec(
+            container_name,
+            "bash",
+            ["-c", "echo $FOO"],
+            env=env_vars,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Clean up the container
+        stop_result = Docker.stop(
+            container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Validate results
+        assert run_result.success
+        assert exec_result.success
+        assert stop_result.success
+        assert "bar" in exec_result.output
+
+
+    def test_exec_with_env_file(self, tmp_path: Any):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Generate the env file
+        env_file = tmp_path / "env_file"
+        env_file.write_text("FOO=bar")
+
+        # Start the container
+        container_name = "ubuntu-test"
+        run_result = Docker.run(
+            "ubuntu:jammy",
+            "bash",
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            container_name=container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Print the environment variable
+        exec_result = Docker.exec(
+            container_name,
+            "bash",
+            ["-c", "echo $FOO"],
+            env_file=env_file,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Clean up the container
+        stop_result = Docker.stop(
+            container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Validate results
+        assert run_result.success
+        assert exec_result.success
+        assert stop_result.success
+        assert "bar" in exec_result.output
+
+
+    def test_exec_with_no_args(self):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Start the container
+        container_name = "ubuntu-test"
+        run_result = Docker.run(
+            "ubuntu:jammy",
+            "bash",
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            container_name=container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Print the environment variable
+        exec_result = Docker.exec(
+            container_name,
+            "bash",
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Clean up the container
+        stop_result = Docker.stop(
+            container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Validate results
+        assert run_result.success
+        assert exec_result.success
+        assert stop_result.success
+
+
+    def test_exec_with_string_arg(self):
+        # Initialize a PyShell instance for running commands
+        pyshell = PyShell(error_handler=KeepGoing())
+
+        # Start the container
+        container_name = "ubuntu-test"
+        run_result = Docker.run(
+            "ubuntu:jammy",
+            "bash",
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            container_name=container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Print the environment variable
+        exec_result = Docker.exec(
+            container_name,
+            "bash",
+            "--version",
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Clean up the container
+        stop_result = Docker.stop(
+            container_name,
+            pyshell=pyshell,
+            use_sudo=self.use_sudo
+        )
+
+        # Validate results
+        assert run_result.success
+        assert exec_result.success
+        assert stop_result.success
