@@ -42,7 +42,7 @@ def test_skip_cmd_via_executor(tmp_path: Any):
     )
 
     # Run a command that will fail
-    Shell.ls(Path.joinpath(tmp_path, "foo"), pyshell)
+    Shell.ls(Path.joinpath(tmp_path, "foo"), pyshell=pyshell)
 
     # This command should be skipped by the executor
     result = Shell.ls()

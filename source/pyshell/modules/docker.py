@@ -28,8 +28,8 @@ class Docker(IModule):
         env: Optional[Dict[str, str]] = None,
         env_file: Optional[str] = None,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker exec` on the specified container.
         @param container Name or ID of the container to run the command in.
@@ -63,8 +63,8 @@ class Docker(IModule):
     def ps(
         show_all: bool = False,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker ps`.
         @param show_all Whether to show all containers.
@@ -80,8 +80,8 @@ class Docker(IModule):
     def pull(
         image: str,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker pull`.
         @param image The image to pull.
@@ -98,8 +98,8 @@ class Docker(IModule):
         container: str,
         force: bool = False,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker rm`.
         @param container The container to remove.
@@ -128,8 +128,8 @@ class Docker(IModule):
         volumes: Optional[List[str]] = None,
         remove_after: bool = False,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker run`.
         @param image The image to run.
@@ -174,8 +174,8 @@ class Docker(IModule):
     def start(
         container: str,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker start`.
         @param container Name or ID of the container to start.
@@ -195,8 +195,8 @@ class Docker(IModule):
     def stop(
         container: str,
         use_sudo: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker stop`.
         @param container The container to stop.

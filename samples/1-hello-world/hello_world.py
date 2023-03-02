@@ -6,7 +6,7 @@ from pyshell.modules import Shell
 # Decide whether to log to a single file or multiple files
 parser = argparse.ArgumentParser()
 parser.add_argument("--log", choices=["single", "multi"], default=None)
-parser.add_argument("-v", "--verbose", action="count")
+parser.add_argument("-v", "--verbose", action="count", default=0)
 args = parser.parse_args()
 
 if args.log == "single":

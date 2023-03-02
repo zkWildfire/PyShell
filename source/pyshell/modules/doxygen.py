@@ -15,8 +15,8 @@ class Doxygen(IModule):
     @staticmethod
     def generate_docs(
         doxyfile_path: str | Path,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Returns the results of running `doxygen` on the specified doxyfile.
         @param doxyfile_path The path to the doxyfile to use. Can be a relative

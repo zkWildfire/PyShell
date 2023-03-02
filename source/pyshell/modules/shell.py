@@ -22,8 +22,8 @@ class Shell(IModule):
     def cp(
         src: str | Path,
         dest: str | Path,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `cp` on the specified source and destination.
         @param src File or directory to copy. Can be a relative or absolute
@@ -42,8 +42,8 @@ class Shell(IModule):
     @staticmethod
     def echo(
         message: Optional[str] = None,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `echo` with the specified message.
         @param message The message to write to stdout.
@@ -58,8 +58,8 @@ class Shell(IModule):
     def run(
         command: str,
         args: str | Path | Sequence[str | Path] | None = None,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs an arbitrary command via PyShell.
         @param command The command to run.
@@ -74,8 +74,8 @@ class Shell(IModule):
     @staticmethod
     def ls(
         target_path: str | Path | None = None,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `ls` on the specified path.
         @param target_path The path to list the contents of.
@@ -90,8 +90,8 @@ class Shell(IModule):
     def rm(
         target_path: str | Path,
         force: bool = False,
-        pyshell: Optional[PyShell] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD) -> CommandResult:
+        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `rm` on the specified path.
         @param target_path The path to remove.

@@ -14,7 +14,7 @@ def test_echo_command():
 
     # Run the commands
     msg = "foo bar"
-    result = Shell.echo(msg, pyshell)
+    result = Shell.echo(msg, pyshell=pyshell)
     assert result.success
 
     # Verify that the output is correct

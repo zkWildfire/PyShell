@@ -35,7 +35,7 @@ def test_ls_command_with_arg():
     )
 
     # Run some commands
-    result = Shell.ls(Path(__file__).parent, pyshell)
+    result = Shell.ls(Path(__file__).parent, pyshell=pyshell)
     assert result.success
 
     # Verify that the output is correct
@@ -55,5 +55,5 @@ def test_ls_command_on_non_existent_dir():
     )
 
     # Run some commands
-    result = Shell.ls("/foo", pyshell)
+    result = Shell.ls("/foo", pyshell=pyshell)
     assert not result.success

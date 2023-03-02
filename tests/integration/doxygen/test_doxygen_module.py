@@ -15,7 +15,7 @@ def test_generate_docs(doxy: DoxygenFixture):
     )
 
     # Run the doxygen command
-    Doxygen.generate_docs(DoxygenFixture.DOXYFILE_PATH, pyshell)
+    Doxygen.generate_docs(DoxygenFixture.DOXYFILE_PATH, pyshell=pyshell)
 
     # Verify that doxygen files were generated
     assert DoxygenFixture.DOXYGEN_OUTPUT_DIR.exists()
