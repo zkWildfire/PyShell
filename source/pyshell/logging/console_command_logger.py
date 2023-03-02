@@ -4,20 +4,26 @@ from pyshell.core.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
-from typing import List, IO, Optional
-
+from typing import Any, Callable, List, IO, Optional
 
 class ConsoleCommandLogger(ICommandLogger):
     """
     Logger that writes command output to the console.
     @ingroup logging
     """
-    def __init__(self, metadata: CommandMetadata) -> None:
+    def __init__(self,
+        metadata: CommandMetadata,
+        print: Callable[[str], Any] = lambda x: print(x)) \
+            -> None:
         """
         Initializes the logger.
         @param metadata The metadata of the command being run.
+        @param print The print function to use for logging. The functor will be
+          passed the string to output to stdout. A newline character should not
+          be appended by the functor. Any return value will be ignored.
         """
         self._metadata = metadata
+        self._print = print
 
         # Stores all output from the command
         self._output = ""
@@ -68,7 +74,7 @@ class ConsoleCommandLogger(ICommandLogger):
         # Print the output if logging is enabled
         if self._skip_logging:
             return
-        print(cmd_output, end="")
+        self._print(cmd_output)
 
 
     def log_results(self,
@@ -82,6 +88,5 @@ class ConsoleCommandLogger(ICommandLogger):
         @param scanner_output The output of the scanner assigned to the command,
           if any.
         """
-        print(f"Command exited with code {result.exit_code}.")
-        print(f"Note: Command was '{result.full_command}'.")
-        print()
+        self._print(f"Command exited with code {result.exit_code}.\n")
+        self._print(f"Note: Command was '{result.full_command}'.\n\n")
