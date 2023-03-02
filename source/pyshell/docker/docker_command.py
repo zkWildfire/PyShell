@@ -13,7 +13,7 @@ class DockerCommand(ExternalCommand):
         docker_cmd: Optional[str],
         args: str | List[str] | None = None,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param docker_cmd The docker command to run, e.g. `ps`, `pull`, etc.

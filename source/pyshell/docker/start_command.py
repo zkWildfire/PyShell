@@ -10,7 +10,7 @@ class StartCommand(DockerCommand):
     def __init__(self,
         container: str,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param container Name or ID of the container to start.

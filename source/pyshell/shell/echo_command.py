@@ -10,7 +10,7 @@ class EchoCommand(ExternalCommand):
     """
     def __init__(self,
         message: Optional[str] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param message The message to write to stdout.

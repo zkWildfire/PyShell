@@ -28,7 +28,7 @@ class Docker(IModule):
         env: Optional[Dict[str, str]] = None,
         env_file: Optional[str] = None,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker exec` on the specified container.
@@ -63,7 +63,7 @@ class Docker(IModule):
     def ps(
         show_all: bool = False,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker ps`.
@@ -80,7 +80,7 @@ class Docker(IModule):
     def pull(
         image: str,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker pull`.
@@ -98,7 +98,7 @@ class Docker(IModule):
         container: str,
         force: bool = False,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker rm`.
@@ -128,7 +128,7 @@ class Docker(IModule):
         volumes: Optional[List[str]] = None,
         remove_after: bool = False,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker run`.
@@ -174,7 +174,7 @@ class Docker(IModule):
     def start(
         container: str,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker start`.
@@ -195,7 +195,7 @@ class Docker(IModule):
     def stop(
         container: str,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `docker stop`.

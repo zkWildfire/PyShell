@@ -9,6 +9,7 @@ class ICommandLogger(ABC):
     Base interface for loggers that handle a single command.
     PyShell will request a new command logger instance from the `ILogger` that
       the PyShell instance is configured with.
+    @ingroup logging
     """
     @property
     @abstractmethod

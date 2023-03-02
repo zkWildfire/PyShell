@@ -4,6 +4,7 @@ from pyshell.executors.executor import IExecutor
 class AllowAll(IExecutor):
     """
     Executor that allows all commands except inactive commands to run.
+    @ingroup executors
     """
     def should_run(self, metadata: CommandMetadata) -> bool:
         """

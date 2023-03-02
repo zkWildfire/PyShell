@@ -7,6 +7,7 @@ from pyshell.executors.executor import IExecutor
 class PermitCleanup(IExecutor):
     """
     Executor that allows only cleanup commands to be run after a failure.
+    @ingroup executors
     """
     def __init__(self):
         """

@@ -14,7 +14,7 @@ class DoxygenCommand(ExternalCommand):
     """
     def __init__(self,
         doxyfile_path: str | Path,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param doxyfile_path The path to the doxyfile to use. Can be a relative

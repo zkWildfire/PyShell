@@ -7,6 +7,7 @@ from typing import List, IO, Optional
 class TeeCommandLogger(ICommandLogger):
     """
     Command logger that pushes data to two or more loggers.
+    @ingroup logging
     """
     def __init__(self,
         stream_config: StreamConfig,

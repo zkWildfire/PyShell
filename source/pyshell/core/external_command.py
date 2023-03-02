@@ -20,7 +20,7 @@ class ExternalCommand(ICommand):
         name: str | Path,
         args: str | Path | Sequence[str | Path] | None = None,
         locate_executable: bool = True,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param name The name of the command being run. This should be the name

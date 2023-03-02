@@ -24,7 +24,7 @@ class RunCommand(DockerCommand):
         volumes: Optional[List[str]] = None,
         remove_after: bool = False,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param image Name of the image to run.

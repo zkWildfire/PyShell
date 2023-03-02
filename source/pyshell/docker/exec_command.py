@@ -17,7 +17,7 @@ class ExecCommand(DockerCommand):
         env: Optional[Dict[str, str]] = None,
         env_file: Optional[str] = None,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param container Name or ID of the container to run the command in.

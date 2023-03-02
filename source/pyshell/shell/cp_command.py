@@ -12,7 +12,7 @@ class CpCommand(ExternalCommand):
     def __init__(self,
         src: str | Path,
         dest: str | Path,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param src File or directory to copy. Can be a relative or absolute

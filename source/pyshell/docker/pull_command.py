@@ -10,7 +10,7 @@ class PullCommand(DockerCommand):
     def __init__(self,
         image: str,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param image The docker image to pull.

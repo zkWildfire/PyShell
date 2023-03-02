@@ -10,7 +10,7 @@ class CommandMetadata:
         self,
         command: str,
         args: Sequence[str],
-        flags: CommandFlags = CommandFlags.STANDARD,
+        flags: int = CommandFlags.STANDARD,
         scanner: Optional[IScanner] = None):
         """
         Initializes the object.
@@ -50,7 +50,7 @@ class CommandMetadata:
 
 
     @property
-    def flags(self) -> CommandFlags:
+    def flags(self) -> int:
         """
         Returns the flags for the command.
         """

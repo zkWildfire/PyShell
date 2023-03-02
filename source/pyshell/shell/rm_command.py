@@ -12,7 +12,7 @@ class RmCommand(ExternalCommand):
     def __init__(self,
         path: str | Path,
         force: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param path Path to remove. Can be a relative or absolute path. If the

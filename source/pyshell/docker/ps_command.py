@@ -10,7 +10,7 @@ class PsCommand(DockerCommand):
     def __init__(self,
         show_all: bool = False,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param show_all Whether to show all containers. Enables the `-a` flag.

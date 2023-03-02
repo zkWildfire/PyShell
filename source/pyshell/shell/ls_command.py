@@ -10,7 +10,7 @@ class LsCommand(ExternalCommand):
     """
     def __init__(self,
         target_path: str | Path | None = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param target_path The path to list the contents of.

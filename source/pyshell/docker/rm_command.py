@@ -12,7 +12,7 @@ class RmCommand(DockerCommand):
         container: str,
         force: bool = False,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param container Name or ID of the container to remove.

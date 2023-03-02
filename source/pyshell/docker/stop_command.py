@@ -10,7 +10,7 @@ class StopCommand(DockerCommand):
     def __init__(self,
         container_name: str,
         use_sudo: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD):
+        cmd_flags: int = CommandFlags.STANDARD):
         """
         Initializes the command.
         @param container_name The name of the container to stop.

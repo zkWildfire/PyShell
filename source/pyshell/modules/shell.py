@@ -22,7 +22,7 @@ class Shell(IModule):
     def cp(
         src: str | Path,
         dest: str | Path,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `cp` on the specified source and destination.
@@ -42,7 +42,7 @@ class Shell(IModule):
     @staticmethod
     def echo(
         message: Optional[str] = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `echo` with the specified message.
@@ -58,7 +58,7 @@ class Shell(IModule):
     def run(
         command: str,
         args: str | Path | Sequence[str | Path] | None = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs an arbitrary command via PyShell.
@@ -74,7 +74,7 @@ class Shell(IModule):
     @staticmethod
     def ls(
         target_path: str | Path | None = None,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `ls` on the specified path.
@@ -90,7 +90,7 @@ class Shell(IModule):
     def rm(
         target_path: str | Path,
         force: bool = False,
-        cmd_flags: CommandFlags = CommandFlags.STANDARD,
+        cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `rm` on the specified path.
