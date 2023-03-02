@@ -7,15 +7,16 @@ from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
 from typing import List, IO, Optional
 
-
 class FileCommandLogger(ICommandLogger):
     """
     Logger that writes command output to a file.
+    @ingroup logging
     """
     def __init__(self,
         metadata: CommandMetadata,
         cwd: Path,
         file_path: str | Path,
+        append: bool,
         add_header: bool,
         add_footer: bool) -> None:
         """
@@ -24,6 +25,7 @@ class FileCommandLogger(ICommandLogger):
         @param file_path The path to the file to write to. If the file already
           exists, its contents will be overwritten.
         @param cwd The current working directory of the command.
+        @param append Whether to append to the file instead of overwriting it.
         @param add_header Whether to add a command header to the file.
         @param add_footer Whether to add a command footer to the file.
         """
@@ -38,7 +40,7 @@ class FileCommandLogger(ICommandLogger):
             self._file_path.parent.mkdir(parents=True)
 
         # Clear the file of any previous contents
-        self._file = open(self._file_path, "w")
+        self._file = open(self._file_path, "a" if append else "w")
 
         # Check whether the command's output shouldn't be logged
         self._skip_logging = False

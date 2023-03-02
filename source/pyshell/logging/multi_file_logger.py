@@ -1,9 +1,12 @@
 import os
 from pathlib import Path
-from pyshell.core.command_result import CommandResult
+from pyshell.core.command_metadata import CommandMetadata
+from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.file_command_logger import FileCommandLogger
+from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.logger import ILogger
-from pyshell.scanners.entry import Entry
-from typing import List
+from pyshell.logging.tee_command_logger import TeeCommandLogger
+from pyshell.logging.stream_config import StreamConfig
 
 class MultiFileLogger(ILogger):
     """
@@ -17,7 +20,7 @@ class MultiFileLogger(ILogger):
         output_dir: str | Path = DEFAULT_LOGS_DIR,
         print_cmd_header: bool = False,
         print_cmd_footer: bool = False,
-        clean_logs_dir: bool = False):
+        clean_logs_dir: bool = True):
         """
         Creates a new MultiFileLogger.
         @param output_dir Directory to write log files to. Can be a relative or
@@ -58,55 +61,43 @@ class MultiFileLogger(ILogger):
         return self._output_dir
 
 
-    def log(self,
-        result: CommandResult,
-        scanner_output: List[Entry]) -> None:
+    def construct_logger(self,
+        metadata: CommandMetadata,
+        cwd: Path) -> ICommandLogger:
         """
-        Writes the result of a command to a log file.
-        @param result The result of the command.
-        @param scanner_output The output of the scanner assigned to the command,
-          if any.
+        Constructs a new command logger.
+        @param metadata The metadata of the command that will the command logger
+          will be used for.
+        @param cwd The current working directory of the command that will the
+          command logger will be used for.
+        @return A new command logger instance.
         """
-        # Make sure the output directory exists
-        # This is necessary in case the directory is removed, e.g. because a
-        #   script cleans the log directory by removing it.
-        self._generate_output_dir()
-
         # Get the name of the command to write to the log name
-        cmd_name = result.command.split(os.path.sep)[-1]
+        cmd_name = metadata.command.split(os.path.sep)[-1]
 
-        # Get the name of the file that the command's output will be written to
+        # Get the file name to use for the current command
         self._cmd_count += 1
         file_path = self.output_dir / f"{self._cmd_count}-{cmd_name}.log"
 
-        # Write the command's output to the file
-        with open(file_path, "w") as file:
-            # Add the header
-            if self._print_cmd_header:
-                file.write(f"[PyShell] Running command: {result.full_command}\n")
-                file.write(f"[PyShell] cwd: {result.cwd}\n")
-                file.write(f"[PyShell] Command output:\n")
-                file.write("\n")
-
-            # Write the command's output
-            file.write(result.output)
-
-            # Write any scanner entries
-            if scanner_output:
-                file.write(f"[PyShell] Scanner output:\n")
-            for entry in scanner_output:
-                file.write("\n")
-                file.write(entry.scanner_output)
-
-            # Add the footer
-            if self._print_cmd_footer:
-                file.write("\n")
-                file.write(f"[PyShell] Executed command: {result.full_command}\n")
-                file.write(f"[PyShell] cwd: {result.cwd}\n")
-                file.write(f"[PyShell] Command exited with code {result.exit_code}.\n")
-
-            # Add a final newline
-            file.write("\n")
+        # Create the logger
+        console_logger = ConsoleCommandLogger(
+            metadata
+        )
+        file_logger = FileCommandLogger(
+            metadata,
+            cwd,
+            file_path,
+            append=True,
+            add_header=self._print_cmd_header,
+            add_footer=self._print_cmd_footer
+        )
+        return TeeCommandLogger(
+            StreamConfig.MERGED_STREAMS,
+            [
+                console_logger,
+                file_logger
+            ]
+        )
 
 
     def _generate_output_dir(self):

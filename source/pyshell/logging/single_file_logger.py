@@ -1,8 +1,11 @@
 from pathlib import Path
-from pyshell.core.command_result import CommandResult
+from pyshell.core.command_metadata import CommandMetadata
+from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.file_command_logger import FileCommandLogger
+from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.logger import ILogger
-from pyshell.scanners.entry import Entry
-from typing import List
+from pyshell.logging.tee_command_logger import TeeCommandLogger
+from pyshell.logging.stream_config import StreamConfig
 
 class SingleFileLogger(ILogger):
     """
@@ -43,39 +46,32 @@ class SingleFileLogger(ILogger):
         return self._file_path
 
 
-    def log(self,
-        result: CommandResult,
-        scanner_output: List[Entry]) -> None:
+    def construct_logger(self,
+        metadata: CommandMetadata,
+        cwd: Path) -> ICommandLogger:
         """
-        Writes the result of a command to a log file.
-        @param result The result of the command.
-        @param scanner_output The output of the scanner assigned to the command,
-          if any.
+        Constructs a new command logger.
+        @param metadata The metadata of the command that will the command logger
+          will be used for.
+        @param cwd The current working directory of the command that will the
+          command logger will be used for.
+        @return A new command logger instance.
         """
-        with open(self.file_path, "a") as file:
-            # Add the header
-            if self._print_cmd_header:
-                file.write(f"[PyShell] Running command: {result.full_command}\n")
-                file.write(f"[PyShell] cwd: {result.cwd}\n")
-                file.write(f"[PyShell] Command output:\n")
-                file.write("\n")
-
-            # Write the command's output
-            file.write(result.output)
-
-            # Write any scanner entries
-            if scanner_output:
-                file.write(f"[PyShell] Scanner output:\n")
-            for entry in scanner_output:
-                file.write("\n")
-                file.write(entry.scanner_output)
-
-            # Add the footer
-            if self._print_cmd_footer:
-                file.write("\n")
-                file.write(f"[PyShell] Executed command: {result.full_command}\n")
-                file.write(f"[PyShell] cwd: {result.cwd}\n")
-                file.write(f"[PyShell] Command exited with code {result.exit_code}.\n")
-
-            # Add a newline between different commands' output
-            file.write("\n")
+        console_logger = ConsoleCommandLogger(
+            metadata
+        )
+        file_logger = FileCommandLogger(
+            metadata,
+            cwd,
+            self.file_path,
+            append=True,
+            add_header=self._print_cmd_header,
+            add_footer=self._print_cmd_footer
+        )
+        return TeeCommandLogger(
+            StreamConfig.MERGED_STREAMS,
+            [
+                console_logger,
+                file_logger
+            ]
+        )

@@ -1,10 +1,10 @@
-from abc import abstractmethod
 from pathlib import Path
 from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.pyshell_component import IPyShellComponent
 from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.logger import ILogger
+from pyshell.logging.null_command_logger import NullCommandLogger
 
-class ILogger(IPyShellComponent):
+class NullLogger(ILogger):
     """
     Represents a logger for PyShell.
     Loggers are executed after a command is run regardless of the result of the
@@ -13,7 +13,6 @@ class ILogger(IPyShellComponent):
       a failed command.
     @ingroup logging
     """
-    @abstractmethod
     def construct_logger(self,
         metadata: CommandMetadata,
         cwd: Path) -> ICommandLogger:
@@ -25,4 +24,4 @@ class ILogger(IPyShellComponent):
           command logger will be used for.
         @return A new command logger instance.
         """
-        raise NotImplementedError()
+        return NullCommandLogger()

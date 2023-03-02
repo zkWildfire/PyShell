@@ -16,10 +16,23 @@ class TeeCommandLogger(ICommandLogger):
         @param stream_config The stream configuration to use. The caller is
           responsible for ensuring that all loggers in the `loggers` list
           support this stream configuration.
-        @param loggers The loggers to push data to.
+        @param loggers The loggers to push data to. Must contain at least one
+          logger. All loggers must use `stream_config` as their stream
+          configuration.
+        @throws RuntimeError If the `loggers` list is empty or if any of the
+          loggers in the list do not support the stream configuration.
         """
         self._stream_config = stream_config
         self._loggers = loggers
+
+        # Validate the loggers passed to this constructor
+        if not loggers:
+            raise RuntimeError("The list of loggers must not be empty.")
+        for logger in loggers:
+            if logger.stream_config != stream_config:
+                raise RuntimeError(
+                    "The logger does not support the stream configuration."
+                )
 
         # Create stream objects for each logger
         # Each entry in this list will be a stdout stream and a stderr stream.

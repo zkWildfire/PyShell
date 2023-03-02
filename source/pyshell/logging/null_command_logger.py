@@ -1,5 +1,3 @@
-from pyshell.core.command_flags import CommandFlags
-from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
@@ -7,22 +5,18 @@ from pyshell.scanners.entry import Entry
 from typing import List, IO, Optional
 
 
-class ConsoleCommandLogger(ICommandLogger):
+class NullCommandLogger(ICommandLogger):
     """
-    Logger that writes command output to the console.
+    Logger that outputs nothing.
     @ingroup logging
     """
-    def __init__(self, metadata: CommandMetadata) -> None:
+    def __init__(self,
+        stream_config: StreamConfig = StreamConfig.MERGED_STREAMS) -> None:
         """
         Initializes the logger.
-        @param metadata The metadata of the command being run.
+        @param stream_config The stream configuration the logger wants.
         """
-        self._metadata = metadata
-
-        # Check whether the command's output shouldn't be logged
-        self._skip_logging = False
-        self._skip_logging &= metadata.flags & CommandFlags.QUIET
-        self._skip_logging &= metadata.flags & CommandFlags.NO_CONSOLE
+        self._stream_config = stream_config
 
 
     @property
@@ -30,7 +24,7 @@ class ConsoleCommandLogger(ICommandLogger):
         """
         Returns the stream configuration the logger wants.
         """
-        return StreamConfig.MERGED_STREAMS
+        return self._stream_config
 
 
     def log(self,
@@ -45,10 +39,7 @@ class ConsoleCommandLogger(ICommandLogger):
           that the stderr stream be merged with the stdout stream, this will be
           `None`.
         """
-        if self._skip_logging:
-            return
-
-        print(stdout.read())
+        # Do nothing
 
 
     def log_results(self,
@@ -62,5 +53,4 @@ class ConsoleCommandLogger(ICommandLogger):
         @param scanner_output The output of the scanner assigned to the command,
           if any.
         """
-        print(f"Command exited with code {result.exit_code}.")
-        print(f"Note: Command was '{result.full_command}'.")
+        # Do nothing
