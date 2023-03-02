@@ -12,9 +12,10 @@ from .error.keep_going import KeepGoing
 from .executors.allow_all import AllowAll
 from .executors.executor import IExecutor
 from .executors.permit_cleanup import PermitCleanup
+from .logging.console_logger import ConsoleLogger
 from .logging.logger import ILogger
+from .logging.null_logger import NullLogger
 from .logging.multi_file_logger import MultiFileLogger
-from .logging.null_file_logger import NullFileLogger
 from .logging.single_file_logger import SingleFileLogger
 
 ## @package pyshell

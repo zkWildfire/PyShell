@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from pyshell import PyShell, NullFileLogger, SingleFileLogger, MultiFileLogger
+from pyshell import PyShell, ConsoleLogger, SingleFileLogger, MultiFileLogger
 from pyshell.modules import Shell
 
 # Decide whether to log to a single file or multiple files
@@ -22,7 +22,7 @@ elif args.log == "multi":
         print_cmd_footer=args.verbose > 1
     )
 else:
-    logger = NullFileLogger()
+    logger = ConsoleLogger()
 
 # Initialize a PyShell instance for running commands
 # PyShell commands that don't explicitly specify a PyShell instance to use

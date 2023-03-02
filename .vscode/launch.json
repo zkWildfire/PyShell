@@ -5,6 +5,10 @@
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/samples/1-hello-world/hello_world.py",
+			"args": [
+				"--log",
+				"single"
+			],
 			"console": "integratedTerminal",
 			"justMyCode": true
 		},

@@ -1,7 +1,7 @@
 # pyright: reportUnusedImport=false
 from integration.doxygen.doxygen_fixture import DoxygenFixture, doxy
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    KeepGoing, NativeBackend, NullFileLogger
+    KeepGoing, NativeBackend, NullLogger
 from pyshell.doxygen.doxygen_command import DoxygenCommand
 import pytest
 from typing import Any
@@ -10,7 +10,7 @@ def test_generate_docs(doxy: DoxygenFixture):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        NullLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
@@ -32,7 +32,7 @@ def test_doxypath_does_not_exist():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        NullLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions()
@@ -49,7 +49,7 @@ def test_doxypath_is_not_a_file(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        NullLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions()

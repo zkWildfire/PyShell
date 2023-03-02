@@ -2,7 +2,7 @@
 import argparse
 import os
 from pyshell import PyShell, DockerBackend, KeepGoing, PermitCleanup, \
-    NullFileLogger, SingleFileLogger, MultiFileLogger
+    ConsoleLogger, SingleFileLogger, MultiFileLogger
 from pyshell.modules import Shell
 
 # Decide whether to log to a single file or multiple files
@@ -24,7 +24,7 @@ elif args.log == "multi":
         print_cmd_footer=args.verbose > 1
     )
 else:
-    logger = NullFileLogger()
+    logger = ConsoleLogger()
 
 # If this is being run in a dev container or on a CI server, `use_sudo` must be
 #   set to True

@@ -1,5 +1,5 @@
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    KeepGoing, NativeBackend, NullFileLogger
+    KeepGoing, NativeBackend, ConsoleLogger
 from pyshell.modules.shell import Shell
 from pyshell.shell.cp_command import CpCommand
 import pytest
@@ -10,7 +10,7 @@ def test_cp_file(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
@@ -36,7 +36,7 @@ def test_cp_empty_dir(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
@@ -62,7 +62,7 @@ def test_cp_non_empty_dir(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
@@ -91,7 +91,7 @@ def test_cp_file_to_non_existing_dir(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions()
@@ -113,7 +113,7 @@ def test_cp_non_existing_file(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions()
@@ -134,7 +134,7 @@ def test_cp_non_existing_dir(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions()
@@ -155,7 +155,7 @@ def test_cp_file_over_existing_file(tmp_path: Any):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()

@@ -1,14 +1,14 @@
 # pyright: reportUnusedImport=false
 from integration.doxygen.doxygen_fixture import DoxygenFixture, doxy
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    NativeBackend, NullFileLogger
+    NativeBackend, NullLogger
 from pyshell.modules import Doxygen
 
 def test_generate_docs(doxy: DoxygenFixture):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        NullLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()

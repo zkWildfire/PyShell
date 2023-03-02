@@ -1,12 +1,12 @@
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    NativeBackend, NullFileLogger
+    NativeBackend, ConsoleLogger
 from pyshell.modules.shell import Shell
 
 def test_echo_command():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()

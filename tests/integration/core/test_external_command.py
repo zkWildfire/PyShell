@@ -1,6 +1,6 @@
 from pathlib import Path
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    KeepGoing, NativeBackend, NullFileLogger
+    KeepGoing, NativeBackend, NullLogger, ConsoleLogger
 from pyshell.core.external_command import ExternalCommand
 import pytest
 
@@ -8,7 +8,7 @@ def test_run_external_executable_on_path():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        NullLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
@@ -27,7 +27,7 @@ def test_run_external_executable_not_on_path():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions()
@@ -53,7 +53,7 @@ def test_run_external_executable_not_on_path_fails():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        NullLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions()

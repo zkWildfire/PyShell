@@ -54,11 +54,16 @@ class NativeBackend(IBackend):
         # Process any remaining output from the process
         logger.log(process.stdout, process.stderr)
 
+        # Make sure the returned output always ends with a newline
+        output = logger.output
+        if not output.endswith("\n"):
+            output += "\n"
+
         return CommandResult(
             command=metadata.command,
             args=metadata.args,
             cwd=str(cwd),
-            output=logger.output,
+            output=output,
             exit_code=process.returncode,
             skipped=False
         )

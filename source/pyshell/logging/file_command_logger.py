@@ -47,8 +47,8 @@ class FileCommandLogger(ICommandLogger):
 
         # Check whether the command's output shouldn't be logged
         self._skip_logging = False
-        self._skip_logging &= metadata.flags & CommandFlags.QUIET
-        self._skip_logging &= metadata.flags & CommandFlags.NO_FILE
+        self._skip_logging |= metadata.flags & CommandFlags.QUIET
+        self._skip_logging |= metadata.flags & CommandFlags.NO_FILE
 
         if not self._skip_logging and add_header:
             self._write_header()
@@ -83,12 +83,17 @@ class FileCommandLogger(ICommandLogger):
           that the stderr stream be merged with the stdout stream, this will be
           `None`.
         """
+        # Check if any output exists to be logged
         cmd_output = stdout.read()
-        self._output += cmd_output
-
-        if self._skip_logging:
+        if not cmd_output:
             return
 
+        # Always update `self._output`
+        self._output += cmd_output
+
+        # Write the output if logging is enabled
+        if self._skip_logging:
+            return
         self._file.write(cmd_output)
 
 

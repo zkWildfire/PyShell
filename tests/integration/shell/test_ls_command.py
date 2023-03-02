@@ -1,13 +1,13 @@
 from pathlib import Path
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    KeepGoing, NativeBackend, NullFileLogger
+    KeepGoing, NativeBackend, ConsoleLogger
 from pyshell.modules.shell import Shell
 
 def test_ls_command_with_no_arg():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions(),
@@ -27,7 +27,7 @@ def test_ls_command_with_arg():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         AbortOnFailure(),
         PyShellOptions(),
@@ -47,7 +47,7 @@ def test_ls_command_on_non_existent_dir():
     # Initialize a PyShell instance for running commands
     pyshell = PyShell(
         NativeBackend(),
-        NullFileLogger(),
+        ConsoleLogger(),
         AllowAll(),
         KeepGoing(),
         PyShellOptions(),

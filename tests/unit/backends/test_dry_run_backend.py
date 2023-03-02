@@ -1,6 +1,7 @@
 from pathlib import Path
 from pyshell.backends.dry_run_backend import DryRunBackend
 from pyshell.core.command_metadata import CommandMetadata
+from pyshell.logging.null_command_logger import NullCommandLogger
 
 def test_run_echo():
     cmd = ["echo", "foo"]
@@ -12,7 +13,8 @@ def test_run_echo():
             cmd[0],
             cmd[1:]
         ),
-        Path(cwd)
+        Path(cwd),
+        NullCommandLogger()
     )
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
@@ -33,7 +35,8 @@ def test_run_invalid_cmd():
             cmd[0],
             cmd[1:]
         ),
-        Path(cwd)
+        Path(cwd),
+        NullCommandLogger()
     )
     assert result.command == cmd[0]
     assert result.args == cmd[1:]

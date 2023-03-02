@@ -1,8 +1,9 @@
+from io import StringIO
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
-from typing import List, IO, Optional
+from typing import List, IO, Optional, Tuple
 
 class TeeCommandLogger(ICommandLogger):
     """
@@ -37,7 +38,8 @@ class TeeCommandLogger(ICommandLogger):
 
         # Create stream objects for each logger
         # Each entry in this list will be a stdout stream and a stderr stream.
-        self._streams = [(IO[str](), IO[str]()) for _ in loggers]
+        self._streams: List[Tuple[IO[str], IO[str]]] = \
+            [(StringIO(), StringIO()) for _ in loggers]
 
 
     @property
@@ -69,11 +71,24 @@ class TeeCommandLogger(ICommandLogger):
           that the stderr stream be merged with the stdout stream, this will be
           `None`.
         """
+        stdout_contents = stdout.read()
+        stderr_contents = stderr.read() if stderr is not None else ""
+
         # Push the data to each logger's stream
         for logger_stdout, logger_stderr in self._streams:
-            logger_stdout.write(stdout.read())
-            if stderr is not None:
-                logger_stderr.write(stderr.read())
+            # Remove any existing data
+            logger_stdout.seek(0)
+            logger_stdout.truncate()
+
+            logger_stderr.seek(0)
+            logger_stderr.truncate()
+
+            # Write the new data to the streams
+            logger_stdout.write(stdout_contents)
+            logger_stdout.seek(0)
+            if stderr_contents:
+                logger_stderr.write(stderr_contents)
+                logger_stderr.seek(0)
 
         # Invoke each logger
         for logger, (logger_stdout, logger_stderr) in \
