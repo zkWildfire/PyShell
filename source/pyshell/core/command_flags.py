@@ -13,3 +13,12 @@ class CommandFlags(IntEnum):
 
     # Command is a command that should be run even if a failure occurs.
     CLEANUP = 0x4
+
+    # Don't log the command's output to any source.
+    QUIET = 0x10
+
+    # Don't log the command's output to the console.
+    NO_CONSOLE = 0x20
+
+    # Don't log the command's output to a file.
+    NO_FILE = 0x40
