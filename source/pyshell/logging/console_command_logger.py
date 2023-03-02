@@ -19,6 +19,9 @@ class ConsoleCommandLogger(ICommandLogger):
         """
         self._metadata = metadata
 
+        # Stores all output from the command
+        self._output = ""
+
         # Check whether the command's output shouldn't be logged
         self._skip_logging = False
         self._skip_logging &= metadata.flags & CommandFlags.QUIET
@@ -26,11 +29,20 @@ class ConsoleCommandLogger(ICommandLogger):
 
 
     @property
+    def output(self) -> str:
+        """
+        Returns the output of the command.
+        This string must include both stdout and stderr output.
+        """
+        return self._output
+
+
+    @property
     def stream_config(self) -> StreamConfig:
         """
         Returns the stream configuration the logger wants.
         """
-        return StreamConfig.MERGED_STREAMS
+        return StreamConfig.MERGE_STREAMS
 
 
     def log(self,
@@ -45,10 +57,13 @@ class ConsoleCommandLogger(ICommandLogger):
           that the stderr stream be merged with the stdout stream, this will be
           `None`.
         """
+        cmd_output = stdout.read()
+        self._output += cmd_output
+
         if self._skip_logging:
             return
 
-        print(stdout.read())
+        print(cmd_output, end="")
 
 
     def log_results(self,

@@ -8,4 +8,4 @@ class StreamConfig(Enum):
     SPLIT_STREAMS = 0
 
     ## Redirect stderr to stdout.
-    MERGED_STREAMS = 1
+    MERGE_STREAMS = 1

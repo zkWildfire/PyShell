@@ -1,8 +1,10 @@
 from pathlib import Path
 from pyshell.backends.backend import IBackend
+from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
+from pyshell.logging.command_logger import ICommandLogger
 from pyshell.modules.docker import Docker
 import subprocess
 from typing import IO, Optional
@@ -16,7 +18,8 @@ class DockerBackend(IBackend):
         pyshell: PyShell,
         image: str,
         container_name: Optional[str] = None,
-        use_sudo: bool = False):
+        use_sudo: bool = False,
+        quiet: bool = True):
         """
         Initializes the backend.
         @param pyshell The pyshell instance to use when running docker commands
@@ -27,21 +30,34 @@ class DockerBackend(IBackend):
         @param container_name The name of the container to use. If None, a
           random name will be generated.
         @param use_sudo Whether to use `sudo` when running docker commands.
+        @param quiet Whether to suppress the output of docker commands used to
+          set up the backend.
         @throws RuntimeError Thrown if docker is not available or the image
           could not be pulled.
         """
         self._use_sudo = use_sudo
         self._host_pyshell = pyshell
+        self._quiet_flag = CommandFlags.QUIET if quiet else CommandFlags.NONE
+        self._cmd_flags = self._quiet_flag & CommandFlags.STANDARD
 
         # Make sure that privileged docker commands can be run
-        result = Docker.ps(use_sudo=use_sudo, pyshell=pyshell)
+        result = Docker.ps(
+            use_sudo=use_sudo,
+            cmd_flags=self._cmd_flags,
+            pyshell=pyshell
+        )
         if not result.success:
             raise RuntimeError(
                 "Docker is not available on this system."
             )
 
         # Pull the image
-        result = Docker.pull(image, use_sudo=use_sudo, pyshell=pyshell)
+        result = Docker.pull(
+            image,
+            use_sudo=use_sudo,
+            cmd_flags=self._cmd_flags,
+            pyshell=pyshell
+        )
         if not result.success:
             raise RuntimeError(
                 f"Could not pull image '{image}'."
@@ -55,6 +71,7 @@ class DockerBackend(IBackend):
             tty=True,
             detach=True,
             use_sudo=use_sudo,
+            cmd_flags=self._cmd_flags,
             pyshell=pyshell
         )
         if not result.success:
@@ -70,7 +87,11 @@ class DockerBackend(IBackend):
         # Make sure the container doesn't exit immediately
         # Note that `docker ps` will print the first 12 characters of the
         #   container ID, hence why `[:12]` is used here
-        result = Docker.ps(use_sudo=use_sudo, pyshell=pyshell)
+        result = Docker.ps(
+            use_sudo=use_sudo,
+            cmd_flags=self._cmd_flags,
+            pyshell=pyshell
+        )
         if not self._docker_container_id[:12] in result.output:
             raise RuntimeError(
                 f"Container '{container_name}' exited immediately."
@@ -87,12 +108,15 @@ class DockerBackend(IBackend):
 
     def run(self,
         metadata: CommandMetadata,
-        cwd: Path) -> CommandResult:
+        cwd: Path,
+        logger: ICommandLogger) -> CommandResult:
         """
         Runs the specified command on the backend.
         @param metadata Metadata for the command to run.
         @param cwd The working directory to use for the command. Will always be
           an absolute path.
+        @param logger The logger to use for the command. The backend will invoke
+          `logger.log()` but will not invoke `logger.log_results()`.
         @return The output of the command.
         """
         output = ""
@@ -157,6 +181,7 @@ class DockerBackend(IBackend):
         result = Docker.stop(
             self._docker_container_id,
             use_sudo=self._use_sudo,
+            cmd_flags=self._cmd_flags,
             pyshell=self._host_pyshell
         )
         if not result.success:

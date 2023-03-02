@@ -11,8 +11,8 @@ from pyshell.error.error_handler import IErrorHandler
 from pyshell.events.event_handler import EventHandler
 from pyshell.executors.executor import IExecutor
 from pyshell.executors.allow_all import AllowAll
+from pyshell.logging.console_logger import ConsoleLogger
 from pyshell.logging.logger import ILogger
-from pyshell.logging.null_file_logger import NullFileLogger
 from typing import Optional
 
 class PyShell:
@@ -25,7 +25,7 @@ class PyShell:
 
     def __init__(self,
         backend: IBackend = NativeBackend(),
-        logger: ILogger = NullFileLogger(),
+        logger: ILogger = ConsoleLogger(),
         executor: IExecutor = AllowAll(),
         error_handler: IErrorHandler = AbortOnFailure(),
         options: PyShellOptions = PyShellOptions(),
@@ -178,15 +178,16 @@ class PyShell:
             )
 
         # Run the command
+        logger = self._logger.construct_logger(metadata, cwd)
         self._on_command_started.broadcast(self._events, metadata)
-        result = self._backend.run(metadata, cwd)
+        result = self._backend.run(metadata, cwd, logger)
 
         # Log the command output and result
         if metadata.scanner:
             scanner_results = metadata.scanner.scan_for_errors(result)
         else:
             scanner_results = []
-        self._logger.log(result, scanner_results)
+        logger.log_results(result, scanner_results)
 
         # Handle post-command tasks
         if result.success:

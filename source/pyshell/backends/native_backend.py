@@ -2,6 +2,8 @@ from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
+from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.stream_config import StreamConfig
 import subprocess
 from typing import IO
 
@@ -13,52 +15,50 @@ class NativeBackend(IBackend):
 
     def run(self,
         metadata: CommandMetadata,
-        cwd: Path) -> CommandResult:
+        cwd: Path,
+        logger: ICommandLogger) -> CommandResult:
         """
         Runs the specified command on the backend.
         @param metadata Metadata for the command to run.
         @param cwd The working directory to use for the command. Will always be
           an absolute path.
+        @param logger The logger to use for the command. The backend will invoke
+          `logger.log()` but will not invoke `logger.log_results()`.
         @return The output of the command.
         """
-        output = ""
+        # Determine how stderr should be handled
+        if logger.stream_config == StreamConfig.SPLIT_STREAMS:
+            process_stderr = subprocess.PIPE
+        elif logger.stream_config == StreamConfig.MERGE_STREAMS:
+            process_stderr = subprocess.STDOUT
+        else:
+            assert False
 
         # Start the process
         process = subprocess.Popen(
             [metadata.command] + list(metadata.args),
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stderr=process_stderr,
             cwd=str(cwd),
             universal_newlines=True
         )
 
-        # Process all output from the process
+        # The process's stderr is allowed to be null since it could be
+        #   redirected, but the process's stdout must always be valid
         assert process.stdout
+
+        # Process all output from the process
         while process.poll() is None:
-            new_output = NativeBackend._get_output(process.stdout)
-            if new_output:
-                output += new_output
-                print(new_output, end="")
+            logger.log(process.stdout, process.stderr)
 
         # Process any remaining output from the process
-        while True:
-            new_output = NativeBackend._get_output(process.stdout)
-            if new_output:
-                # These lines are timing dependent; don't track them for coverage
-                output += new_output # pragma: no cover
-                print(new_output, end="") # pragma: no cover
-            else:
-                break
-
-        # Add a final newline if the output doesn't end with one
-        if not output.endswith("\n"):
-            output += "\n"
+        logger.log(process.stdout, process.stderr)
 
         return CommandResult(
             command=metadata.command,
             args=metadata.args,
             cwd=str(cwd),
-            output=output,
+            output=logger.output,
             exit_code=process.returncode,
             skipped=False
         )

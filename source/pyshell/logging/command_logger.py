@@ -19,6 +19,16 @@ class ICommandLogger(ABC):
         raise NotImplementedError()
 
 
+    @property
+    @abstractmethod
+    def output(self) -> str:
+        """
+        Returns the output of the command.
+        This string must include both stdout and stderr output.
+        """
+        raise NotImplementedError()
+
+
     @abstractmethod
     def log(self,
         stdout: IO[str],

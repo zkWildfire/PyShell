@@ -35,6 +35,9 @@ class FileCommandLogger(ICommandLogger):
         self._add_header = add_header
         self._add_footer = add_footer
 
+        # Stores all output from the command
+        self._output = ""
+
         # Make sure the path to the file exists
         if not self._file_path.parent.exists():
             self._file_path.parent.mkdir(parents=True)
@@ -52,11 +55,20 @@ class FileCommandLogger(ICommandLogger):
 
 
     @property
+    def output(self) -> str:
+        """
+        Returns the output of the command.
+        This string must include both stdout and stderr output.
+        """
+        return self._output
+
+
+    @property
     def stream_config(self) -> StreamConfig:
         """
         Returns the stream configuration the logger wants.
         """
-        return StreamConfig.MERGED_STREAMS
+        return StreamConfig.MERGE_STREAMS
 
 
     def log(self,
@@ -71,10 +83,13 @@ class FileCommandLogger(ICommandLogger):
           that the stderr stream be merged with the stdout stream, this will be
           `None`.
         """
+        cmd_output = stdout.read()
+        self._output += cmd_output
+
         if self._skip_logging:
             return
 
-        self._file.write(stdout.read())
+        self._file.write(cmd_output)
 
 
     def log_results(self,

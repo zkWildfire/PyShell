@@ -11,12 +11,21 @@ class NullCommandLogger(ICommandLogger):
     @ingroup logging
     """
     def __init__(self,
-        stream_config: StreamConfig = StreamConfig.MERGED_STREAMS) -> None:
+        stream_config: StreamConfig = StreamConfig.MERGE_STREAMS) -> None:
         """
         Initializes the logger.
         @param stream_config The stream configuration the logger wants.
         """
         self._stream_config = stream_config
+
+
+    @property
+    def output(self) -> str:
+        """
+        Returns the output of the command.
+        This string must include both stdout and stderr output.
+        """
+        return ""
 
 
     @property

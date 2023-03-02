@@ -40,6 +40,15 @@ class TeeCommandLogger(ICommandLogger):
 
 
     @property
+    def output(self) -> str:
+        """
+        Returns the output of the command.
+        This string must include both stdout and stderr output.
+        """
+        return self._loggers[0].output
+
+
+    @property
     def stream_config(self) -> StreamConfig:
         """
         Returns the stream configuration the logger wants.

@@ -92,7 +92,7 @@ class MultiFileLogger(ILogger):
             add_footer=self._print_cmd_footer
         )
         return TeeCommandLogger(
-            StreamConfig.MERGED_STREAMS,
+            StreamConfig.MERGE_STREAMS,
             [
                 console_logger,
                 file_logger

@@ -2,6 +2,7 @@ from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
+from pyshell.logging.command_logger import ICommandLogger
 
 class DryRunBackend(IBackend):
     """
@@ -10,12 +11,15 @@ class DryRunBackend(IBackend):
     """
     def run(self,
         metadata: CommandMetadata,
-        cwd: Path) -> CommandResult:
+        cwd: Path,
+        logger: ICommandLogger) -> CommandResult:
         """
         Runs the specified command on the backend.
         @param metadata Metadata for the command to run.
         @param cwd The working directory to use for the command. Will always be
           an absolute path.
+        @param logger The logger to use for the command. The backend will invoke
+          `logger.log()` but will not invoke `logger.log_results()`.
         @return The output of the command.
         """
         print(metadata.full_command)
