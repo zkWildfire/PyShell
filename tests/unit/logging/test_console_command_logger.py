@@ -1,4 +1,5 @@
 from io import StringIO
+from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
@@ -68,3 +69,67 @@ class TestConsoleCommandLogger:
         for arg in args:
             assert arg in output
         assert str(exit_code) in output
+
+
+    def test_quiet_commands_are_not_logged(self):
+        # Set up the metadata instance
+        cmd_name = "command"
+        args = ["arg1", "arg2"]
+        metadata = CommandMetadata(cmd_name, args, CommandFlags.QUIET)
+
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+        logger = ConsoleCommandLogger(metadata, on_print)
+
+        # Run the test
+        stdout = StringIO("foo bar baz")
+        logger.log(stdout, None)
+
+        # Validate results
+        assert not output
+
+
+    def test_no_console_commands_are_not_logged(self):
+        # Set up the metadata instance
+        cmd_name = "command"
+        args = ["arg1", "arg2"]
+        metadata = CommandMetadata(cmd_name, args, CommandFlags.NO_CONSOLE)
+
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+        logger = ConsoleCommandLogger(metadata, on_print)
+
+        # Run the test
+        stdout = StringIO("foo bar baz")
+        logger.log(stdout, None)
+
+        # Validate results
+        assert not output
+
+
+    def test_no_file_commands_are_logged(self):
+        # Set up the metadata instance
+        cmd_name = "command"
+        args = ["arg1", "arg2"]
+        metadata = CommandMetadata(cmd_name, args, CommandFlags.NO_FILE)
+
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+        logger = ConsoleCommandLogger(metadata, on_print)
+
+        # Run the test
+        msg = "foo bar baz"
+        stdout = StringIO(msg)
+        logger.log(stdout, None)
+
+        # Validate results
+        assert logger.output == msg
