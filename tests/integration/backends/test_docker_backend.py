@@ -73,6 +73,7 @@ class TestDocker:
             "ubuntu:jammy",
             use_sudo=self.use_sudo
         )
+        backend.stop()
         assert backend.container_id
 
 
@@ -150,8 +151,9 @@ class TestDocker:
 
         # Run the test
         result = backend.run(metadata, cwd, split_logger)
-        assert result.success
+        backend.stop()
 
+        assert result.success
         assert msg in stdout_logger.output
         assert not stderr_logger.output.strip()
 
@@ -175,6 +177,7 @@ class TestDocker:
 
         # Run the test
         result = backend.run(metadata, cwd, stdout_logger)
-        assert result.success
+        backend.stop()
 
+        assert result.success
         assert msg in stdout_logger.output
