@@ -1,7 +1,7 @@
 from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.docker.docker_command import DockerCommand
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 class RunCommand(DockerCommand):
     """
@@ -12,7 +12,7 @@ class RunCommand(DockerCommand):
     def __init__(self,
         image: str,
         command: Optional[str] = None,
-        args: str | List[str] | None = None,
+        args: str | Sequence[str] | None = None,
         container_name: Optional[str] = None,
         detach: bool = False,
         interactive: bool = False,
@@ -21,7 +21,8 @@ class RunCommand(DockerCommand):
         workdir: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
         env_file: str | Path | None = None,
-        volumes: Optional[List[str]] = None,
+        volumes: Optional[Sequence[str]] = None,
+        ports: str | Sequence[str] | None = None,
         remove_after: bool = False,
         use_sudo: bool = False,
         cmd_flags: int = CommandFlags.STANDARD):
@@ -40,6 +41,8 @@ class RunCommand(DockerCommand):
         @param env_file Path to a file containing environment variables to set
           inside the container.
         @param volumes Volumes to mount inside the container.
+        @param ports A list of ports to expose. Each string in this argument
+          will be passed to the `--publish` option of the `docker run` command.
         @param remove_after Whether to remove the container after it exits.
         @param use_sudo Whether to use `sudo` when running the command.
         @param cmd_flags The flags to set for the command.
@@ -66,6 +69,11 @@ class RunCommand(DockerCommand):
         if volumes:
             for volume in volumes:
                 cmd_args.extend(["-v", volume])
+        if ports:
+            if isinstance(ports, str):
+                ports = [ports]
+            for port in ports:
+                cmd_args.extend(["--publish", port])
         if remove_after:
             cmd_args.append("--rm")
         cmd_args.append(image)

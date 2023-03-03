@@ -10,7 +10,7 @@ from pyshell.docker.run_command import RunCommand
 from pyshell.docker.start_command import StartCommand
 from pyshell.docker.stop_command import StopCommand
 from pyshell.modules.module import IModule
-from typing import Dict, List, Optional
+from typing import Dict, Optional, Sequence
 
 class Docker(IModule):
     """
@@ -22,7 +22,7 @@ class Docker(IModule):
     def exec(
         container: str,
         cmd: str,
-        args: str | List[str] | None = None,
+        args: str | Sequence[str] | None = None,
         workdir: Optional[str] = None,
         user: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
@@ -116,7 +116,7 @@ class Docker(IModule):
     def run(
         image: str,
         command: Optional[str] = None,
-        args: str | List[str] | None = None,
+        args: str | Sequence[str] | None = None,
         container_name: Optional[str] = None,
         detach: bool = False,
         interactive: bool = False,
@@ -125,7 +125,8 @@ class Docker(IModule):
         workdir: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
         env_file: str | Path | None = None,
-        volumes: Optional[List[str]] = None,
+        volumes: Optional[Sequence[str]] = None,
+        ports: str | Sequence[str] | None = None,
         remove_after: bool = False,
         use_sudo: bool = False,
         cmd_flags: int = CommandFlags.STANDARD,
@@ -145,6 +146,8 @@ class Docker(IModule):
         @param env_file The path to a file containing environment variables to
           set when running the container.
         @param volumes The volumes to mount when running the container.
+        @param ports A list of ports to expose. Each string in this argument
+          will be passed to the `--publish` option of the `docker run` command.
         @param remove_after Whether to remove the container after it exits.
         @param use_sudo Whether to use `sudo` when running the command.
         @param pyshell PyShell instance to execute the command via.
@@ -164,6 +167,7 @@ class Docker(IModule):
             env,
             env_file,
             volumes,
+            ports,
             remove_after,
             use_sudo,
             cmd_flags

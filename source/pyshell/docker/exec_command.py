@@ -1,6 +1,6 @@
 from pyshell.core.command_flags import CommandFlags
 from pyshell.docker.docker_command import DockerCommand
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 class ExecCommand(DockerCommand):
     """
@@ -11,7 +11,7 @@ class ExecCommand(DockerCommand):
     def __init__(self,
         container: str,
         cmd: str,
-        args: str | List[str] | None = None,
+        args: str | Sequence[str] | None = None,
         workdir: Optional[str] = None,
         user: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,

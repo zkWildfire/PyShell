@@ -8,7 +8,8 @@ from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.modules.docker import Docker
 import subprocess
-from typing import IO, Optional
+from time import sleep
+from typing import Optional, Sequence
 
 class DockerBackend(IBackend):
     """
@@ -19,6 +20,7 @@ class DockerBackend(IBackend):
         pyshell: PyShell,
         image: str,
         container_name: Optional[str] = None,
+        ports: str | Sequence[str] | None = None,
         use_sudo: bool = False,
         quiet: bool = True):
         """
@@ -30,6 +32,8 @@ class DockerBackend(IBackend):
         @param image The docker image to use.
         @param container_name The name of the container to use. If None, a
           random name will be generated.
+        @param ports A list of ports to expose. Each string in this argument
+          will be passed to the `--publish` option of the `docker run` command.
         @param use_sudo Whether to use `sudo` when running docker commands.
         @param quiet Whether to suppress the output of docker commands used to
           set up the backend.
@@ -71,37 +75,43 @@ class DockerBackend(IBackend):
             interactive=True,
             tty=True,
             detach=True,
+            ports=ports,
+            remove_after=True,
             use_sudo=use_sudo,
             cmd_flags=self._cmd_flags,
             pyshell=pyshell
         )
         if not result.success:
-            raise RuntimeError(
-                f"Could not start container '{container_name}'."
-            )
+            if container_name:
+                error_msg = f"Could not start container '{container_name}'.\n"
+            else:
+                error_msg = f"Could not start container using image '{image}'.\n"
+            error_msg += f"Docker output:\n{result.output}"
+            raise RuntimeError(error_msg)
 
         # Store the docker container's ID
         self._docker_container_id = result.output.strip()
         assert self._docker_container_id
-        if not quiet:
-            print(f"Container ID: {self._docker_container_id}")
 
         # Make sure the container doesn't exit immediately
         # Note that `docker ps` will print the first 12 characters of the
         #   container ID, hence why `[:12]` is used here
+        sleep(1)
         result = Docker.ps(
             use_sudo=use_sudo,
             cmd_flags=self._cmd_flags,
             pyshell=pyshell
         )
         if not self._docker_container_id[:12] in result.output:
-            raise RuntimeError(
-                f"Container '{container_name}' exited immediately."
-            )
+            if container_name:
+                error_msg = f"Container '{container_name}' exited immediately."
+            else:
+                error_msg = f"Container using image '{image}' exited immediately."
+            raise RuntimeError(error_msg)
 
 
     @property
-    def docker_container_id(self) -> str:
+    def container_id(self) -> str:
         """
         The ID of the docker container.
         """
@@ -185,18 +195,7 @@ class DockerBackend(IBackend):
             pyshell=self._host_pyshell
         )
         if not result.success:
-            raise RuntimeError(
-                f"Could not stop container '{self._docker_container_id}'."
+            # This branch can't be easily tested; ignore it for code coverage
+            raise RuntimeError( # pragma: no cover
+                f"Could not stop container '{self.container_id}'."
             )
-
-
-    @staticmethod
-    def _get_output(stream: IO[str]) -> str:
-        """
-        Gets the current output from the specified stream.
-        This method will only return full lines of output. If the stream has
-          partial output, this method will return None.
-        @param stream The stream to get output from.
-        @return The current output from the stream.
-        """
-        return stream.read()
