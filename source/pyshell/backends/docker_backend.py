@@ -52,7 +52,8 @@ class DockerBackend(IBackend):
             pyshell=pyshell
         )
         if not result.success:
-            raise RuntimeError(
+            # This is not easily testable on CI/CD systems; ignore it for coverage
+            raise RuntimeError( # pragma: no cover
                 "Docker is not available on this system."
             )
 

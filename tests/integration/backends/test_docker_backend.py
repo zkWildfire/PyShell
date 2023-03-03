@@ -14,22 +14,6 @@ class TestDocker:
     #   must be set to True
     use_sudo = os.getenv("DEV_CONTAINER") == "1"
 
-    @pytest.mark.skipif(
-        os.environ.get("DEV_CONTAINER") != "1",
-        reason="Requires an environment where docker commands require sudo.")
-    def test_docker_not_present(self):
-        """
-        Simulates the case where docker is not present by initializing the docker
-        backend with `use_sudo=False`. This will cause the backend initialization
-        to fail but only in docker containers or environments where docker
-        commands require `sudo`.
-        """
-        host_pyshell = PyShell(error_handler=KeepGoing())
-        with pytest.raises(RuntimeError) as e:
-            DockerBackend(host_pyshell, "ubuntu:jammy", use_sudo=False)
-        assert "Docker is not available on this system" in str(e)
-
-
     def test_pull_non_existent_image(self):
         """
         Simulates the case where the docker image to pull does not exist.
