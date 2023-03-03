@@ -59,19 +59,15 @@ class SplitCommandLogger(ICommandLogger):
         assert stderr is not None
 
         # Record stdout and stderr output into the output string
-        pos = stdout.tell()
+        # Note that `seek()`/`tell()` are not used here because the streams
+        #   provided by `subprocess` are not seekable
         stdout_contents = stdout.read()
-        stdout.seek(pos)
-
-        pos = stderr.tell()
         stderr_contents = stderr.read()
-        stderr.seek(pos)
-
         self._output = stdout_contents + stderr_contents
 
         # Invoke each stream-specific logger
-        self._stdout_logger.log(stdout, StringIO())
-        self._stderr_logger.log(stderr, StringIO())
+        self._stdout_logger.log(StringIO(stdout_contents), StringIO())
+        self._stderr_logger.log(StringIO(stderr_contents), StringIO())
 
 
     def log_results(self,

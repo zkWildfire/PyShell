@@ -5,7 +5,6 @@ from pyshell.core.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
 import subprocess
-from typing import IO
 
 class NativeBackend(IBackend):
     """
@@ -29,10 +28,8 @@ class NativeBackend(IBackend):
         # Determine how stderr should be handled
         if logger.stream_config == StreamConfig.SPLIT_STREAMS:
             process_stderr = subprocess.PIPE
-        elif logger.stream_config == StreamConfig.MERGE_STREAMS:
+        else: # logger.stream_config == StreamConfig.MERGE_STREAMS:
             process_stderr = subprocess.STDOUT
-        else:
-            assert False
 
         # Start the process
         process = subprocess.Popen(
@@ -67,15 +64,3 @@ class NativeBackend(IBackend):
             exit_code=process.returncode,
             skipped=False
         )
-
-
-    @staticmethod
-    def _get_output(stream: IO[str]) -> str:
-        """
-        Gets the current output from the specified stream.
-        This method will only return full lines of output. If the stream has
-          partial output, this method will return None.
-        @param stream The stream to get output from.
-        @return The current output from the stream.
-        """
-        return stream.read()

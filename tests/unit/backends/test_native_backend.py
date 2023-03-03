@@ -4,6 +4,7 @@ from pyshell.backends.native_backend import NativeBackend
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.null_command_logger import NullCommandLogger
+from pyshell.logging.split_command_logger import SplitCommandLogger
 
 def test_run_echo():
     cmd = ["echo", "foo"]
@@ -59,3 +60,40 @@ def test_backend_adds_final_newline_if_missing():
         ConsoleCommandLogger(metadata)
     )
     assert result.output == "foo\n"
+
+
+def test_use_split_streams():
+    # Set up the command to run
+    msg = "foo"
+    cmd = ["bash", "-c", f"echo {msg} >&2"]
+    cwd = os.getcwd()
+    metadata = CommandMetadata(
+        cmd[0],
+        cmd[1:]
+    )
+
+    # Set up the loggers
+    stdout_output = ""
+    def on_stdout(x: str) -> None:
+        nonlocal stdout_output
+        stdout_output += x
+
+    stderr_output = ""
+    def on_stderr(x: str) -> None:
+        nonlocal stderr_output
+        stderr_output += x
+
+    stdout_logger = ConsoleCommandLogger(metadata, on_stdout)
+    stderr_logger = ConsoleCommandLogger(metadata, on_stderr)
+    logger = SplitCommandLogger(stdout_logger, stderr_logger)
+
+    backend = NativeBackend()
+    result = backend.run(
+        metadata,
+        Path(cwd),
+        logger
+    )
+
+    assert result.success
+    assert not stdout_output
+    assert msg in stderr_output
