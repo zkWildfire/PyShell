@@ -12,7 +12,7 @@ class TeeCommandLogger(ICommandLogger):
     """
     def __init__(self,
         stream_config: StreamConfig,
-        loggers: List[ICommandLogger]) -> None:
+        loggers: ICommandLogger | List[ICommandLogger]) -> None:
         """
         Initializes the logger.
         @param stream_config The stream configuration to use. The caller is
@@ -24,6 +24,9 @@ class TeeCommandLogger(ICommandLogger):
         @throws RuntimeError If the `loggers` list is empty or if any of the
           loggers in the list do not support the stream configuration.
         """
+        if isinstance(loggers, ICommandLogger):
+            loggers = [loggers]
+
         self._stream_config = stream_config
         self._loggers = loggers
 
