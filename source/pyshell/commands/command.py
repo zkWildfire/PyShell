@@ -4,6 +4,7 @@ from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.scanners.scanner import IScanner
+from pyshell.tracing.caller_info import CallerInfo
 from typing import Optional, Sequence
 
 class ICommand(ABC):
@@ -45,6 +46,17 @@ class ICommand(ABC):
     def full_command(self) -> Sequence[str]:
         """
         The full command being run, including the command name and all arguments.
+        """
+        raise NotImplementedError()
+
+
+    @property
+    @abstractmethod
+    def origin(self) -> CallerInfo:
+        """
+        Gets the location that the command was created at.
+        This location will always be the location in the script that uses
+          PyShell, not an internal PyShell location.
         """
         raise NotImplementedError()
 

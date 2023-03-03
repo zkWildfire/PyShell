@@ -3,7 +3,6 @@ from integration.doxygen.doxygen_fixture import DoxygenFixture, doxy
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
     KeepGoing, NativeBackend, NullLogger
 from pyshell.doxygen.doxygen_command import DoxygenCommand
-import pytest
 from typing import Any
 
 def test_generate_docs(doxy: DoxygenFixture):
@@ -39,10 +38,9 @@ def test_doxypath_does_not_exist():
     )
 
     # Run the doxygen command
-    with pytest.raises(ValueError):
-        cmd = DoxygenCommand("foo")
-        # This shouldn't be reached
-        cmd(pyshell)
+    cmd = DoxygenCommand("foo")
+    result = cmd(pyshell)
+    assert not result.success
 
 
 def test_doxypath_is_not_a_file(tmp_path: Any):
@@ -56,7 +54,6 @@ def test_doxypath_is_not_a_file(tmp_path: Any):
     )
 
     # Run the doxygen command
-    with pytest.raises(ValueError):
-        cmd = DoxygenCommand(tmp_path)
-        # This shouldn't be reached
-        cmd(pyshell)
+    cmd = DoxygenCommand(tmp_path)
+    result = cmd(pyshell)
+    assert not result.success

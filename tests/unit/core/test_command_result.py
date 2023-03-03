@@ -71,3 +71,29 @@ def test_skipped_command():
     assert result.full_command == "foo bar baz"
     with pytest.raises(RuntimeError):
         result.exit_code
+
+
+def test_successful_command_is_true():
+    result = CommandResult(
+        "foo",
+        ["bar", "baz"],
+        "/foo/bar",
+        "baz",
+        0,
+        False
+    )
+
+    assert result
+
+
+def test_failed_command_is_false():
+    result = CommandResult(
+        "foo",
+        ["bar", "baz"],
+        "/foo/bar",
+        "baz",
+        1,
+        False
+    )
+
+    assert not result

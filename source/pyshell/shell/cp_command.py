@@ -1,7 +1,7 @@
 from pathlib import Path
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.external_command import ExternalCommand
-from typing import List
+from typing import List, Optional
 
 class CpCommand(ExternalCommand):
     """
@@ -24,16 +24,13 @@ class CpCommand(ExternalCommand):
         @param cmd_flags The flags to set for the command.
         @throws ValueError If the source path does not exist.
         """
-        # Validate input
-        src = Path(src)
-        dest = Path(dest)
-        if not src.exists():
-            raise ValueError(f"Source path {src} does not exist.")
+        self._src = Path(src)
+        self._dest = Path(dest)
 
         # Determine what flags should be passed to the command
         flags: List[str] = []
 
-        if src.is_dir():
+        if self._src.is_dir():
             flags.append("-r")
 
         # TODO: Make this cross platform
@@ -42,3 +39,18 @@ class CpCommand(ExternalCommand):
             flags + [src, dest],
             cmd_flags=cmd_flags
         )
+
+
+    def _validate_args(self) -> Optional[str]:
+        """
+        Validates the arguments for the command.
+        This method should be overridden by subclasses to validate the arguments
+          for the command. If the arguments are valid, this method should
+          return None. If the arguments are invalid, this method should return
+          a string describing the error.
+        @returns None if the arguments are valid, or a string describing the
+          error if the arguments are invalid.
+        """
+        if not self._src.exists():
+            return f"Source path '{self._src}' does not exist."
+        return None

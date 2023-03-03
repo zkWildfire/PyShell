@@ -2,7 +2,7 @@ from pathlib import Path
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
     KeepGoing, NativeBackend, NullLogger, ConsoleLogger
 from pyshell.commands.external_command import ExternalCommand
-import pytest
+from unit.tracing.get_caller_line_number import get_caller_line_number
 
 def test_run_external_executable_on_path():
     # Initialize a PyShell instance for running commands
@@ -64,14 +64,39 @@ def test_run_external_executable_not_on_path_fails():
 
     # Run the commands
     msg = "foo"
-    with pytest.raises(FileNotFoundError):
-        cmd = ExternalCommand(
-            script_path,
-            msg,
-            locate_executable=False
-        )
-        # This shouldn't be reached
-        cmd(pyshell)
+    cmd = ExternalCommand(
+        script_path,
+        msg,
+        locate_executable=False
+    )
+    result = cmd(pyshell)
+    assert not result.success
+
+
+def test_run_external_executable_not_on_path_with_no_locate():
+    # Initialize a PyShell instance for running commands
+    pyshell = PyShell(
+        NativeBackend(),
+        ConsoleLogger(),
+        AllowAll(),
+        AbortOnFailure(),
+        PyShellOptions()
+    )
+
+    # Get the path to the test script to invoke
+    curr_path = Path(__file__).parent
+    script_path = curr_path / "test.sh"
+
+    # Run the commands
+    msg = "foo"
+    cmd = ExternalCommand(
+        script_path,
+        msg,
+        locate_executable=False
+    )
+    result = cmd(pyshell)
+    assert result.success
+    assert result.output == f"{msg}\n"
 
 
 def test_command_returns_full_command():
@@ -98,3 +123,12 @@ def test_full_command_without_args():
     assert cmd.command_name == cmd_name
     assert cmd.args == []
     assert cmd.full_command == [cmd_name]
+
+
+def test_command_captures_origin():
+    # Create the command
+    cmd = ExternalCommand("echo", "foo")
+    expected_line_number = get_caller_line_number() - 1
+
+    assert cmd.origin.file_path == Path(__file__)
+    assert cmd.origin.line_number == expected_line_number

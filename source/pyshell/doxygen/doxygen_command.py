@@ -31,10 +31,7 @@ class DoxygenCommand(ExternalCommand):
         doxyfile_path = Path(doxyfile_path)
         if not doxyfile_path.is_absolute():
             doxyfile_path = Path.cwd() / doxyfile_path
-
-        # Validate the input argument
-        if not doxyfile_path.is_file():
-            raise ValueError(f"'{doxyfile_path}' is not a file.")
+        self._doxyfile_path = doxyfile_path
 
         super().__init__(
             doxygen_exe_path,
@@ -51,3 +48,19 @@ class DoxygenCommand(ExternalCommand):
           be used.
         """
         return DoxygenScanner()
+
+
+    def _validate_args(self) -> Optional[str]:
+        """
+        Validates the arguments for the command.
+        This method should be overridden by subclasses to validate the arguments
+          for the command. If the arguments are valid, this method should
+          return None. If the arguments are invalid, this method should return
+          a string describing the error.
+        @returns None if the arguments are valid, or a string describing the
+          error if the arguments are invalid.
+        """
+        if not self._doxyfile_path.is_file():
+            return f"'{self._doxyfile_path}' is not a file."
+
+        return None

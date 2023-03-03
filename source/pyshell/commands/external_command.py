@@ -5,6 +5,8 @@ from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.core.platform_statics import PlatformStatics
+from pyshell.tracing.caller_info import CallerInfo
+import sys
 from typing import Optional, Sequence
 
 class ExternalCommand(ICommand):
@@ -40,16 +42,8 @@ class ExternalCommand(ICommand):
             args = []
         self._args = [str(a) for a in args]
         self._flags = cmd_flags
-
-        # Verify that the executable exists in the PATH if requested
-        if locate_executable:
-            self._exe_path = PlatformStatics.resolve_using_path(self._name)
-        else:
-            self._exe_path = self._name
-            if not Path(self._exe_path).is_file():
-                raise FileNotFoundError(
-                    f"Executable '{self._exe_path}' not found"
-                )
+        self._origin = CallerInfo.closest_external_frame()
+        self._locate_executable = locate_executable
 
 
     @property
@@ -58,7 +52,7 @@ class ExternalCommand(ICommand):
         The metadata for the command.
         """
         return CommandMetadata(
-            str(self._exe_path),
+            self._name,
             self._args,
             self._flags,
             self.scanner
@@ -91,6 +85,16 @@ class ExternalCommand(ICommand):
         return [self.command_name] + self._args
 
 
+    @property
+    def origin(self) -> CallerInfo:
+        """
+        Gets the location that the command was created at.
+        This location will always be the location in the script that uses
+          PyShell, not an internal PyShell location.
+        """
+        return self._origin
+
+
     def __call__(self,
         pyshell: Optional[PyShell] = None,
         cwd: str | Path | None = None) -> CommandResult:
@@ -101,4 +105,57 @@ class ExternalCommand(ICommand):
           is not provided, the pyshell instance's cwd will be used.
         """
         pyshell = self._resolve_pyshell_instance(pyshell)
+
+        # Verify that the executable exists in the PATH if requested
+        error_msg: Optional[str] = None
+        if self._locate_executable:
+            try:
+                exe_path = PlatformStatics.resolve_using_path(self._name)
+            except FileNotFoundError:
+                error_msg = f"Executable '{self._name}' not found in PATH.\n"
+        else:
+            exe_path = self._name
+            if not Path(exe_path).is_file():
+                error_msg = f"Executable '{exe_path}' not found.\n"
+
+        # If the executable could not be found, print an error message and
+        #   return a failed result
+        if error_msg:
+            error_msg += "Note: Command was declared at " + \
+                f"{self.origin.file_path}:{self.origin.line_number}"
+            print(error_msg, file=sys.stderr)
+            return CommandResult(
+                self._name,
+                self._args,
+                str(cwd) if cwd else str(pyshell.cwd),
+                error_msg,
+                1,
+                False
+            )
+
+        # Make sure that all arguments to the command are valid
+        error_msg = self._validate_args()
+        if error_msg:
+            return CommandResult(
+                self._name,
+                self._args,
+                str(cwd) if cwd else str(pyshell.cwd),
+                error_msg,
+                1,
+                False
+            )
+
         return pyshell.run(self.metadata, cwd)
+
+
+    def _validate_args(self) -> Optional[str]:
+        """
+        Validates the arguments for the command.
+        This method should be overridden by subclasses to validate the arguments
+          for the command. If the arguments are valid, this method should
+          return None. If the arguments are invalid, this method should return
+          a string describing the error.
+        @returns None if the arguments are valid, or a string describing the
+          error if the arguments are invalid.
+        """
+        return None

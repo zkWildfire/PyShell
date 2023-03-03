@@ -2,7 +2,6 @@ from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
     KeepGoing, NativeBackend, ConsoleLogger
 from pyshell.modules.shell import Shell
 from pyshell.shell.cp_command import CpCommand
-import pytest
 from typing import Any
 
 
@@ -124,10 +123,9 @@ def test_cp_non_existing_file(tmp_path: Any):
     dest_path = tmp_path / "bar.txt"
 
     # Run the commands
-    with pytest.raises(ValueError):
-        cmd = CpCommand(src_path, dest_path)
-        # This shouldn't be reached
-        cmd(pyshell)
+    cmd = CpCommand(src_path, dest_path)
+    result = cmd(pyshell)
+    assert not result.success
 
 
 def test_cp_non_existing_dir(tmp_path: Any):
@@ -145,10 +143,9 @@ def test_cp_non_existing_dir(tmp_path: Any):
     dest_path = tmp_path / "bar"
 
     # Run the commands
-    with pytest.raises(ValueError):
-        cmd = CpCommand(src_path, dest_path)
-        # This shouldn't be reached
-        cmd(pyshell)
+    cmd = CpCommand(src_path, dest_path)
+    result = cmd(pyshell)
+    assert not result.success
 
 
 def test_cp_file_over_existing_file(tmp_path: Any):

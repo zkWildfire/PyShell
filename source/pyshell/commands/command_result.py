@@ -103,3 +103,10 @@ class CommandResult:
         The full command that was run, including the command and all arguments.
         """
         return " ".join([self.command] + list(self.args))
+
+
+    def __bool__(self) -> bool:
+        """
+        Whether the command was successful.
+        """
+        return self.success
