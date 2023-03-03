@@ -42,35 +42,11 @@ def test_run_external_executable_not_on_path():
     cmd = ExternalCommand(
         script_path,
         msg,
-        locate_executable=False
+        locate_executable=True
     )
     result = cmd(pyshell)
     assert result.success
     assert result.output == f"{msg}\n"
-
-
-def test_run_external_executable_not_on_path_fails():
-    # Initialize a PyShell instance for running commands
-    pyshell = PyShell(
-        NativeBackend(),
-        NullLogger(),
-        AllowAll(),
-        KeepGoing(),
-        PyShellOptions()
-    )
-
-    # Get the path to the test script to invoke
-    script_path = "test.sh"
-
-    # Run the commands
-    msg = "foo"
-    cmd = ExternalCommand(
-        script_path,
-        msg,
-        locate_executable=False
-    )
-    result = cmd(pyshell)
-    assert not result.success
 
 
 def test_run_external_executable_not_on_path_with_no_locate():
@@ -97,6 +73,53 @@ def test_run_external_executable_not_on_path_with_no_locate():
     result = cmd(pyshell)
     assert result.success
     assert result.output == f"{msg}\n"
+
+
+def test_run_external_executable_not_on_path_fails():
+    # Initialize a PyShell instance for running commands
+    pyshell = PyShell(
+        NativeBackend(),
+        NullLogger(),
+        AllowAll(),
+        KeepGoing(),
+        PyShellOptions()
+    )
+    script_path = "foo.sh"
+
+    # Run the commands
+    msg = "foo"
+    cmd = ExternalCommand(
+        script_path,
+        msg,
+        locate_executable=True
+    )
+    result = cmd(pyshell)
+    assert not result.success
+
+
+def test_run_external_executable_not_on_path_with_no_locate_fails():
+    # Initialize a PyShell instance for running commands
+    pyshell = PyShell(
+        NativeBackend(),
+        ConsoleLogger(),
+        AllowAll(),
+        AbortOnFailure(),
+        PyShellOptions()
+    )
+
+    # Get the path to the test script to invoke
+    curr_path = Path(__file__).parent
+    script_path = curr_path / "foo.sh"
+
+    # Run the commands
+    msg = "foo"
+    cmd = ExternalCommand(
+        script_path,
+        msg,
+        locate_executable=False
+    )
+    result = cmd(pyshell)
+    assert not result.success
 
 
 def test_command_returns_full_command():

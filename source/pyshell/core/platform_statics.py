@@ -29,7 +29,7 @@ class PlatformStatics:
         """
         Finds the path of the specified file using the system path.
         @param filename The filename to resolve.
-        @throws ValueError if the file could not be found.
+        @throws FileNotFoundError if the file could not be found.
         @return The absolute path to the specified file.
         """
         for path in os.environ["PATH"].split(os.pathsep):
@@ -37,7 +37,7 @@ class PlatformStatics:
             if os.path.isfile(exe_path):
                 return exe_path
 
-        raise ValueError(
+        raise FileNotFoundError(
             f"Could not find a file with name '{filename}' on the PATH."
         )
 

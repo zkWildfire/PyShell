@@ -19,5 +19,5 @@ def test_find_executable_on_path():
 def test_find_executable_not_on_path():
     # Find a command that should not be on the path
     exe_name = PlatformStatics.to_executable_name("not_a_real_command")
-    with pytest.raises(ValueError):
+    with pytest.raises(FileNotFoundError):
         PlatformStatics.resolve_using_path(exe_name)
