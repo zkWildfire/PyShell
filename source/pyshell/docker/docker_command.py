@@ -1,5 +1,5 @@
-from pyshell.core.command_flags import CommandFlags
-from pyshell.core.external_command import ExternalCommand
+from pyshell.commands.command_flags import CommandFlags
+from pyshell.commands.external_command import ExternalCommand
 from typing import List, Optional
 
 class DockerCommand(ExternalCommand):

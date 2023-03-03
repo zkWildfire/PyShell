@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.file_command_logger import FileCommandLogger
 from pyshell.logging.command_logger import ICommandLogger

@@ -3,6 +3,7 @@ from enum import IntEnum
 class CommandFlags(IntEnum):
     """
     Flags that identify various properties of a command.
+    @ingroup commands
     """
     ## Helper value for commands that have no flags.
     NONE = 0x0

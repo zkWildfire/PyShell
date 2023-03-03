@@ -1,4 +1,4 @@
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_result import CommandResult
 from pyshell.error.error_handler import IErrorHandler
 import sys
 

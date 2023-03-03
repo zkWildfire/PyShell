@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell_component import IPyShellComponent
 
 class IErrorHandler(IPyShellComponent):

@@ -1,6 +1,6 @@
-from pyshell.core.command_flags import CommandFlags
-from pyshell.core.command_helpers import enable_if
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_flags import CommandFlags
+from pyshell.commands.command_helpers import enable_if
+from pyshell.commands.command_result import CommandResult
 
 def test_enable_if_boolean():
     assert enable_if(True) == CommandFlags.STANDARD

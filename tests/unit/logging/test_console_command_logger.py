@@ -1,8 +1,8 @@
 from io import StringIO
 from pathlib import Path
-from pyshell.core.command_flags import CommandFlags
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_flags import CommandFlags
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.stream_config import StreamConfig
 

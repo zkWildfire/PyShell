@@ -1,7 +1,7 @@
 from pathlib import Path
 from pyshell.backends.backend import IBackend
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
 
 class DryRunBackend(IBackend):

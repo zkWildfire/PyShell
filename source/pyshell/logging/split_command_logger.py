@@ -1,5 +1,5 @@
 from io import StringIO
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry

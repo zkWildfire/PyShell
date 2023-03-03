@@ -1,4 +1,4 @@
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.executors.executor import IExecutor
 
 class AllowAll(IExecutor):

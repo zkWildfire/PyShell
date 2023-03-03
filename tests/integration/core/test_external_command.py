@@ -1,7 +1,7 @@
 from pathlib import Path
 from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
     KeepGoing, NativeBackend, NullLogger, ConsoleLogger
-from pyshell.core.external_command import ExternalCommand
+from pyshell.commands.external_command import ExternalCommand
 import pytest
 
 def test_run_external_executable_on_path():

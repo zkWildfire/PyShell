@@ -1,6 +1,6 @@
 from __future__ import annotations
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.events.event import Event
 from pyshell.events.event_handler import EventHandler
 

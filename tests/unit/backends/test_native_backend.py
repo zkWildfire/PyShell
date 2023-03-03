@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from pyshell.backends.native_backend import NativeBackend
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.null_command_logger import NullCommandLogger
 from pyshell.logging.split_command_logger import SplitCommandLogger

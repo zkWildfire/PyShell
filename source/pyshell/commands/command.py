@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.scanners.scanner import IScanner
 from typing import Optional, Sequence

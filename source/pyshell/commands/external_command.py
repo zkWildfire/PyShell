@@ -1,8 +1,8 @@
 from pathlib import Path
-from pyshell.core.command import ICommand
-from pyshell.core.command_flags import CommandFlags
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command import ICommand
+from pyshell.commands.command_flags import CommandFlags
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.core.platform_statics import PlatformStatics
 from typing import Optional, Sequence

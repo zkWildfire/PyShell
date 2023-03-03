@@ -1,4 +1,4 @@
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_result import CommandResult
 import pytest
 
 def test_success_error_properties_on_successful_command():

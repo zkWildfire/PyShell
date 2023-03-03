@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.core.pyshell_component import IPyShellComponent
 
 class IExecutor(IPyShellComponent):

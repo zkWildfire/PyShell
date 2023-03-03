@@ -1,5 +1,5 @@
 from pathlib import Path
-from pyshell.core.command_flags import CommandFlags
+from pyshell.commands.command_flags import CommandFlags
 from pyshell.docker.docker_command import DockerCommand
 from typing import Dict, List, Optional, Sequence
 

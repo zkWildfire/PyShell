@@ -1,4 +1,4 @@
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_result import CommandResult
 from pyshell.scanners.entry import Entry
 from pyshell.scanners.line_scanner import ILineScanner
 from pyshell.scanners.severity import ESeverity

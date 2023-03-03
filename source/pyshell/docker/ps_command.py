@@ -1,4 +1,4 @@
-from pyshell.core.command_flags import CommandFlags
+from pyshell.commands.command_flags import CommandFlags
 from pyshell.docker.docker_command import DockerCommand
 
 class PsCommand(DockerCommand):

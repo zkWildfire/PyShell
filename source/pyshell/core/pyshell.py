@@ -2,8 +2,8 @@ from __future__ import annotations
 from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.backends.native_backend import NativeBackend
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell_events import PyShellEvents
 from pyshell.core.pyshell_options import PyShellOptions
 from pyshell.error.abort_on_failure import AbortOnFailure

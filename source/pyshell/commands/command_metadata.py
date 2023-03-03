@@ -1,10 +1,11 @@
-from pyshell.core.command_flags import CommandFlags
+from pyshell.commands.command_flags import CommandFlags
 from pyshell.scanners.scanner import IScanner
 from typing import Optional, Sequence
 
 class CommandMetadata:
     """
     Contains all metadata for a single command invocation.
+    @ingroup commands
     """
     def __init__(
         self,

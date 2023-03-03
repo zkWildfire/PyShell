@@ -1,5 +1,5 @@
-from pyshell.core.command_flags import CommandFlags
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_flags import CommandFlags
+from pyshell.commands.command_metadata import CommandMetadata
 
 def test_command_properties_match_ctor_args():
     # Constants

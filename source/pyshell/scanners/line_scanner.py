@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_result import CommandResult
 from pyshell.scanners.entry import Entry
 from pyshell.scanners.scanner import IScanner
 from typing import List, Optional

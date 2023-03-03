@@ -3,6 +3,7 @@ from typing import Sequence
 class CommandResult:
     """
     Stores the result of a command execution.
+    @ingroup commands
     """
     def __init__(self,
         command: str,

@@ -1,5 +1,5 @@
-from pyshell.core.command_metadata import CommandMetadata
-from pyshell.core.command_result import CommandResult
+from pyshell.commands.command_metadata import CommandMetadata
+from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell_events import PyShellEvents
 from pyshell.executors.executor import IExecutor
 

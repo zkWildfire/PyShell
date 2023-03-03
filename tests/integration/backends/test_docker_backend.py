@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from pyshell.backends.docker_backend import DockerBackend
 from pyshell.core.pyshell import PyShell
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.error.keep_going import KeepGoing
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.split_command_logger import SplitCommandLogger

@@ -1,6 +1,6 @@
 from pathlib import Path
 from pyshell.backends.dry_run_backend import DryRunBackend
-from pyshell.core.command_metadata import CommandMetadata
+from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.logging.null_command_logger import NullCommandLogger
 
 def test_run_echo():
