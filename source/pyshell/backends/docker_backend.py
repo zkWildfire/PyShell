@@ -5,6 +5,7 @@ from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.stream_config import StreamConfig
 from pyshell.modules.docker import Docker
 import subprocess
 from typing import IO, Optional
@@ -38,7 +39,7 @@ class DockerBackend(IBackend):
         self._use_sudo = use_sudo
         self._host_pyshell = pyshell
         self._quiet_flag = CommandFlags.QUIET if quiet else CommandFlags.NONE
-        self._cmd_flags = self._quiet_flag & CommandFlags.STANDARD
+        self._cmd_flags = self._quiet_flag | CommandFlags.STANDARD
 
         # Make sure that privileged docker commands can be run
         result = Docker.ps(
@@ -82,7 +83,8 @@ class DockerBackend(IBackend):
         # Store the docker container's ID
         self._docker_container_id = result.output.strip()
         assert self._docker_container_id
-        print(f"Container ID: {self._docker_container_id}")
+        if not quiet:
+            print(f"Container ID: {self._docker_container_id}")
 
         # Make sure the container doesn't exit immediately
         # Note that `docker ps` will print the first 12 characters of the
@@ -119,7 +121,11 @@ class DockerBackend(IBackend):
           `logger.log()` but will not invoke `logger.log_results()`.
         @return The output of the command.
         """
-        output = ""
+        # Determine how stderr should be handled
+        if logger.stream_config == StreamConfig.SPLIT_STREAMS:
+            process_stderr = subprocess.PIPE
+        else: # logger.stream_config == StreamConfig.MERGE_STREAMS:
+            process_stderr = subprocess.STDOUT
 
         # Invoke the docker exec command directly via subprocess instead of
         #   using `ExecCommand` because `ExecCommand` expects arguments to be
@@ -137,30 +143,24 @@ class DockerBackend(IBackend):
                 *metadata.args
             ],
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stderr=process_stderr,
             cwd=cwd,
             universal_newlines=True
         )
 
-        # Process all output from the process
+        # The process's stderr is allowed to be null since it could be
+        #   redirected, but the process's stdout must always be valid
         assert process.stdout
+
+        # Process all output from the process
         while process.poll() is None:
-            new_output = DockerBackend._get_output(process.stdout)
-            if new_output:
-                output += new_output
-                print(new_output, end="")
+            logger.log(process.stdout, process.stderr)
 
         # Process any remaining output from the process
-        while True:
-            new_output = DockerBackend._get_output(process.stdout)
-            if new_output:
-                # These lines are timing dependent; don't track them for coverage
-                output += new_output # pragma: no cover
-                print(new_output, end="") # pragma: no cover
-            else:
-                break
+        logger.log(process.stdout, process.stderr)
 
-        # Add a final newline if the output doesn't end with one
+        # Make sure the returned output always ends with a newline
+        output = logger.output
         if not output.endswith("\n"):
             output += "\n"
 

@@ -1,4 +1,5 @@
 from io import StringIO
+from pathlib import Path
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
@@ -16,7 +17,7 @@ class TestTeeCommandLogger:
         Verifies that the tee logger's stream config property matches the value
           passed to its ctor.
         """
-        console_logger = ConsoleCommandLogger(self.metadata)
+        console_logger = ConsoleCommandLogger(self.metadata, Path.cwd())
         logger = TeeCommandLogger(console_logger.stream_config, console_logger)
         assert logger.stream_config == console_logger.stream_config
 
@@ -26,7 +27,7 @@ class TestTeeCommandLogger:
         Verifies that the tee logger's ctor throws an exception if the loggers
           passed to it are not compatible with the stream config passed to it.
         """
-        console_logger = ConsoleCommandLogger(self.metadata)
+        console_logger = ConsoleCommandLogger(self.metadata, Path.cwd())
         with pytest.raises(RuntimeError):
             target_stream_config = StreamConfig.SPLIT_STREAMS
             # This is a required prerequisite for the test to be valid, but is
@@ -43,7 +44,11 @@ class TestTeeCommandLogger:
             nonlocal output
             output += x
 
-        console_logger = ConsoleCommandLogger(self.metadata, on_print)
+        console_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_print
+        )
         logger = TeeCommandLogger(StreamConfig.MERGE_STREAMS, console_logger)
         stream = StringIO(msg)
         logger.log(stream, None)
@@ -62,8 +67,20 @@ class TestTeeCommandLogger:
             nonlocal stderr_output
             stderr_output += x
 
-        stdout_logger = ConsoleCommandLogger(self.metadata, on_stdout)
-        stderr_logger = ConsoleCommandLogger(self.metadata, on_stderr)
+        stdout_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stdout,
+            False,
+            False
+        )
+        stderr_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stderr,
+            False,
+            False
+        )
         split_logger = SplitCommandLogger(stdout_logger, stderr_logger)
         tee_logger = TeeCommandLogger(StreamConfig.SPLIT_STREAMS, split_logger)
 
@@ -84,7 +101,13 @@ class TestTeeCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        console_logger = ConsoleCommandLogger(self.metadata, on_print)
+        console_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_print,
+            True,
+            True
+        )
         logger = TeeCommandLogger(StreamConfig.MERGE_STREAMS, console_logger)
 
         # Run the test

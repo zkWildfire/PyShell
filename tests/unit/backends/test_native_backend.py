@@ -18,7 +18,7 @@ def test_run_echo():
     result = backend.run(
         metadata,
         Path(os.getcwd()),
-        ConsoleCommandLogger(metadata)
+        ConsoleCommandLogger(metadata, Path.cwd())
     )
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
@@ -47,7 +47,6 @@ def test_run_in_different_cwd():
 
 def test_backend_adds_final_newline_if_missing():
     cmd = ["echo", "-n", "foo"]
-    cwd = os.getcwd()
 
     backend = NativeBackend()
     metadata = CommandMetadata(
@@ -56,8 +55,8 @@ def test_backend_adds_final_newline_if_missing():
     )
     result = backend.run(
         metadata,
-        Path(cwd),
-        ConsoleCommandLogger(metadata)
+        Path.cwd(),
+        ConsoleCommandLogger(metadata, Path.cwd())
     )
     assert result.output == "foo\n"
 
@@ -83,8 +82,16 @@ def test_use_split_streams():
         nonlocal stderr_output
         stderr_output += x
 
-    stdout_logger = ConsoleCommandLogger(metadata, on_stdout)
-    stderr_logger = ConsoleCommandLogger(metadata, on_stderr)
+    stdout_logger = ConsoleCommandLogger(
+        metadata,
+        Path.cwd(),
+        on_stdout
+    )
+    stderr_logger = ConsoleCommandLogger(
+        metadata,
+        Path.cwd(),
+        on_stderr
+    )
     logger = SplitCommandLogger(stdout_logger, stderr_logger)
 
     backend = NativeBackend()

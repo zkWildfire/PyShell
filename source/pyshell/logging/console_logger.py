@@ -20,4 +20,4 @@ class ConsoleLogger(ILogger):
           command logger will be used for.
         @return A new command logger instance.
         """
-        return ConsoleCommandLogger(metadata)
+        return ConsoleCommandLogger(metadata, cwd)

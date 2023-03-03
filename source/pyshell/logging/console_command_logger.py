@@ -1,3 +1,4 @@
+from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
@@ -13,17 +14,26 @@ class ConsoleCommandLogger(ICommandLogger):
     """
     def __init__(self,
         metadata: CommandMetadata,
-        print: Callable[[str], Any] = lambda x: print(x)) \
+        cwd: Path,
+        print: Callable[[str], Any] = lambda x: print(x, end=""),
+        print_header: bool = False,
+        print_footer: bool = False) \
             -> None:
         """
         Initializes the logger.
         @param metadata The metadata of the command being run.
+        @param cwd The current working directory of the command.
         @param print The print function to use for logging. The functor will be
           passed the string to output to stdout. A newline character should not
           be appended by the functor. Any return value will be ignored.
+        @param print_header Whether to print a command header to the console.
+        @param print_footer Whether to print a command footer to the console.
         """
         self._metadata = metadata
+        self._cwd = cwd
         self._print = print
+        self._print_cmd_header = print_header
+        self._print_cmd_footer = print_footer
 
         # Stores all output from the command
         self._output = ""
@@ -32,6 +42,10 @@ class ConsoleCommandLogger(ICommandLogger):
         self._skip_logging = False
         self._skip_logging |= metadata.flags & CommandFlags.QUIET
         self._skip_logging |= metadata.flags & CommandFlags.NO_CONSOLE
+
+        # Print the header as necessary
+        if not self._skip_logging and print_header:
+            self._print_header()
 
 
     @property
@@ -88,5 +102,34 @@ class ConsoleCommandLogger(ICommandLogger):
         @param scanner_output The output of the scanner assigned to the command,
           if any.
         """
-        self._print(f"Command exited with code {result.exit_code}.\n")
-        self._print(f"Note: Command was '{result.full_command}'.\n\n")
+        if self._skip_logging:
+            return
+
+        if self._print_cmd_footer:
+            self._print_footer(result)
+
+
+    def _print_header(self) -> None:
+        """
+        Writes a header to the file.
+        @pre The logger's output file is open.
+        """
+        self._print(
+            f"[PyShell] Running command: {self._metadata.full_command}\n"
+        )
+        self._print(f"[PyShell] cwd: {self._cwd}\n")
+        self._print(f"[PyShell] Command output:\n")
+
+
+    def _print_footer(self, result: CommandResult) -> None:
+        """
+        Writes a footer to the file.
+        @pre The logger's output file is open.
+        """
+        self._print(
+            f"[PyShell] Executed command: {result.full_command}\n"
+        )
+        self._print(f"[PyShell] cwd: {result.cwd}\n")
+        self._print(
+            f"[PyShell] Command exited with code {result.exit_code}.\n"
+        )

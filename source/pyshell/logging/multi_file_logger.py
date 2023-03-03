@@ -81,7 +81,10 @@ class MultiFileLogger(ILogger):
 
         # Create the logger
         console_logger = ConsoleCommandLogger(
-            metadata
+            metadata,
+            cwd,
+            print_header=self._print_cmd_header,
+            print_footer=self._print_cmd_footer
         )
         file_logger = FileCommandLogger(
             metadata,

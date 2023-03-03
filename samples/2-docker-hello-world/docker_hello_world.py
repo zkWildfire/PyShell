@@ -8,7 +8,7 @@ from pyshell.modules import Shell
 # Decide whether to log to a single file or multiple files
 parser = argparse.ArgumentParser()
 parser.add_argument("--log", choices=["single", "multi"], default=None)
-parser.add_argument("-v", "--verbose", action="count")
+parser.add_argument("-v", "--verbose", action="count", default=0)
 args = parser.parse_args()
 
 if args.log == "single":
@@ -43,7 +43,11 @@ Shell.echo("Hello world again!")
 Shell.echo("Howdy y'all!")
 
 # Create another PyShell instance that runs commands in a docker container
-docker_backend = DockerBackend(host_pyshell, "ubuntu:jammy", use_sudo=use_sudo)
+docker_backend = DockerBackend(
+    host_pyshell,
+    "ubuntu:jammy",
+    use_sudo=use_sudo
+)
 docker_pyshell = PyShell(
     backend=docker_backend,
     logger=logger
@@ -53,11 +57,10 @@ docker_pyshell = PyShell(
 Shell.echo("Hello, world!")
 Shell.echo("Hello world again!")
 Shell.echo("Howdy y'all!")
+docker_backend.stop()
 
 # Switch back to using the host
 host_pyshell.set_as_active_instance()
 Shell.echo("Hello, world!")
 Shell.echo("Hello world again!")
 Shell.echo("Howdy y'all!")
-
-docker_backend.stop()

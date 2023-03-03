@@ -1,4 +1,5 @@
 from io import StringIO
+from pathlib import Path
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
@@ -10,7 +11,7 @@ class TestSplitCommandLogger:
     metadata = CommandMetadata("command", ["arg1", "arg2"])
 
     def test_check_stream_config(self):
-        console_logger = ConsoleCommandLogger(self.metadata)
+        console_logger = ConsoleCommandLogger(self.metadata, Path.cwd())
         logger = SplitCommandLogger(console_logger, console_logger)
 
         # For the split logger to work correctly, its stream config must be
@@ -31,8 +32,16 @@ class TestSplitCommandLogger:
             nonlocal stderr_output
             stderr_output += x
 
-        stdout_logger = ConsoleCommandLogger(self.metadata, on_stdout)
-        stderr_logger = ConsoleCommandLogger(self.metadata, on_stderr)
+        stdout_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stdout
+        )
+        stderr_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stderr
+        )
         logger = SplitCommandLogger(stdout_logger, stderr_logger)
         stream = StringIO(msg)
         logger.log(stream, StringIO())
@@ -54,8 +63,16 @@ class TestSplitCommandLogger:
             nonlocal stderr_output
             stderr_output += x
 
-        stdout_logger = ConsoleCommandLogger(self.metadata, on_stdout)
-        stderr_logger = ConsoleCommandLogger(self.metadata, on_stderr)
+        stdout_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stdout
+        )
+        stderr_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stderr
+        )
         logger = SplitCommandLogger(stdout_logger, stderr_logger)
         stream = StringIO(msg)
         logger.log(StringIO(), stream)
@@ -70,13 +87,26 @@ class TestSplitCommandLogger:
         def on_stdout(x: str) -> None:
             nonlocal stdout_output
             stdout_output += x
-        stdout_logger = ConsoleCommandLogger(self.metadata, on_stdout)
 
         stderr_output = ""
         def on_stderr(x: str) -> None:
             nonlocal stderr_output
             stderr_output += x
-        stderr_logger = ConsoleCommandLogger(self.metadata, on_stderr)
+
+        stdout_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stdout,
+            True,
+            True
+        )
+        stderr_logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_stderr,
+            True,
+            True
+        )
 
         logger = SplitCommandLogger(stdout_logger, stderr_logger)
 

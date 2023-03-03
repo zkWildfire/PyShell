@@ -1,4 +1,5 @@
 from io import StringIO
+from pathlib import Path
 from pyshell.core.command_flags import CommandFlags
 from pyshell.core.command_metadata import CommandMetadata
 from pyshell.core.command_result import CommandResult
@@ -18,7 +19,7 @@ class TestConsoleCommandLogger:
           logger implementation will need to be heavily modified (and this test
           case removed).
         """
-        logger = ConsoleCommandLogger(self.metadata)
+        logger = ConsoleCommandLogger(self.metadata, Path.cwd())
         assert logger.stream_config == StreamConfig.MERGE_STREAMS
 
 
@@ -29,7 +30,7 @@ class TestConsoleCommandLogger:
             nonlocal output
             output += x
 
-        logger = ConsoleCommandLogger(self.metadata, on_print)
+        logger = ConsoleCommandLogger(self.metadata, Path.cwd(), on_print)
         stream = StringIO(msg)
         logger.log(stream, None)
         assert logger.output == msg
@@ -42,7 +43,7 @@ class TestConsoleCommandLogger:
             nonlocal output
             output += x
 
-        logger = ConsoleCommandLogger(self.metadata, on_print)
+        logger = ConsoleCommandLogger(self.metadata, Path.cwd(), on_print)
         stdout = StringIO()
         stderr = StringIO(msg)
         logger.log(stdout, stderr)
@@ -55,7 +56,13 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(self.metadata, on_print)
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_print,
+            True,
+            True
+        )
 
         # Run the test
         cmd_name = "command"
@@ -82,7 +89,7 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, on_print)
+        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
 
         # Run the test
         stdout = StringIO("foo bar baz")
@@ -103,7 +110,7 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, on_print)
+        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
 
         # Run the test
         stdout = StringIO("foo bar baz")
@@ -124,7 +131,7 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, on_print)
+        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
 
         # Run the test
         msg = "foo bar baz"
@@ -133,3 +140,25 @@ class TestConsoleCommandLogger:
 
         # Validate results
         assert logger.output == msg
+
+
+    def test_skip_results_output_if_logging_disabled(self):
+        # Set up the metadata instance
+        cmd_name = "command"
+        args = ["arg1", "arg2"]
+        metadata = CommandMetadata(cmd_name, args, CommandFlags.NO_CONSOLE)
+
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
+
+        # Run the test
+        exit_code = 0
+        result = CommandResult(cmd_name, args, "", "", exit_code, False)
+        logger.log_results(result, [])
+
+        # Validate results
+        assert not output

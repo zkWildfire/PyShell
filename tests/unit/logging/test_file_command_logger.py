@@ -384,3 +384,22 @@ class TestFileCommandLogger:
 
         # Validate results
         assert "foo" in logger.output
+
+
+    def test_skip_results_output_if_logging_disabled(self, tmp_path: Any):
+        # Set up the logger
+        log_file_path = Path(tmp_path) / self.log_file_name
+        logger = FileCommandLogger(
+            self.metadata,
+            tmp_path,
+            log_file_path,
+            False,
+            False,
+            False
+        )
+
+        # Run the test
+        logger.log_results(self.result, [])
+
+        # Validate results
+        assert not log_file_path.read_text().strip()
