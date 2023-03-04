@@ -24,7 +24,10 @@ elif args.log == "multi":
         print_cmd_footer=args.verbose > 1
     )
 else:
-    logger = ConsoleLogger()
+    logger = ConsoleLogger(
+        print_cmd_header=args.verbose > 0,
+        print_cmd_footer=args.verbose > 1
+    )
 
 # If this is being run in a dev container or on a CI server, `use_sudo` must be
 #   set to True

@@ -262,50 +262,6 @@ class TestFileCommandLogger:
         assert output_file.read_text().strip()
 
 
-    def test_append_newline_to_output(self, tmp_path: Any):
-        # Set up the logger
-        output_file = Path(tmp_path) / self.log_file_name
-        logger = FileCommandLogger(
-            self.metadata,
-            tmp_path,
-            output_file,
-            False,
-            False,
-            False
-        )
-
-        # Run the test
-        stdout = StringIO("foo")
-        logger.log(stdout, None)
-        logger.log_results(self.result, [])
-
-        # Validate results
-        assert output_file.read_text().endswith("\n")
-
-
-    def test_append_newline_with_no_output(self, tmp_path: Any):
-        # Set up the logger
-        output_file = Path(tmp_path) / self.log_file_name
-        logger = FileCommandLogger(
-            self.metadata,
-            tmp_path,
-            output_file,
-            False,
-            False,
-            False
-        )
-
-        # Run the test
-        stdout = StringIO()
-        logger.log(stdout, None)
-        logger.log_results(self.result, [])
-
-        # Validate results
-        contents = output_file.read_text()
-        assert contents.endswith("\n")
-        assert not contents.strip()
-
-
     def test_no_output_if_quiet(self, tmp_path: Any):
         # Set up the logger
         metadata = CommandMetadata("cmd", ["arg1", "arg2"], CommandFlags.QUIET)

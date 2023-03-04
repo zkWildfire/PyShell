@@ -3,6 +3,7 @@ from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.logger_statics import LoggerStatics
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
 from typing import Any, Callable, List, IO, Optional
@@ -114,11 +115,11 @@ class ConsoleCommandLogger(ICommandLogger):
         Writes a header to the file.
         @pre The logger's output file is open.
         """
-        self._print(
-            f"[PyShell] Running command: {self._metadata.full_command}\n"
+        LoggerStatics.write_command_header(
+            self._metadata,
+            self._cwd,
+            self._print
         )
-        self._print(f"[PyShell] cwd: {self._cwd}\n")
-        self._print(f"[PyShell] Command output:\n")
 
 
     def _print_footer(self, result: CommandResult) -> None:
@@ -126,10 +127,7 @@ class ConsoleCommandLogger(ICommandLogger):
         Writes a footer to the file.
         @pre The logger's output file is open.
         """
-        self._print(
-            f"[PyShell] Executed command: {result.full_command}\n"
-        )
-        self._print(f"[PyShell] cwd: {result.cwd}\n")
-        self._print(
-            f"[PyShell] Command exited with code {result.exit_code}.\n"
+        LoggerStatics.write_command_footer(
+            result,
+            self._print
         )

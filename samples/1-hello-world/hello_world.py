@@ -22,7 +22,10 @@ elif args.log == "multi":
         print_cmd_footer=args.verbose > 1
     )
 else:
-    logger = ConsoleLogger()
+    logger = ConsoleLogger(
+        print_cmd_header=args.verbose > 0,
+        print_cmd_footer=args.verbose > 1
+    )
 
 # Initialize a PyShell instance for running commands
 # PyShell commands that don't explicitly specify a PyShell instance to use

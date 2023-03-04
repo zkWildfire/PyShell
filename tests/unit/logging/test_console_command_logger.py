@@ -181,3 +181,54 @@ class TestConsoleCommandLogger:
 
         # Validate results
         assert not output
+
+
+    def test_write_command_header(self):
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_print,
+            True,
+            False
+        )
+
+        # Run the test
+        logger.log(StringIO("foo"), None)
+
+        # Validate results
+        assert "Running command" in output
+
+
+    def test_write_command_footer(self):
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            Path.cwd(),
+            on_print,
+            False,
+            True
+        )
+
+        # Run the test
+        logger.log_results(CommandResult(
+            "command",
+            ["arg1", "arg2"],
+            "",
+            "",
+            0,
+            False,
+            datetime.now(),
+            datetime.now()
+        ), [])
+
+        # Validate results
+        assert "Executed command" in output

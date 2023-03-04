@@ -3,6 +3,7 @@ from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.logger_statics import LoggerStatics
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
 from typing import List, IO, Optional
@@ -120,9 +121,7 @@ class FileCommandLogger(ICommandLogger):
 
         # Add the footer if requested
         if self._add_footer:
-            self._file.write("\n")
             self._write_footer(result)
-        self._file.write("\n")
 
         self._file.close()
 
@@ -132,11 +131,11 @@ class FileCommandLogger(ICommandLogger):
         Writes a header to the file.
         @pre The logger's output file is open.
         """
-        self._file.write(
-            f"[PyShell] Running command: {self._metadata.full_command}\n"
+        LoggerStatics.write_command_header(
+            self._metadata,
+            self._cwd,
+            self._file.write
         )
-        self._file.write(f"[PyShell] cwd: {self._cwd}\n")
-        self._file.write(f"[PyShell] Command output:\n")
 
 
     def _write_footer(self, result: CommandResult) -> None:
@@ -144,10 +143,7 @@ class FileCommandLogger(ICommandLogger):
         Writes a footer to the file.
         @pre The logger's output file is open.
         """
-        self._file.write(
-            f"[PyShell] Executed command: {result.full_command}\n"
-        )
-        self._file.write(f"[PyShell] cwd: {result.cwd}\n")
-        self._file.write(
-            f"[PyShell] Command exited with code {result.exit_code}.\n"
+        LoggerStatics.write_command_footer(
+            result,
+            self._file.write
         )
