@@ -33,7 +33,7 @@ class ExternalCommand(ICommand):
         @param locate_executable Whether to locate the executable in the PATH.
           If this is true, this constructor will throw if the executable cannot
           be found in the PATH.
-        @param flags Flags for the command.
+        @param cmd_flags Flags for the command.
         """
         # Store arguments in a uniform state regardless of input type
         self._name = str(name)

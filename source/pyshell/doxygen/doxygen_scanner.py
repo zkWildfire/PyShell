@@ -43,6 +43,13 @@ class DoxygenScanner(ILineScanner):
         self._missing_parameter_param_regex = \
             r"parameter '([\w\d]+)'"
 
+        # Regex for detecting extra documented parameters. The first group
+        #   matches the file name and line number, the second group matches
+        #   the parameter name, and the third group matches the method name.
+        self._extra_parameter_file_regex = \
+            r"(\/[\w\d\/\.]+:\d+): (?:warning|error): argument '(.*)' " + \
+            r"of command @.*? is not found in the argument list of (.*)"
+
 
     def _process_command_line(self,
         result: CommandResult,
@@ -61,6 +68,11 @@ class DoxygenScanner(ILineScanner):
             return self._generate_missing_parameter_entry(
                 line,
                 next_lines,
+                line_number
+            )
+        elif "is not found in the argument list" in line:
+            return self._generate_extra_parameter_entry(
+                line,
                 line_number
             )
 
@@ -101,6 +113,37 @@ class DoxygenScanner(ILineScanner):
             line_number,
             line_number + 1,
             "[PyShell] Missing parameter documentation for:\n" + \
+                "[PyShell]   File: " + file_path + "\n" + \
+                "[PyShell]   Method: " + method_name + "\n" + \
+                "[PyShell]   Parameter: " + param_name + "\n"
+        )
+
+
+    def _generate_extra_parameter_entry(self,
+        line: str,
+        line_number: int) -> Entry:
+        """
+        Generates an entry for an extra parameter error.
+        @param line The line to process.
+        @param line_number The line number of the line.
+        @returns An entry for the line if an error is detected, otherwise None.
+        """
+        # Get the method with the extra parameter documentation
+        file_match = re.search(self._extra_parameter_file_regex, line)
+        assert file_match is not None
+
+        # Extract the extra parameter info
+        file_path = file_match.group(1)
+        param_name = file_match.group(2)
+        method_name = file_match.group(3)
+
+        # Generate the entry
+        return Entry(
+            ESeverity.ERROR,
+            line,
+            line_number,
+            line_number,
+            "[PyShell] Extra parameter documentation for:\n" + \
                 "[PyShell]   File: " + file_path + "\n" + \
                 "[PyShell]   Method: " + method_name + "\n" + \
                 "[PyShell]   Parameter: " + param_name + "\n"
