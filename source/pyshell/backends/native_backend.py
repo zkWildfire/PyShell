@@ -33,7 +33,7 @@ class NativeBackend(IBackend):
             process_stderr = subprocess.STDOUT
 
         # Start the process
-        start_time = datetime.now()
+        start_time = datetime.utcnow()
         process = subprocess.Popen(
             [metadata.command] + list(metadata.args),
             stdout=subprocess.PIPE,
@@ -66,6 +66,6 @@ class NativeBackend(IBackend):
             exit_code=process.returncode,
             skipped=False,
             start_time=start_time,
-            end_time=datetime.now(),
+            end_time=datetime.utcnow(),
             backend="Host"
         )

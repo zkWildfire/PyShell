@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil import tz
 from typing import Optional, Sequence
 
 class CommandResult:
@@ -25,8 +26,8 @@ class CommandResult:
         @param exit_code Exit code from the command. If the command was skipped,
           this may be any value.
         @param skipped Whether the command was skipped.
-        @param start_time The time the command started.
-        @param end_time The time the command ended.
+        @param start_time The time the command started. Should be in UTC time.
+        @param end_time The time the command ended. Should be in UTC time.
         @param backend Information about the backend that executed the command.
           The exact format of this string is backend-specific.
         """
@@ -117,19 +118,35 @@ class CommandResult:
 
 
     @property
-    def start_time(self) -> datetime:
+    def start_time_utc(self) -> datetime:
         """
         The time the command started.
         """
-        return self._start_time
+        return self._start_time.astimezone(tz.tzutc())
 
 
     @property
-    def end_time(self) -> datetime:
+    def start_time_local(self) -> datetime:
+        """
+        The time the command started, in local time.
+        """
+        return self.start_time_utc.astimezone(tz.tzlocal())
+
+
+    @property
+    def end_time_utc(self) -> datetime:
         """
         The time the command ended.
         """
-        return self._end_time
+        return self._end_time.astimezone(tz.tzutc())
+
+
+    @property
+    def end_time_local(self) -> datetime:
+        """
+        The time the command ended, in local time.
+        """
+        return self.end_time_utc.astimezone(tz.tzlocal())
 
 
     @property
@@ -145,7 +162,7 @@ class CommandResult:
         """
         The duration of the command, in seconds.
         """
-        return (self.end_time - self.start_time).total_seconds()
+        return (self.end_time_utc - self.start_time_utc).total_seconds()
 
 
     @property

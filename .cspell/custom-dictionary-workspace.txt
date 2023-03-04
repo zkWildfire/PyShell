@@ -9,4 +9,6 @@ pymake
 pyright
 pyshell
 pytest
+tzlocal
+tzutc
 workdir

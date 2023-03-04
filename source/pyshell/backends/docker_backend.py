@@ -146,7 +146,7 @@ class DockerBackend(IBackend):
         #   command as a single string plus an args array, it's easier and
         #   significantly less error prone to just invoke the docker exec
         #   command directly.
-        start_time = datetime.now()
+        start_time = datetime.utcnow()
         process = subprocess.Popen(
             (["sudo"] if self._use_sudo else []) +
             [
@@ -189,7 +189,7 @@ class DockerBackend(IBackend):
             exit_code=process.returncode,
             skipped=False,
             start_time=start_time,
-            end_time=datetime.now(),
+            end_time=datetime.utcnow(),
             backend=backend
         )
 

@@ -115,7 +115,7 @@ def test_failed_command_is_false():
 
 
 def test_command_start_time():
-    start_time = datetime.now()
+    start_time = datetime.utcnow()
     result = CommandResult(
         "foo",
         ["bar", "baz"],
@@ -124,14 +124,15 @@ def test_command_start_time():
         1,
         False,
         start_time,
-        datetime.now()
+        datetime.utcnow()
     )
 
-    assert result.start_time == start_time
+    assert result.start_time_utc == start_time
+    assert result.start_time_local == start_time.astimezone()
 
 
 def test_command_end_time():
-    end_time = datetime.now()
+    end_time = datetime.utcnow()
     result = CommandResult(
         "foo",
         ["bar", "baz"],
@@ -139,11 +140,12 @@ def test_command_end_time():
         "baz",
         1,
         False,
-        datetime.now(),
+        datetime.utcnow(),
         end_time
     )
 
-    assert result.end_time == end_time
+    assert result.end_time_utc == end_time
+    assert result.end_time_local == end_time.astimezone()
 
 
 def test_command_duration_seconds():

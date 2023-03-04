@@ -32,7 +32,7 @@ class DryRunBackend(IBackend):
             output="",
             exit_code=0,
             skipped=False,
-            start_time=datetime.now(),
-            end_time=datetime.now(),
+            start_time=datetime.utcnow(),
+            end_time=datetime.utcnow(),
             backend="Dry Run backend"
         )

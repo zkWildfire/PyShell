@@ -44,8 +44,8 @@ class LoggerStatics:
         write(
             f"[PyShell] Command exited with code {result.exit_code}.\n"
         )
-        write(f"[PyShell] Start time: {result.start_time}\n")
-        write(f"[PyShell] End time: {result.end_time}\n")
+        write(f"[PyShell] Start time: {result.start_time_local}\n")
+        write(f"[PyShell] End time: {result.end_time_local}\n")
         if result.duration_milliseconds < 1000:
             write(
                 f"[PyShell] Duration: {result.duration_milliseconds} ms\n"
