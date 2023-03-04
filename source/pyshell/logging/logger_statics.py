@@ -48,14 +48,14 @@ class LoggerStatics:
         write(f"[PyShell] End time: {result.end_time_local}\n")
         if result.duration_milliseconds < 1000:
             write(
-                f"[PyShell] Duration: {result.duration_milliseconds} ms\n"
+                f"[PyShell] Duration: {round(result.duration_milliseconds, 3)} ms\n"
             )
         elif result.duration_seconds < 60:
             write(
-                f"[PyShell] Duration: {result.duration_seconds} s\n"
+                f"[PyShell] Duration: {round(result.duration_seconds, 3)} s\n"
             )
         else:
             write(
-                f"[PyShell] Duration: {result.duration_minutes} min\n"
+                f"[PyShell] Duration: {round(result.duration_minutes, 3)} min\n"
             )
         write("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n")
