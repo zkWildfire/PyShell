@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.commands.command_flags import CommandFlags
@@ -44,6 +45,7 @@ class DockerBackend(IBackend):
         self._host_pyshell = pyshell
         self._quiet_flag = CommandFlags.QUIET if quiet else CommandFlags.NONE
         self._cmd_flags = self._quiet_flag | CommandFlags.STANDARD
+        self._container_name = container_name
 
         # Make sure that privileged docker commands can be run
         result = Docker.ps(
@@ -144,6 +146,7 @@ class DockerBackend(IBackend):
         #   command as a single string plus an args array, it's easier and
         #   significantly less error prone to just invoke the docker exec
         #   command directly.
+        start_time = datetime.now()
         process = subprocess.Popen(
             (["sudo"] if self._use_sudo else []) +
             [
@@ -175,13 +178,19 @@ class DockerBackend(IBackend):
         if not output.endswith("\n"):
             output += "\n"
 
+        backend = f"Docker container '{self.container_id}'"
+        if self._container_name:
+            backend += f" ({self._container_name})"
         return CommandResult(
             command=metadata.command,
             args=metadata.args,
             cwd=str(cwd),
             output=output,
             exit_code=process.returncode,
-            skipped=False
+            skipped=False,
+            start_time=start_time,
+            end_time=datetime.now(),
+            backend=backend
         )
 
 

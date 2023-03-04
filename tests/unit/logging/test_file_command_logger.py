@@ -1,3 +1,4 @@
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_flags import CommandFlags
@@ -14,7 +15,16 @@ class TestFileCommandLogger:
     metadata = CommandMetadata("command", ["arg1", "arg2"])
 
     # Result instance used when closing the logger
-    result = CommandResult("cmd", ["arg1", "arg2"], "/tmp", "", 0, False)
+    result = CommandResult(
+        "cmd",
+        ["arg1", "arg2"],
+        "/tmp",
+        "",
+        0,
+        False,
+        datetime.now(),
+        datetime.now()
+    )
 
     # Name of the file used by tests
     log_file_name = "output.log"
@@ -148,7 +158,16 @@ class TestFileCommandLogger:
         # Run the test
         cmd_name = "command"
         args = ["arg1", "arg2"]
-        result = CommandResult(cmd_name, args, tmp_path, "", 0, False)
+        result = CommandResult(
+            cmd_name,
+            args,
+            tmp_path,
+            "",
+            0,
+            False,
+            datetime.now(),
+            datetime.now()
+        )
         logger.log_results(result, [])
 
         # Validate results
@@ -170,7 +189,16 @@ class TestFileCommandLogger:
         # Run the test
         scanner_msg = "bar"
         entry = Entry(ESeverity.ERROR, "foo", 0, 1, scanner_msg)
-        result = CommandResult("cmd", ["arg1", "arg2"], tmp_path, "", 0, False)
+        result = CommandResult(
+            "cmd",
+            ["arg1", "arg2"],
+            tmp_path,
+            "",
+            0,
+            False,
+            datetime.now(),
+            datetime.now()
+        )
         logger.log_results(result, [entry])
 
         # Validate results

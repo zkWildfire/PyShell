@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.commands.command_metadata import CommandMetadata
@@ -32,6 +33,7 @@ class NativeBackend(IBackend):
             process_stderr = subprocess.STDOUT
 
         # Start the process
+        start_time = datetime.now()
         process = subprocess.Popen(
             [metadata.command] + list(metadata.args),
             stdout=subprocess.PIPE,
@@ -62,5 +64,8 @@ class NativeBackend(IBackend):
             cwd=str(cwd),
             output=output,
             exit_code=process.returncode,
-            skipped=False
+            skipped=False,
+            start_time=start_time,
+            end_time=datetime.now(),
+            backend="Host"
         )

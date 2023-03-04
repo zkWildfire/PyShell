@@ -1,3 +1,4 @@
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_flags import CommandFlags
@@ -68,7 +69,16 @@ class TestConsoleCommandLogger:
         cmd_name = "command"
         args = ["arg1", "arg2"]
         exit_code = 0
-        result = CommandResult(cmd_name, args, "", "", exit_code, False)
+        result = CommandResult(
+            cmd_name,
+            args,
+            "",
+            "",
+            exit_code,
+            False,
+            datetime.now(),
+            datetime.now()
+        )
         logger.log_results(result, [])
 
         # Validate results
@@ -157,7 +167,16 @@ class TestConsoleCommandLogger:
 
         # Run the test
         exit_code = 0
-        result = CommandResult(cmd_name, args, "", "", exit_code, False)
+        result = CommandResult(
+            cmd_name,
+            args,
+            "",
+            "",
+            exit_code,
+            False,
+            datetime.now(),
+            datetime.now()
+        )
         logger.log_results(result, [])
 
         # Validate results

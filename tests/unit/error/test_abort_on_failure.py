@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from pyshell.commands.command_result import CommandResult
 from pyshell.error.abort_on_failure import AbortOnFailure
@@ -12,5 +13,7 @@ def test_handle_error_throws():
             os.getcwd(),
             "",
             1,
-            False
+            False,
+            datetime.now(),
+            datetime.now()
         ))

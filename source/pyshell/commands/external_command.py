@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from pyshell.commands.command import ICommand
 from pyshell.commands.command_flags import CommandFlags
@@ -130,7 +131,9 @@ class ExternalCommand(ICommand):
                 str(cwd) if cwd else str(pyshell.cwd),
                 error_msg,
                 1,
-                False
+                False,
+                datetime.now(),
+                datetime.now()
             )
 
         # Make sure that all arguments to the command are valid
@@ -142,7 +145,9 @@ class ExternalCommand(ICommand):
                 str(cwd) if cwd else str(pyshell.cwd),
                 error_msg,
                 1,
-                False
+                False,
+                datetime.now(),
+                datetime.now()
             )
 
         return pyshell.run(self.metadata, cwd)

@@ -1,3 +1,4 @@
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_metadata import CommandMetadata
@@ -111,7 +112,16 @@ class TestSplitCommandLogger:
         logger = SplitCommandLogger(stdout_logger, stderr_logger)
 
         # Run the test
-        result = CommandResult("foo", ["bar"], "/tmp", "", 0, False)
+        result = CommandResult(
+            "foo",
+            ["bar"],
+            "/tmp",
+            "",
+            0,
+            False,
+            datetime.now(),
+            datetime.now(),
+        )
         logger.log_results(result, [])
 
         # Both loggers should have been invoked

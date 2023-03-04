@@ -1,4 +1,5 @@
 from __future__ import annotations
+from datetime import datetime
 from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.backends.native_backend import NativeBackend
@@ -174,7 +175,9 @@ class PyShell:
                 str(cwd),
                 "",
                 0,
-                True
+                True,
+                datetime.now(),
+                datetime.now()
             )
 
         # Run the command

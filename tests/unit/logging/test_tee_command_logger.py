@@ -1,3 +1,4 @@
+from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_metadata import CommandMetadata
@@ -111,7 +112,16 @@ class TestTeeCommandLogger:
         logger = TeeCommandLogger(StreamConfig.MERGE_STREAMS, console_logger)
 
         # Run the test
-        result = CommandResult("foo", ["bar"], "/tmp", "", 0, False)
+        result = CommandResult(
+            "foo",
+            ["bar"],
+            "/tmp",
+            "",
+            0,
+            False,
+            datetime.now(),
+            datetime.now()
+        )
         logger.log_results(result, [])
         assert output
 

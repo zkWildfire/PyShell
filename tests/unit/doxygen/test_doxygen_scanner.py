@@ -1,3 +1,4 @@
+from datetime import datetime
 from pyshell.commands.command_result import CommandResult
 from pyshell.doxygen.doxygen_scanner import DoxygenScanner
 from pyshell.scanners.severity import ESeverity
@@ -10,7 +11,9 @@ def test_scan_log_with_no_errors():
         "/foo/bar",
         "foo\nbar\nbaz",
         0,
-        False
+        False,
+        datetime.now(),
+        datetime.now()
     )
     assert not scanner.scan_for_errors(result)
 
@@ -33,7 +36,9 @@ def test_scan_log_with_single_missing_parameter_error():
         f"{method} is not documented:\n" +
         f"parameter '{parameter}'",
         1,
-        False
+        False,
+        datetime.now(),
+        datetime.now()
     )
     entries = scanner.scan_for_errors(result)
 
@@ -66,7 +71,9 @@ def test_scan_log_with_mangled_missing_parameter_error():
         f"{method} is not documented:\n" +
         f"parameter '{parameter}'",
         1,
-        False
+        False,
+        datetime.now(),
+        datetime.now()
     )
     entries = scanner.scan_for_errors(result)
 

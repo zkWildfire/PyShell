@@ -181,3 +181,56 @@ class TestDocker:
 
         assert result.success
         assert msg in stdout_logger.output
+
+
+    def test_command_result_backend_info(self):
+        # Set up the backend
+        host_pyshell = PyShell()
+        backend = DockerBackend(
+            host_pyshell,
+            "ubuntu:jammy",
+            use_sudo=self.use_sudo
+        )
+
+        # Set up the command to run
+        msg = "foo"
+        metadata = CommandMetadata("echo", [msg])
+        cwd = Path("/tmp")
+
+        # Set up the command logger
+        stdout_logger = ConsoleCommandLogger(metadata, cwd)
+
+        # Run the test
+        result = backend.run(metadata, cwd, stdout_logger)
+        backend.stop()
+
+        assert result.backend
+        assert "Docker container" in result.backend
+
+
+    def test_named_container_command_result_backend_info(self):
+        # Set up the backend
+        host_pyshell = PyShell()
+        container_name = "test_container"
+        backend = DockerBackend(
+            host_pyshell,
+            "ubuntu:jammy",
+            container_name=container_name,
+            use_sudo=self.use_sudo
+        )
+
+        # Set up the command to run
+        msg = "foo"
+        metadata = CommandMetadata("echo", [msg])
+        cwd = Path("/tmp")
+
+        # Set up the command logger
+        stdout_logger = ConsoleCommandLogger(metadata, cwd)
+
+        # Run the test
+        result = backend.run(metadata, cwd, stdout_logger)
+        backend.stop()
+
+        assert result.backend
+        assert "Docker container" in result.backend
+        assert container_name in result.backend

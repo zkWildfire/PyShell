@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.commands.command_metadata import CommandMetadata
@@ -30,5 +31,8 @@ class DryRunBackend(IBackend):
             cwd=str(cwd),
             output="",
             exit_code=0,
-            skipped=False
+            skipped=False,
+            start_time=datetime.now(),
+            end_time=datetime.now(),
+            backend="Dry Run backend"
         )

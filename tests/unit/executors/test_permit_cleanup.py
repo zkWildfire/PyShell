@@ -1,3 +1,4 @@
+from datetime import datetime
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
@@ -59,7 +60,9 @@ def test_block_standard_command_after_failure(fixture: PermitCleanupFixture):
         "/foo",
         "",
         1,
-        False
+        False,
+        datetime.now(),
+        datetime.now()
     )
     fixture.on_command_failed.broadcast(fixture.events, result)
 
@@ -77,7 +80,9 @@ def test_block_inactive_command_after_failure(fixture: PermitCleanupFixture):
         "/foo",
         "",
         1,
-        False
+        False,
+        datetime.now(),
+        datetime.now()
     )
     fixture.on_command_failed.broadcast(fixture.events, result)
 
@@ -95,7 +100,9 @@ def test_allow_cleanup_command_after_failure(fixture: PermitCleanupFixture):
         "/foo",
         "",
         1,
-        False
+        False,
+        datetime.now(),
+        datetime.now()
     )
     fixture.on_command_failed.broadcast(fixture.events, result)
 

@@ -1,4 +1,5 @@
-from typing import Sequence
+from datetime import datetime
+from typing import Optional, Sequence
 
 class CommandResult:
     """
@@ -11,7 +12,10 @@ class CommandResult:
         cwd: str,
         output: str,
         exit_code: int,
-        skipped: bool):
+        skipped: bool,
+        start_time: datetime,
+        end_time: datetime,
+        backend: Optional[str] = None):
         """
         Initializes the object.
         @param command Name of the command/executable that was run.
@@ -21,6 +25,10 @@ class CommandResult:
         @param exit_code Exit code from the command. If the command was skipped,
           this may be any value.
         @param skipped Whether the command was skipped.
+        @param start_time The time the command started.
+        @param end_time The time the command ended.
+        @param backend Information about the backend that executed the command.
+          The exact format of this string is backend-specific.
         """
         self._command = command
         self._args = args
@@ -28,6 +36,9 @@ class CommandResult:
         self._output = output
         self._exit_code = exit_code
         self._skipped = skipped
+        self._start_time = start_time
+        self._end_time = end_time
+        self._backend = backend
 
 
     @property
@@ -103,6 +114,55 @@ class CommandResult:
         The full command that was run, including the command and all arguments.
         """
         return " ".join([self.command] + list(self.args))
+
+
+    @property
+    def start_time(self) -> datetime:
+        """
+        The time the command started.
+        """
+        return self._start_time
+
+
+    @property
+    def end_time(self) -> datetime:
+        """
+        The time the command ended.
+        """
+        return self._end_time
+
+
+    @property
+    def duration_milliseconds(self) -> float:
+        """
+        The duration of the command, in milliseconds.
+        """
+        return self.duration_seconds * 1000
+
+
+    @property
+    def duration_seconds(self) -> float:
+        """
+        The duration of the command, in seconds.
+        """
+        return (self.end_time - self.start_time).total_seconds()
+
+
+    @property
+    def duration_minutes(self) -> float:
+        """
+        The duration of the command, in minutes.
+        """
+        return self.duration_seconds / 60
+
+
+    @property
+    def backend(self) -> Optional[str]:
+        """
+        Information about the backend that executed the command.
+        The exact format of this string is backend-specific.
+        """
+        return self._backend
 
 
     def __bool__(self) -> bool:
