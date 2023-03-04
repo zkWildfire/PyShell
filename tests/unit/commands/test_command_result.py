@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from dateutil import tz
 from pyshell.commands.command_result import CommandResult
 import pytest
 
@@ -127,8 +128,8 @@ def test_command_start_time():
         datetime.utcnow()
     )
 
-    assert result.start_time_utc == start_time
-    assert result.start_time_local == start_time.astimezone()
+    assert result.start_time_utc == start_time.astimezone(tz.tzutc())
+    assert result.start_time_local == start_time.astimezone(tz.tzlocal())
 
 
 def test_command_end_time():
@@ -144,8 +145,8 @@ def test_command_end_time():
         end_time
     )
 
-    assert result.end_time_utc == end_time
-    assert result.end_time_local == end_time.astimezone()
+    assert result.end_time_utc == end_time.astimezone(tz.tzutc())
+    assert result.end_time_local == end_time.astimezone(tz.tzlocal())
 
 
 def test_command_duration_seconds():
