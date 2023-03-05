@@ -1,8 +1,0 @@
-<map id="pyshell.backends.backend.IBackend" name="pyshell.backends.backend.IBackend">
-<area shape="rect" id="node1" title="Represents a backend for executing PyShell commands." alt="" coords="384,71,580,112"/>
-<area shape="rect" id="node4" href="$classpyshell_1_1backends_1_1docker__backend_1_1DockerBackend.html" title="Backend that executes commands in a docker container." alt="" coords="644,5,831,47"/>
-<area shape="rect" id="node5" href="$classpyshell_1_1backends_1_1dry__run__backend_1_1DryRunBackend.html" title="Backend that prints commands without executing them." alt="" coords="628,71,847,112"/>
-<area shape="rect" id="node6" href="$classpyshell_1_1backends_1_1native__backend_1_1NativeBackend.html" title="Backend that executes commands directly." alt="" coords="645,136,830,177"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1core_1_1pyshell__component_1_1IPyShellComponent.html" title="Base class for all components used by a PyShell instance." alt="" coords="103,71,336,112"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,78,55,105"/>
-</map>
