@@ -1,4 +1,0 @@
-<map id="permit_cleanup.PermitCleanup" name="permit_cleanup.PermitCleanup">
-<area shape="rect" id="node1" title="Executor that allows only cleanup commands to be run after a failure." alt="" coords="5,80,228,107"/>
-<area shape="rect" id="node2" title=" " alt="" coords="75,5,158,32"/>
-</map>
