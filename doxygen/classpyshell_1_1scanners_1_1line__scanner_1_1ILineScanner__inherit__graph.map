@@ -1,0 +1,6 @@
+<map id="pyshell.scanners.line_scanner.ILineScanner" name="pyshell.scanners.line_scanner.ILineScanner">
+<area shape="rect" id="node1" title="Helper scanner interface that splits command output into lines." alt="" coords="19,169,185,211"/>
+<area shape="rect" id="node4" href="$classpyshell_1_1doxygen_1_1doxygen__scanner_1_1DoxygenScanner.html" title="Scanner that detects doxygen errors." alt="" coords="5,259,199,300"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1scanners_1_1scanner_1_1IScanner.html" title="Interface for classes that scan command output for errors." alt="" coords="7,80,197,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="77,5,127,32"/>
+</map>
