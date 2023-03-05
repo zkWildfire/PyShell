@@ -15,7 +15,7 @@ greatly improve development workflows.
 - Wondering why PyShell was created? The [Motivation](motivation.md) page
   explains the reasoning behind PyShell's design.
 - Interested in contributing to PyShell? Read PyShell's
-  [Contributing Guide](contribute/contributing.md) and the Develop section of
+  [Contributing Guide](develop/contributing.md) and the Develop section of
   PyShell's docs.
 
 ## Installation
