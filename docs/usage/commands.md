@@ -54,6 +54,26 @@ inactive, ensuring that a command is always run by marking it as a cleanup
 command, or to modify how the command's output is logged. The full set of flags
 can be found [here](https://pyshell.dev/doxygen/classpyshell_1_1commands_1_1command__flags_1_1CommandFlags.html).
 
+Command flags may also be dynamically set using a custom condition or by
+checking if another command has failed. For example, the following command
+will only execute if the `ls` command fails:
+```py
+from pyshell import enable_if
+from pyshell.shell.ls_command import LsCommand
+
+# Set up a PyShell instance
+# ...
+
+# Invoke the `ls` command; assume that it fails
+result = LsCommand()()
+
+# Invoke the `echo` command, but only if the `ls` command failed
+cmd = EchoCommand('Hello, world!', cmd_flags=enable_if(result.failed))
+cmd()
+```
+
+More information on the `enable_if` function can be found [here](https://pyshell.dev/doxygen/group__commands.html#gafb2cb15f989412bc7fd0dabb6a38a587).
+
 ## Custom Commands
 There are an infinite number of commands that may be executed by a shell script,
 and commands frequently offer a large number of flags. While PyShell provides

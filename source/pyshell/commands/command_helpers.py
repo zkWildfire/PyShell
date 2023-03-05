@@ -8,6 +8,7 @@ def enable_if(result: bool | CommandResult) -> CommandFlags:
       executed. If this is a boolean, the command will only be run if the
       boolean is True. If this is a `CommandResult`, the command will only be
       run if the command was run and the result is successful.
+    @returns Flags that enable or disable the command.
     @ingroup commands
     """
     if isinstance(result, bool):
