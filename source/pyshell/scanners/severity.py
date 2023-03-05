@@ -4,18 +4,18 @@ class ESeverity(IntEnum):
     """
     Defines the severity of a scanner's output.
     """
-    ## Lowest severity level
+    ## Lowest severity level.
     # Entries with this severity should only be printed when using the highest
     #   verbosity level.
     VERBOSE = 0
 
-    ## Debug message
+    ## Debug message.
     # This severity level is placed above the VERBOSE level so that it can be
     #   used to print debug messages without having to use sift through verbose
     #   messages.
     DEBUG = 1
 
-    ## Informational only
+    ## Informational only.
     # This is the default severity level for scanner entries.
     INFO = 2
 
