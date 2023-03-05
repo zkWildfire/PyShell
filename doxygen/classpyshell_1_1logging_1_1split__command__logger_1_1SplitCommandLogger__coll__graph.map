@@ -1,0 +1,5 @@
+<map id="pyshell.logging.split_command_logger.SplitCommandLogger" name="pyshell.logging.split_command_logger.SplitCommandLogger">
+<area shape="rect" id="node1" title="Command logger that writes each stream&#39;s output separately." alt="" coords="5,169,247,225"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1logging_1_1command__logger_1_1ICommandLogger.html" title="Base interface for loggers that handle a single command." alt="" coords="31,80,221,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="101,5,151,32"/>
+</map>

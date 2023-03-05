@@ -1,0 +1,6 @@
+<map id="Commands" name="Commands">
+<area shape="rect" id="node1" href="$group__shell.html" title="All shell related PyShell commands and modules." alt="" coords="363,107,418,133"/>
+<area shape="rect" id="node2" title="Classes that validate and run shell commands and executables." alt="" coords="5,167,101,193"/>
+<area shape="rect" id="node3" href="$group__doxygen.html" title="All Doxygen related PyShell commands and modules." alt="" coords="351,167,431,193"/>
+<area shape="rect" id="node4" href="$group__docker.html" title="All docker related PyShell commands and modules." alt="" coords="357,433,424,458"/>
+</map>
