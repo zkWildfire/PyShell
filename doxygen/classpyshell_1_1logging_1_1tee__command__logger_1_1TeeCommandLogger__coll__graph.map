@@ -1,5 +1,0 @@
-<map id="pyshell.logging.tee_command_logger.TeeCommandLogger" name="pyshell.logging.tee_command_logger.TeeCommandLogger">
-<area shape="rect" id="node1" title="Command logger that pushes data to two or more loggers." alt="" coords="5,169,240,225"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1logging_1_1command__logger_1_1ICommandLogger.html" title="Base interface for loggers that handle a single command." alt="" coords="27,80,218,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="98,5,147,32"/>
-</map>

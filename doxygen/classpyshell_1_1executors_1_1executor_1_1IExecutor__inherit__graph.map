@@ -1,7 +1,0 @@
-<map id="pyshell.executors.executor.IExecutor" name="pyshell.executors.executor.IExecutor">
-<area shape="rect" id="node1" title="Base interface for command executors." alt="" coords="384,39,583,80"/>
-<area shape="rect" id="node4" href="$classpyshell_1_1executors_1_1allow__all_1_1AllowAll.html" title="Executor that allows all commands except inactive commands to run." alt="" coords="635,5,809,47"/>
-<area shape="rect" id="node5" href="$classpyshell_1_1executors_1_1permit__cleanup_1_1PermitCleanup.html" title="Executor that allows only cleanup commands to be run after a failure." alt="" coords="631,71,813,112"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1core_1_1pyshell__component_1_1IPyShellComponent.html" title="Base class for all components used by a PyShell instance." alt="" coords="103,39,336,80"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,46,55,73"/>
-</map>
