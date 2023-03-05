@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,64,80,91"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1modules_1_1docker_1_1Docker.html" title="Module that provides access to docker commands." alt="" coords="128,5,352,32"/>
+<area shape="rect" id="node3" href="$classpyshell_1_1modules_1_1doxygen_1_1Doxygen.html" title="Module that simplifies doxygen command execution." alt="" coords="143,57,337,98"/>
+<area shape="rect" id="node4" href="$classpyshell_1_1modules_1_1shell_1_1Shell.html" title="Module that provides access to shell commands." alt="" coords="140,123,340,149"/>
+</map>

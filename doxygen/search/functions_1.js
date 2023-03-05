@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['active_5finstance_559',['active_instance',['../classpyshell_1_1core_1_1pyshell_1_1PyShell.html#a6484fe3fc8f31c902cc12d70fd020c03',1,'pyshell::core::pyshell::PyShell']]],
+  ['add_5fobserver_560',['add_observer',['../classpyshell_1_1events_1_1event_1_1Event.html#a6cbb25b0a3370f82322850de2c61af80',1,'pyshell.events.event.Event.add_observer()'],['../classpyshell_1_1events_1_1event__handler_1_1EventHandler.html#a3243e24475c7b7f71d998007820d58b8',1,'pyshell.events.event_handler.EventHandler.add_observer()']]],
+  ['args_561',['args',['../classpyshell_1_1commands_1_1command_1_1ICommand.html#a794466d8da0e58dab5031e32522394d6',1,'pyshell.commands.command.ICommand.args()'],['../classpyshell_1_1commands_1_1command__metadata_1_1CommandMetadata.html#a48a553c5b53f5cdaad354dcc0545c48f',1,'pyshell.commands.command_metadata.CommandMetadata.args()'],['../classpyshell_1_1commands_1_1command__result_1_1CommandResult.html#a79ee8ec608e638723cab3fadff9ca495',1,'pyshell.commands.command_result.CommandResult.args()'],['../classpyshell_1_1commands_1_1external__command_1_1ExternalCommand.html#ae987c8c8690af408252f2b8207b707ca',1,'pyshell.commands.external_command.ExternalCommand.args()']]]
+];
