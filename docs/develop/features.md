@@ -41,9 +41,6 @@ errors to be detected as early as possible.
 
 * Docker container support
 
-!!! info
-    This feature is in development and will be added soon!
-
 PyShell instances can be configured to target a docker container instead of
 running commands on the host system. This means that a PyShell script can
 execute commands on the host system as well as within a docker container -
