@@ -1,0 +1,9 @@
+<map id="pyshell.logging.command_logger.ICommandLogger" name="pyshell.logging.command_logger.ICommandLogger">
+<area shape="rect" id="node1" title="Base interface for loggers that handle a single command." alt="" coords="103,173,293,214"/>
+<area shape="rect" id="node3" href="$classpyshell_1_1logging_1_1console__command__logger_1_1ConsoleCommandLogger.html" title="Logger that writes command output to the console." alt="" coords="341,5,605,61"/>
+<area shape="rect" id="node4" href="$classpyshell_1_1logging_1_1file__command__logger_1_1FileCommandLogger.html" title="Logger that writes command output to a file." alt="" coords="356,85,591,141"/>
+<area shape="rect" id="node5" href="$classpyshell_1_1logging_1_1null__command__logger_1_1NullCommandLogger.html" title="Logger that outputs nothing." alt="" coords="354,165,593,221"/>
+<area shape="rect" id="node6" href="$classpyshell_1_1logging_1_1split__command__logger_1_1SplitCommandLogger.html" title="Command logger that writes each stream&#39;s output separately." alt="" coords="353,245,594,301"/>
+<area shape="rect" id="node7" href="$classpyshell_1_1logging_1_1tee__command__logger_1_1TeeCommandLogger.html" title="Command logger that pushes data to two or more loggers." alt="" coords="356,325,591,381"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,180,55,207"/>
+</map>
