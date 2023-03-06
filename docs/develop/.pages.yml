@@ -2,5 +2,3 @@ nav:
   - Contributing: contributing.md
   - Features: features.md
   - Roadmap: roadmap.md
-  - Adding New Commands: adding-commands.md
-  - Adding New Modules: adding-modules.md
