@@ -1,6 +1,11 @@
 ## PyShell Features
 * Cross platform support
 
+!!! warning
+    PyShell is currently only tested on Linux and a few of the shell commands
+    are not yet cross platform. This will be updated in the near future since
+    PyShell will be used in projects that need to run on Windows.
+
 PyShell scripts are standard python scripts and can be run on any platform that
 Python supports. Built-in PyShell modules are designed to be cross platform,
 so PyShell-based scripts generally do not need to branch by OS. By writing
