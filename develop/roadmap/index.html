@@ -12,8 +12,6 @@
         <link rel="prev" href="../features/">
       
       
-        <link rel="next" href="../adding-commands/">
-      
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
     
@@ -106,6 +104,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#roadmap" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -453,10 +456,6 @@
         
           
         
-          
-        
-          
-        
       
       
         <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -511,39 +510,13 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Roadmap
       </a>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../adding-commands/" class="md-nav__link">
-        Adding New Commands
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../adding-modules/" class="md-nav__link">
-        Adding New Modules
-      </a>
     </li>
   
 
@@ -572,6 +545,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -589,9 +564,48 @@
   
 
 
-  <h1>Roadmap</h1>
-
-
+<h1 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All features listed here are subject to change. Features will be implemented
+on an as-needed basis to support other projects.</p>
+</div>
+<ul>
+<li>Windows support</li>
+</ul>
+<p>This will be the next feature to be implemented. PyShell is intended to be cross
+platform, but a few of the shell commands need to be updated to invoke the
+correct Windows commands instead of assuming that the host system is Linux.
+Also, PyShell's CI/CD pipeline will need to be updated to run tests on Windows.</p>
+<ul>
+<li>SSH support</li>
+</ul>
+<p>PyShell is already capable of running commands on a not-host machine by way of
+invoking commands in a docker container. An <code>SshBackend</code> class will be added in
+the future to allow PyShell to run commands on a remote machine via SSH.</p>
+<ul>
+<li>MultiSSH support</li>
+</ul>
+<p>A new <code>PyShell</code>-style class will be added that allows commands to be run on
+multiple targets at the same time. This will be used to implement a
+<code>MultiSshBackend</code> that allows the same commands to be run on multiple remote
+machines at the same time.</p>
+<ul>
+<li>Async commands</li>
+</ul>
+<p>Currently, PyShell commands are synchronous. This means that a command will not
+return until it has completed execution. This is fine for most commands, but
+having support for asynchronous commands would be useful for long-running
+commands that could be run in parallel with other commands.</p>
+<ul>
+<li>Per-invocation overrides</li>
+</ul>
+<p>With PyShell's split between when a command is defined and when it is invoked,
+it would be possible to add support for overriding components or parameters when
+a command is invoked. This would allow a command to be defined once and then
+reused with different parameters or components; for example, a PyShell instance
+could be configured to use the <code>ConsoleLogger</code> class, but a singular command
+in the script could be configured to use the <code>SingleFileLogger</code> class instead.</p>
 
 
 

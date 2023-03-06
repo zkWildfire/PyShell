@@ -107,6 +107,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#contributing-guide" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -453,10 +458,6 @@
         
           
         
-          
-        
-          
-        
       
       
         <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -483,10 +484,64 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Contributing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         Contributing
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-guidelines" class="md-nav__link">
+    General Guidelines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-new-commands" class="md-nav__link">
+    Adding New Commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-new-modules" class="md-nav__link">
+    Adding New Modules
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -521,34 +576,6 @@
 
             
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../adding-commands/" class="md-nav__link">
-        Adding New Commands
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../adding-modules/" class="md-nav__link">
-        Adding New Modules
-      </a>
-    </li>
-  
-
-            
-          
         </ul>
       </nav>
     </li>
@@ -572,6 +599,44 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-guidelines" class="md-nav__link">
+    General Guidelines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-new-commands" class="md-nav__link">
+    Adding New Commands
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-new-modules" class="md-nav__link">
+    Adding New Modules
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -589,9 +654,77 @@
   
 
 
-  <h1>Contributing</h1>
-
-
+<h1 id="contributing-guide">Contributing Guide<a class="headerlink" href="#contributing-guide" title="Permanent link">&para;</a></h1>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>PyShell's repository is set up with support for VSCode's
+<a href="https://code.visualstudio.com/docs/devcontainers/containers">devcontainers</a>.
+This is the recommended workflow when developing PyShell as it ensures that all
+dependencies are installed and configured correctly. If you are not using
+VSCode, take a look at the <code>.devcontainer/ubuntu.dockerfile</code> file to see what
+dependencies are required to develop PyShell. Please note that the
+<code>.devcontainer/devcontainer.json</code> file also has a few other values that you may
+need, such as environment variables that are set within the container.</p>
+<h2 id="general-guidelines">General Guidelines<a class="headerlink" href="#general-guidelines" title="Permanent link">&para;</a></h2>
+<p>Please keep the following guidelines in mind when contributing to PyShell:</p>
+<ul>
+<li>Type hints must be provided on all methods and variables.</li>
+</ul>
+<p>For methods, all method parameters must have type hints. The return value must
+have a type hint if it is not <code>None</code>. Variables must have type hints if their
+type cannot be inferred from the value.</p>
+<ul>
+<li>All code must use Doxygen style comments.</li>
+</ul>
+<p>PyShell uses Doxygen to generate its reference documentation. All methods and
+parameters must have a Doxygen comment block, and Doxygen is configured to flag
+missing documentation as an error. Member variables should have explicit
+documentation unless they're directly assigned from constructor parameters, in
+which case the constructor parameter documentation will suffice.</p>
+<p>For more information on how to use Doxygen and what commands it offers, see the
+<a href="https://www.doxygen.nl/manual/index.html">Doxygen documentation</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although Doxygen is configured to flag missing documentation as an error,
+some documentation elements do not get flagged by Doxygen. For example, it
+is not necessary to add <code>@returns</code> to an <code>@property</code> method despite it
+technically being a method.</p>
+</div>
+<h2 id="adding-new-commands">Adding New Commands<a class="headerlink" href="#adding-new-commands" title="Permanent link">&para;</a></h2>
+<p>Commands and modules are an area in which contributions are most welcome. Adding
+a new command or module is a great way to get started with PyShell development
+as it does not require a deep understanding of the internals of PyShell.</p>
+<p>To add a new command, you will need to define a new class that inherits from
+either <code>ICommand</code> or <code>ExternalCommand</code>. The <code>ICommand</code> class is an abstract base
+class that should only be used if the <code>ExternalCommand</code> class is unsuitable for
+your new custom command. Otherwise, you should use the <code>ExternalCommand</code> class
+as it provides a lot of functionality that is common to most commands.</p>
+<p>You can find the <code>ICommand</code> class's definition <a href="https://github.com/MYTX-Wildfire/PyShell/blob/master/source/pyshell/commands/command.py">here</a>
+and the <code>ExternalClass</code>'s definition <a href="https://github.com/MYTX-Wildfire/PyShell/blob/master/source/pyshell/commands/external_command.py">here</a>.
+The <a href="https://github.com/MYTX-Wildfire/PyShell/blob/master/source/pyshell/shell/ls_command.py"><code>ls</code> command</a>
+and <a href="https://github.com/MYTX-Wildfire/PyShell/blob/master/source/pyshell/shell/cp_command.py"><code>cp</code> command</a>
+are good examples of how to use the <code>ExternalCommand</code> class as a base class.</p>
+<p>Here are some guidelines to keep in mind when adding a new command:</p>
+<ul>
+<li>The command's constructor should take a <code>CommandFlags</code> parameter.</li>
+<li>Avoid throwing exceptions. Instead, return a <code>CommandResult</code> object with the
+  <code>success</code> property set to <code>False</code> when the command is executed. This ensures
+  that all commands use the PyShell instance's error handling mechanism.</li>
+</ul>
+<p>Following these guidelines will ensure that your command behaves consistently
+with other commands.</p>
+<h2 id="adding-new-modules">Adding New Modules<a class="headerlink" href="#adding-new-modules" title="Permanent link">&para;</a></h2>
+<p>Once you've implemented a new command(s), it's highly recommended that you also
+implement a module for the commands. A module is a loose wrapper around a set of
+related commands that allows each command to be executed in a single method call
+instead of two method calls. An example of this is the <code>Shell</code> module, which
+can be found <a href="https://github.com/MYTX-Wildfire/PyShell/blob/master/source/pyshell/modules/shell.py">here</a>.</p>
+<p>Here are some guidelines to keep in mind when adding a new module:</p>
+<ul>
+<li>Each method in the module should take the same parameters as the underlying
+  command's constructor, plus an additional <code>PyShell</code> parameter to be passed to
+  the command when executing it. Parameters should be specified in the same
+  order in the module as in the command.</li>
+</ul>
 
 
 

@@ -458,10 +458,6 @@
         
           
         
-          
-        
-          
-        
       
       
         <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -555,34 +551,6 @@
 
             
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../adding-commands/" class="md-nav__link">
-        Adding New Commands
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../adding-modules/" class="md-nav__link">
-        Adding New Modules
-      </a>
-    </li>
-  
-
-            
-          
         </ul>
       </nav>
     </li>
@@ -644,6 +612,12 @@
 <ul>
 <li>Cross platform support</li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>PyShell is currently only tested on Linux and a few of the shell commands
+are not yet cross platform. This will be updated in the near future since
+PyShell will be used in projects that need to run on Windows.</p>
+</div>
 <p>PyShell scripts are standard python scripts and can be run on any platform that
 Python supports. Built-in PyShell modules are designed to be cross platform,
 so PyShell-based scripts generally do not need to branch by OS. By writing
@@ -684,10 +658,6 @@ errors to be detected as early as possible.</p>
 <ul>
 <li>Docker container support</li>
 </ul>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This feature is in development and will be added soon!</p>
-</div>
 <p>PyShell instances can be configured to target a docker container instead of
 running commands on the host system. This means that a PyShell script can
 execute commands on the host system as well as within a docker container -
