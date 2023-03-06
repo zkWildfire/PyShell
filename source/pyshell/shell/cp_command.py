@@ -22,7 +22,6 @@ class CpCommand(ExternalCommand):
           relative or absolute path. If the path is relative, it will be
           resolved relative to the script's current working directory.
         @param cmd_flags The flags to set for the command.
-        @throws ValueError If the source path does not exist.
         """
         self._src = Path(src)
         self._dest = Path(dest)
