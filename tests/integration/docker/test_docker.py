@@ -75,7 +75,7 @@ class TestDocker:
         # This is done to ensure that even if the run command doesn't remove the
         #   container, the container will still be cleaned up before the test
         #   ends
-        container_name = "hello-world-test"
+        container_name = "hello-world-test-2"
         run_result = Docker.run(
             "hello-world",
             container_name=container_name,
@@ -120,7 +120,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Run the run command
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-3"
         test_value = "test_value"
         result = Docker.run(
             "ubuntu:jammy",
@@ -143,7 +143,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-4"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -205,7 +205,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-5"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -322,7 +322,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-6"
         user = "1000:1000"
         run_result = Docker.run(
             "ubuntu:jammy",
@@ -365,7 +365,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-7"
         workdir = "/tmp"
         run_result = Docker.run(
             "ubuntu:jammy",
@@ -412,7 +412,7 @@ class TestDocker:
         env_file.write_text("FOO=bar")
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-8"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -457,7 +457,7 @@ class TestDocker:
         # Note that because `docker run` never prints the output of the command
         #   run in the container, this test can't actually validate that the
         #   command was run correctly.
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-9"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -486,7 +486,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-10"
         workdir = "/tmp"
         run_result = Docker.run(
             "ubuntu:jammy",
@@ -529,7 +529,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-11"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -572,7 +572,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-12"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -619,7 +619,7 @@ class TestDocker:
         env_file.write_text("FOO=bar")
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-13"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -661,7 +661,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-14"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
@@ -700,7 +700,7 @@ class TestDocker:
         pyshell = PyShell(error_handler=KeepGoing())
 
         # Start the container
-        container_name = "ubuntu-test"
+        container_name = "ubuntu-test-15"
         run_result = Docker.run(
             "ubuntu:jammy",
             "bash",
