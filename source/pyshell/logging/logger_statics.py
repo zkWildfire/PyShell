@@ -86,6 +86,9 @@ class LoggerStatics:
         if not lines:
             return
 
+        if options.add_newline_before_footer:
+            write("\n")
+
         # Print the banner
         write(options.cmd_footer_banner + "\n")
         for line in lines:

@@ -14,9 +14,9 @@ class LoggerOptions:
         add_newline_after_footer: bool = True,
         cmd_header_banner_char: str = ">",
         cmd_header_banner_width: int = 40,
+        cmd_header_banner_prefix: str = "[PyShell] ",
         cmd_footer_banner_char: str = "<",
         cmd_footer_banner_width: int = 40,
-        cmd_header_banner_prefix: str = "[PyShell] ",
         cmd_footer_banner_prefix: str = "[PyShell] "):
         """
         Initializes the object.
@@ -38,11 +38,11 @@ class LoggerOptions:
         @param cmd_header_banner_char The character to use for the command
           header banner.
         @param cmd_header_banner_width The width of the command header banner.
+        @param cmd_header_banner_prefix The prefix to use for each line in the
+          command header banner.
         @param cmd_footer_banner_char The character to use for the command
           footer banner.
         @param cmd_footer_banner_width The width of the command footer banner.
-        @param cmd_header_banner_prefix The prefix to use for each line in the
-          command header banner.
         @param cmd_footer_banner_prefix The prefix to use for each line in the
           command footer banner.
         """
@@ -57,9 +57,9 @@ class LoggerOptions:
         self._add_newline_after_footer = add_newline_after_footer
         self._cmd_header_banner_char = cmd_header_banner_char
         self._cmd_header_banner_width = cmd_header_banner_width
+        self._cmd_header_banner_prefix = cmd_header_banner_prefix
         self._cmd_footer_banner_char = cmd_footer_banner_char
         self._cmd_footer_banner_width = cmd_footer_banner_width
-        self._cmd_header_banner_prefix = cmd_header_banner_prefix
         self._cmd_footer_banner_prefix = cmd_footer_banner_prefix
 
     @property
@@ -151,6 +151,22 @@ class LoggerOptions:
 
 
     @property
+    def cmd_header_banner(self) -> str:
+        """
+        The string to use for the command header banner.
+        """
+        return self.cmd_header_banner_char * self.cmd_header_banner_width
+
+
+    @property
+    def cmd_header_banner_prefix(self) -> str:
+        """
+        The prefix to use for each line in the command header banner.
+        """
+        return self._cmd_header_banner_prefix
+
+
+    @property
     def cmd_footer_banner_char(self) -> str:
         """
         The character to use for the command footer banner.
@@ -167,27 +183,11 @@ class LoggerOptions:
 
 
     @property
-    def cmd_header_banner(self) -> str:
-        """
-        The string to use for the command header banner.
-        """
-        return self.cmd_header_banner_char * self.cmd_header_banner_width
-
-
-    @property
     def cmd_footer_banner(self) -> str:
         """
         The string to use for the command footer banner.
         """
         return self.cmd_footer_banner_char * self.cmd_footer_banner_width
-
-
-    @property
-    def cmd_header_banner_prefix(self) -> str:
-        """
-        The prefix to use for each line in the command header banner.
-        """
-        return self._cmd_header_banner_prefix
 
 
     @property
