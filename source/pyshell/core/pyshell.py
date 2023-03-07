@@ -181,7 +181,11 @@ class PyShell:
             )
 
         # Run the command
-        logger = self._logger.construct_logger(metadata, cwd)
+        logger = self._logger.construct_logger(
+            metadata,
+            self._options.logger_options,
+            cwd
+        )
         self._on_command_started.broadcast(self._events, metadata)
         result = self._backend.run(metadata, cwd, logger)
 

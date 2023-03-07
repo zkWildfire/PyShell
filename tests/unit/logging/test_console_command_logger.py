@@ -5,6 +5,7 @@ from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.stream_config import StreamConfig
 
 class TestConsoleCommandLogger:
@@ -20,7 +21,11 @@ class TestConsoleCommandLogger:
           logger implementation will need to be heavily modified (and this test
           case removed).
         """
-        logger = ConsoleCommandLogger(self.metadata, Path.cwd())
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(),
+            Path.cwd()
+        )
         assert logger.stream_config == StreamConfig.MERGE_STREAMS
 
 
@@ -31,7 +36,12 @@ class TestConsoleCommandLogger:
             nonlocal output
             output += x
 
-        logger = ConsoleCommandLogger(self.metadata, Path.cwd(), on_print)
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(),
+            Path.cwd(),
+            on_print
+        )
         stream = StringIO(msg)
         logger.log(stream, None)
         assert logger.output == msg
@@ -44,7 +54,12 @@ class TestConsoleCommandLogger:
             nonlocal output
             output += x
 
-        logger = ConsoleCommandLogger(self.metadata, Path.cwd(), on_print)
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(),
+            Path.cwd(),
+            on_print
+        )
         stdout = StringIO()
         stderr = StringIO(msg)
         logger.log(stdout, stderr)
@@ -59,6 +74,7 @@ class TestConsoleCommandLogger:
             output += x
         logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_print,
             True,
@@ -99,7 +115,12 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
+        logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            Path.cwd(),
+            on_print
+        )
 
         # Run the test
         stdout = StringIO("foo bar baz")
@@ -120,7 +141,12 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
+        logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            Path.cwd(),
+            on_print
+        )
 
         # Run the test
         stdout = StringIO("foo bar baz")
@@ -141,7 +167,12 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
+        logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            Path.cwd(),
+            on_print
+        )
 
         # Run the test
         msg = "foo bar baz"
@@ -163,7 +194,12 @@ class TestConsoleCommandLogger:
         def on_print(x: str) -> None:
             nonlocal output
             output += x
-        logger = ConsoleCommandLogger(metadata, Path.cwd(), on_print)
+        logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            Path.cwd(),
+            on_print
+        )
 
         # Run the test
         exit_code = 0
@@ -191,6 +227,7 @@ class TestConsoleCommandLogger:
             output += x
         logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_print,
             True,
@@ -212,6 +249,7 @@ class TestConsoleCommandLogger:
             output += x
         logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_print,
             False,
@@ -232,3 +270,68 @@ class TestConsoleCommandLogger:
 
         # Validate results
         assert "Executed command" in output
+
+
+    def test_log_with_custom_header(self):
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+
+        header = "foobar"
+        length = 2
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(
+                cmd_header_banner_char=header,
+                cmd_header_banner_width=length
+            ),
+            Path.cwd(),
+            on_print,
+            True,
+            False
+        )
+
+        # Run the test
+        logger.log(StringIO("foo"), None)
+
+        # Validate results
+        assert header * length in output
+
+
+    def test_log_with_custom_footer(self):
+        # Set up the logger
+        output = ""
+        def on_print(x: str) -> None:
+            nonlocal output
+            output += x
+
+        footer = "foobar"
+        length = 2
+        logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(
+                cmd_footer_banner_char=footer,
+                cmd_footer_banner_width=length
+            ),
+            Path.cwd(),
+            on_print,
+            False,
+            True
+        )
+
+        # Run the test
+        logger.log_results(CommandResult(
+            "command",
+            ["arg1", "arg2"],
+            "",
+            "",
+            0,
+            False,
+            datetime.now(),
+            datetime.now()
+        ), [])
+
+        # Validate results
+        assert footer * length in output

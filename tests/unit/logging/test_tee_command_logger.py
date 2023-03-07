@@ -4,6 +4,7 @@ from pathlib import Path
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.split_command_logger import SplitCommandLogger
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.logging.tee_command_logger import TeeCommandLogger
@@ -18,7 +19,11 @@ class TestTeeCommandLogger:
         Verifies that the tee logger's stream config property matches the value
           passed to its ctor.
         """
-        console_logger = ConsoleCommandLogger(self.metadata, Path.cwd())
+        console_logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(),
+            Path.cwd()
+        )
         logger = TeeCommandLogger(console_logger.stream_config, console_logger)
         assert logger.stream_config == console_logger.stream_config
 
@@ -28,7 +33,11 @@ class TestTeeCommandLogger:
         Verifies that the tee logger's ctor throws an exception if the loggers
           passed to it are not compatible with the stream config passed to it.
         """
-        console_logger = ConsoleCommandLogger(self.metadata, Path.cwd())
+        console_logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(),
+            Path.cwd()
+        )
         with pytest.raises(RuntimeError):
             target_stream_config = StreamConfig.SPLIT_STREAMS
             # This is a required prerequisite for the test to be valid, but is
@@ -47,6 +56,7 @@ class TestTeeCommandLogger:
 
         console_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_print
         )
@@ -70,6 +80,7 @@ class TestTeeCommandLogger:
 
         stdout_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stdout,
             False,
@@ -77,6 +88,7 @@ class TestTeeCommandLogger:
         )
         stderr_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stderr,
             False,
@@ -104,6 +116,7 @@ class TestTeeCommandLogger:
             output += x
         console_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_print,
             True,

@@ -5,6 +5,7 @@ from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.file_command_logger import FileCommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
 from pyshell.scanners.severity import ESeverity
@@ -39,6 +40,7 @@ class TestFileCommandLogger:
         """
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             tmp_path / self.log_file_name,
             False,
@@ -55,6 +57,7 @@ class TestFileCommandLogger:
         msg = "foo bar"
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -77,6 +80,7 @@ class TestFileCommandLogger:
         msg = "foo bar"
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -101,6 +105,7 @@ class TestFileCommandLogger:
         output_file.write_text("bar foo")
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -125,6 +130,7 @@ class TestFileCommandLogger:
         output_file.write_text("bar foo")
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -148,6 +154,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -179,6 +186,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -210,6 +218,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -229,6 +238,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -248,6 +258,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -268,6 +279,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             True,
@@ -290,6 +302,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             True,
@@ -312,6 +325,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             True,
@@ -333,6 +347,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / "foo" / "bar" / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -354,6 +369,7 @@ class TestFileCommandLogger:
         output_file = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             output_file,
             False,
@@ -375,6 +391,7 @@ class TestFileCommandLogger:
         log_file_path = Path(tmp_path) / self.log_file_name
         logger = FileCommandLogger(
             self.metadata,
+            LoggerOptions(),
             tmp_path,
             log_file_path,
             False,
@@ -387,3 +404,53 @@ class TestFileCommandLogger:
 
         # Validate results
         assert not log_file_path.read_text().strip()
+
+
+    def test_custom_header(self, tmp_path: Any):
+        # Set up the logger
+        log_file_path = Path(tmp_path) / self.log_file_name
+        header = "foobar"
+        length = 2
+        logger = FileCommandLogger(
+            self.metadata,
+            LoggerOptions(
+                cmd_header_banner_char=header,
+                cmd_header_banner_width=length
+            ),
+            tmp_path,
+            log_file_path,
+            False,
+            True,
+            False
+        )
+
+        # Run the test
+        logger.log_results(self.result, [])
+
+        # Validate results
+        assert header * length in log_file_path.read_text()
+
+
+    def test_custom_footer(self, tmp_path: Any):
+        # Set up the logger
+        log_file_path = Path(tmp_path) / self.log_file_name
+        footer = "foobar"
+        length = 2
+        logger = FileCommandLogger(
+            self.metadata,
+            LoggerOptions(
+                cmd_footer_banner_char=footer,
+                cmd_footer_banner_width=length
+            ),
+            tmp_path,
+            log_file_path,
+            False,
+            False,
+            True
+        )
+
+        # Run the test
+        logger.log_results(self.result, [])
+
+        # Validate results
+        assert footer * length in log_file_path.read_text()

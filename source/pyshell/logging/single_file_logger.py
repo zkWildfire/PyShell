@@ -4,6 +4,7 @@ from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.file_command_logger import FileCommandLogger
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.logger import ILogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.tee_command_logger import TeeCommandLogger
 from pyshell.logging.stream_config import StreamConfig
 
@@ -48,23 +49,27 @@ class SingleFileLogger(ILogger):
 
     def construct_logger(self,
         metadata: CommandMetadata,
+        options: LoggerOptions,
         cwd: Path) -> ICommandLogger:
         """
         Constructs a new command logger.
         @param metadata The metadata of the command that will the command logger
           will be used for.
+        @param options The options for the command logger.
         @param cwd The current working directory of the command that will the
           command logger will be used for.
         @return A new command logger instance.
         """
         console_logger = ConsoleCommandLogger(
             metadata,
+            options,
             cwd,
             print_header=self._print_cmd_header,
             print_footer=self._print_cmd_footer
         )
         file_logger = FileCommandLogger(
             metadata,
+            options,
             cwd,
             self.file_path,
             append=True,

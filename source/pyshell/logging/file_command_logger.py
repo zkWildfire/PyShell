@@ -3,6 +3,7 @@ from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.logger_statics import LoggerStatics
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
@@ -15,6 +16,7 @@ class FileCommandLogger(ICommandLogger):
     """
     def __init__(self,
         metadata: CommandMetadata,
+        options: LoggerOptions,
         cwd: Path,
         file_path: str | Path,
         append: bool,
@@ -23,6 +25,7 @@ class FileCommandLogger(ICommandLogger):
         """
         Initializes the logger.
         @param metadata The metadata of the command being run.
+        @param options The logger options to use.
         @param file_path The path to the file to write to. If the file already
           exists, its contents will be overwritten.
         @param cwd The current working directory of the command.
@@ -31,6 +34,7 @@ class FileCommandLogger(ICommandLogger):
         @param add_footer Whether to add a command footer to the file.
         """
         self._metadata = metadata
+        self._options = options
         self._cwd = cwd
         self._file_path = Path(file_path)
         self._add_header = add_header
@@ -134,7 +138,8 @@ class FileCommandLogger(ICommandLogger):
         LoggerStatics.write_command_header(
             self._metadata,
             self._cwd,
-            self._file.write
+            self._file.write,
+            self._options
         )
 
 
@@ -145,5 +150,6 @@ class FileCommandLogger(ICommandLogger):
         """
         LoggerStatics.write_command_footer(
             result,
-            self._file.write
+            self._file.write,
+            self._options
         )

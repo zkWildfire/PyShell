@@ -3,6 +3,7 @@ from pathlib import Path
 from pyshell.backends.native_backend import NativeBackend
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.null_command_logger import NullCommandLogger
 from pyshell.logging.split_command_logger import SplitCommandLogger
 
@@ -18,7 +19,11 @@ def test_run_echo():
     result = backend.run(
         metadata,
         Path(os.getcwd()),
-        ConsoleCommandLogger(metadata, Path.cwd())
+        ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            Path.cwd()
+        )
     )
     assert result.command == cmd[0]
     assert result.args == cmd[1:]
@@ -56,7 +61,11 @@ def test_backend_adds_final_newline_if_missing():
     result = backend.run(
         metadata,
         Path.cwd(),
-        ConsoleCommandLogger(metadata, Path.cwd())
+        ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            Path.cwd()
+        )
     )
     assert result.output == "foo\n"
 
@@ -84,11 +93,13 @@ def test_use_split_streams():
 
     stdout_logger = ConsoleCommandLogger(
         metadata,
+        LoggerOptions(),
         Path.cwd(),
         on_stdout
     )
     stderr_logger = ConsoleCommandLogger(
         metadata,
+        LoggerOptions(),
         Path.cwd(),
         on_stderr
     )

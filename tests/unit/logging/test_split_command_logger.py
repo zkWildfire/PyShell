@@ -4,6 +4,7 @@ from pathlib import Path
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.split_command_logger import SplitCommandLogger
 from pyshell.logging.stream_config import StreamConfig
 
@@ -12,7 +13,11 @@ class TestSplitCommandLogger:
     metadata = CommandMetadata("command", ["arg1", "arg2"])
 
     def test_check_stream_config(self):
-        console_logger = ConsoleCommandLogger(self.metadata, Path.cwd())
+        console_logger = ConsoleCommandLogger(
+            self.metadata,
+            LoggerOptions(),
+            Path.cwd()
+        )
         logger = SplitCommandLogger(console_logger, console_logger)
 
         # For the split logger to work correctly, its stream config must be
@@ -35,11 +40,13 @@ class TestSplitCommandLogger:
 
         stdout_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stdout
         )
         stderr_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stderr
         )
@@ -66,11 +73,13 @@ class TestSplitCommandLogger:
 
         stdout_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stdout
         )
         stderr_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stderr
         )
@@ -96,6 +105,7 @@ class TestSplitCommandLogger:
 
         stdout_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stdout,
             True,
@@ -103,6 +113,7 @@ class TestSplitCommandLogger:
         )
         stderr_logger = ConsoleCommandLogger(
             self.metadata,
+            LoggerOptions(),
             Path.cwd(),
             on_stderr,
             True,

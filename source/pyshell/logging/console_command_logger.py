@@ -3,6 +3,7 @@ from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.logging.command_logger import ICommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.logger_statics import LoggerStatics
 from pyshell.logging.stream_config import StreamConfig
 from pyshell.scanners.entry import Entry
@@ -15,14 +16,15 @@ class ConsoleCommandLogger(ICommandLogger):
     """
     def __init__(self,
         metadata: CommandMetadata,
+        options: LoggerOptions,
         cwd: Path,
         print: Callable[[str], Any] = lambda x: print(x, end=""),
         print_header: bool = False,
-        print_footer: bool = False) \
-            -> None:
+        print_footer: bool = False) -> None:
         """
         Initializes the logger.
         @param metadata The metadata of the command being run.
+        @param options The logger options to use.
         @param cwd The current working directory of the command.
         @param print The print function to use for logging. The functor will be
           passed the string to output to stdout. A newline character should not
@@ -31,6 +33,7 @@ class ConsoleCommandLogger(ICommandLogger):
         @param print_footer Whether to print a command footer to the console.
         """
         self._metadata = metadata
+        self._options = options
         self._cwd = cwd
         self._print = print
         self._print_cmd_header = print_header
@@ -118,7 +121,8 @@ class ConsoleCommandLogger(ICommandLogger):
         LoggerStatics.write_command_header(
             self._metadata,
             self._cwd,
-            self._print
+            self._print,
+            self._options
         )
 
 
@@ -129,5 +133,6 @@ class ConsoleCommandLogger(ICommandLogger):
         """
         LoggerStatics.write_command_footer(
             result,
-            self._print
+            self._print,
+            self._options
         )
