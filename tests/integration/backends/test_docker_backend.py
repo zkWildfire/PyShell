@@ -5,6 +5,7 @@ from pyshell.core.pyshell import PyShell
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.error.keep_going import KeepGoing
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
+from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.split_command_logger import SplitCommandLogger
 import pytest
 
@@ -145,8 +146,16 @@ class TestDocker:
         cwd = Path("/tmp")
 
         # Set up the command logger
-        stdout_logger = ConsoleCommandLogger(metadata, cwd)
-        stderr_logger = ConsoleCommandLogger(metadata, cwd)
+        stdout_logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            cwd
+        )
+        stderr_logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            cwd
+        )
         split_logger = SplitCommandLogger(stdout_logger, stderr_logger)
 
         # Run the test
@@ -173,7 +182,11 @@ class TestDocker:
         cwd = Path("/tmp")
 
         # Set up the command logger
-        stdout_logger = ConsoleCommandLogger(metadata, cwd)
+        stdout_logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            cwd
+        )
 
         # Run the test
         result = backend.run(metadata, cwd, stdout_logger)
@@ -198,7 +211,11 @@ class TestDocker:
         cwd = Path("/tmp")
 
         # Set up the command logger
-        stdout_logger = ConsoleCommandLogger(metadata, cwd)
+        stdout_logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            cwd
+        )
 
         # Run the test
         result = backend.run(metadata, cwd, stdout_logger)
@@ -225,7 +242,11 @@ class TestDocker:
         cwd = Path("/tmp")
 
         # Set up the command logger
-        stdout_logger = ConsoleCommandLogger(metadata, cwd)
+        stdout_logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            cwd
+        )
 
         # Run the test
         result = backend.run(metadata, cwd, stdout_logger)
