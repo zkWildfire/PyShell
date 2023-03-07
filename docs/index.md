@@ -18,6 +18,18 @@ greatly improve development workflows.
   [Contributing Guide](develop/contributing.md) and the Develop section of
   PyShell's docs.
 
+## Features
+* Cross platform support\*
+* Command autocompletion
+* Automatic logging to files
+* Error handling
+* Automatic validation
+* Docker container support
+
+\* PyShell is currently only tested on Linux and a few of the shell commands
+are not yet cross platform. This will be updated in the near future since
+PyShell will be used in projects that need to run on Windows.
+
 ## Installation
 Currently, PyShell is **not** available on PyPI. To install PyShell, clone the
 repository or add it as a submodule, then configure your `PYTHONPATH` to include
