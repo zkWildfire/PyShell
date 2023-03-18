@@ -26,7 +26,7 @@ class AddCommand(ExternalCommand):
 
         for file in files:
             args.append(str(file))
-        else:
+        if not files:
             args.append(".")
 
         super().__init__(

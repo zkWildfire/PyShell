@@ -16,7 +16,7 @@ class CommitCommand(ExternalCommand):
         @param message The commit message.
         @param cmd_flags The flags to set for the command.
         """
-        args: List[str] = ["add", "-m", message]
+        args: List[str] = ["commit", "-m", message]
         super().__init__(
             "git",
             args,

@@ -22,7 +22,7 @@ class Git(IModule):
     """
     @staticmethod
     def add(
-        files: str | Path | List[str | Path],
+        files: str | Path | List[str | Path] = [],
         untracked_only: bool = False,
         cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
@@ -41,23 +41,19 @@ class Git(IModule):
 
     @staticmethod
     def branch(
-        branch: Optional[str],
+        branch: Optional[str] = None,
         create_branch: bool = False,
-        porcelain: bool = False,
         cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `git branch`.
         @param branch The branch to switch to.
         @param create_branch Whether to create the branch if it doesn't exist.
-        @param porcelain Whether to use porcelain output.
         @param cmd_flags The flags to set for the command.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `git branch`.
         """
-        return BranchCommand(branch, create_branch, porcelain, cmd_flags)(
-            pyshell
-        )
+        return BranchCommand(branch, create_branch, cmd_flags)(pyshell)
 
 
     @staticmethod
@@ -96,15 +92,18 @@ class Git(IModule):
 
     @staticmethod
     def init(
+        branch_name: Optional[str] = None,
         cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `git init`.
+        @param branch_name The name to use for the initial branch. If not
+          specified, uses the current git version's default branch name.
         @param cmd_flags The flags to set for the command.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `git init`.
         """
-        return InitCommand(cmd_flags)(pyshell)
+        return InitCommand(branch_name, cmd_flags)(pyshell)
 
 
     @staticmethod
