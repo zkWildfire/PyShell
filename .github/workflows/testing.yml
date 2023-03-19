@@ -32,11 +32,6 @@ jobs:
         docker exec pyshell git config --global user.name cicd &&
         docker exec pyshell git config --global user.email cicd@pyshell.dev
 
-    - name: Run git tests
-      run: >
-        docker exec -w "/repo" pyshell
-        pytest --cov=pyshell --cov-branch --cov-report=xml tests/integration/git
-
     - name: Run unit tests
       run: >
         docker exec -w "/repo" pyshell
@@ -50,7 +45,7 @@ jobs:
         tests/integration/commands
         tests/integration/core
         tests/integration/docker
-        tests/integration/doxygen
+        tests/integration/git
         tests/integration/samples
         tests/integration/shell
 
