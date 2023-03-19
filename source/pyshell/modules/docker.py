@@ -37,6 +37,7 @@ class Docker(IModule):
           path.
         @param use_sudo Whether to use `sudo` when running the command.
         @param cmd_flags The flags to set for the command.
+        @param pyshell PyShell instance to execute the command via.
         @param kwargs Additional arguments to be passed using the `--build-arg`
           flag.
         @returns The result of the command.
