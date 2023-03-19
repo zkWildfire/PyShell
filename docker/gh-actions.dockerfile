@@ -2,8 +2,7 @@ FROM python:3.11-alpine
 USER root
 
 # Install packages
-RUN apk update && \
-	apk add \
+RUN apk add --no-cache \
 		doxygen \
 		git
 
