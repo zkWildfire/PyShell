@@ -46,7 +46,13 @@ jobs:
       run: >
         docker exec -w "/repo" pyshell
         pytest --cov=pyshell --cov-branch --cov-report=xml --cov-append
-        tests/integration
+        tests/integration/backends
+        tests/integration/commands
+        tests/integration/core
+        tests/integration/docker
+        tests/integration/doxygen
+        tests/integration/samples
+        tests/integration/shell
 
     - name: Dump code coverage
       if: success()
