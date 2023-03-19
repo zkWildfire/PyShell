@@ -27,6 +27,11 @@ jobs:
         -v /usr/bin/docker:/usr/bin/docker
         pyshell:latest
 
+    - name: Configure git in container
+      run: >
+        docker exec pyshell git config --global user.name cicd &&
+        docker exec pyshell git config --global user.email cicd@pyshell.dev
+
     - name: Run git tests
       run: >
         docker exec -w "/repo" pyshell
