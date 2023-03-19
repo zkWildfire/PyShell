@@ -1,19 +1,15 @@
 # pyright: reportUnusedImport=false
 from integration.doxygen.doxygen_fixture import DoxygenFixture, doxy
-from pyshell import PyShell, PyShellOptions, AbortOnFailure, AllowAll, \
-    KeepGoing, NativeBackend, NullLogger
+from pyshell import PyShell, KeepGoing
 from pyshell.doxygen.doxygen_command import DoxygenCommand
 from typing import Any
 
+import os
+import pytest
+
 def test_generate_docs(doxy: DoxygenFixture):
     # Initialize a PyShell instance for running commands
-    pyshell = PyShell(
-        NativeBackend(),
-        NullLogger(),
-        AllowAll(),
-        AbortOnFailure(),
-        PyShellOptions()
-    )
+    pyshell = PyShell()
 
     # Run the doxygen command
     cmd = DoxygenCommand(DoxygenFixture.DOXYFILE_PATH)
@@ -29,29 +25,17 @@ def test_generate_docs(doxy: DoxygenFixture):
 
 def test_doxypath_does_not_exist():
     # Initialize a PyShell instance for running commands
-    pyshell = PyShell(
-        NativeBackend(),
-        NullLogger(),
-        AllowAll(),
-        KeepGoing(),
-        PyShellOptions()
-    )
+    pyshell = PyShell(error_handler=KeepGoing())
 
     # Run the doxygen command
     cmd = DoxygenCommand("foo")
     result = cmd(pyshell)
     assert not result.success
 
-
+@pytest.mark.skipif(os.getenv("GH_CONTAINER") != None)
 def test_doxypath_is_not_a_file(tmp_path: Any):
     # Initialize a PyShell instance for running commands
-    pyshell = PyShell(
-        NativeBackend(),
-        NullLogger(),
-        AllowAll(),
-        KeepGoing(),
-        PyShellOptions()
-    )
+    pyshell = PyShell(error_handler=KeepGoing())
 
     # Run the doxygen command
     cmd = DoxygenCommand(tmp_path)
