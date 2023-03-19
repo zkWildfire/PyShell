@@ -89,3 +89,4 @@ RUN mkdir -p /tmp/${USERNAME} && \
 	rm -rf /tmp/${USERNAME}
 
 ENV DEV_CONTAINER=1
+ENV GH_CONTAINER=1
