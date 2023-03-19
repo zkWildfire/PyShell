@@ -32,12 +32,6 @@ jobs:
         docker exec pyshell git config --global user.name cicd &&
         docker exec pyshell git config --global user.email cicd@pyshell.dev
 
-    - name: Run doxygen tests
-      run: >
-        docker exec -w "/repo" pyshell
-        pytest --cov=pyshell --cov-branch --cov-report=xml --cov-append
-        tests/integration/doxygen
-
     - name: Run unit tests
       run: >
         docker exec -w "/repo" pyshell
@@ -47,13 +41,7 @@ jobs:
       run: >
         docker exec -w "/repo" pyshell
         pytest --cov=pyshell --cov-branch --cov-report=xml --cov-append
-        tests/integration/backends
-        tests/integration/commands
-        tests/integration/core
-        tests/integration/docker
-        tests/integration/git
-        tests/integration/samples
-        tests/integration/shell
+        tests/integration
 
     - name: Dump code coverage
       if: success()
