@@ -43,17 +43,21 @@ class Git(IModule):
     def branch(
         branch: Optional[str] = None,
         create_branch: bool = False,
+        show_current: bool = False,
         cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `git branch`.
         @param branch The branch to switch to.
         @param create_branch Whether to create the branch if it doesn't exist.
+        @param show_current Whether to show the current branch.
         @param cmd_flags The flags to set for the command.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `git branch`.
         """
-        return BranchCommand(branch, create_branch, cmd_flags)(pyshell)
+        return BranchCommand(branch, create_branch, show_current, cmd_flags)(
+            pyshell
+        )
 
 
     @staticmethod
