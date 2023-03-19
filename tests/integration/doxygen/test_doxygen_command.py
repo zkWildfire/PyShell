@@ -4,9 +4,6 @@ from pyshell import PyShell, KeepGoing
 from pyshell.doxygen.doxygen_command import DoxygenCommand
 from typing import Any
 
-import os
-import pytest
-
 def test_generate_docs(doxy: DoxygenFixture):
     # Initialize a PyShell instance for running commands
     pyshell = PyShell()
@@ -34,10 +31,9 @@ def test_doxypath_does_not_exist():
 
 def test_doxypath_is_not_a_file(tmp_path: Any):
     # Initialize a PyShell instance for running commands
-    # pyshell = PyShell(error_handler=KeepGoing())
+    pyshell = PyShell(error_handler=KeepGoing())
 
     # Run the doxygen command
-    # cmd = DoxygenCommand(tmp_path)
-    # result = cmd(pyshell)
-    # assert not result.success
-    pass
+    cmd = DoxygenCommand(tmp_path)
+    result = cmd(pyshell)
+    assert not result.success
