@@ -54,3 +54,34 @@ def test_create_branch(tmp_path: Any):
     result = Git.status()
     assert result.success
     assert initial_branch in result.output
+
+
+def test_show_current_branch_only(tmp_path: Any):
+    # Set up a shell in the temporary directory
+    pyshell = PyShell()
+    pyshell.cd(tmp_path)
+
+    # Set up the repository
+    initial_branch = "master"
+    result = Git.init(initial_branch)
+    assert result.success
+    path = Path(tmp_path, "foo.txt")
+    path.write_text("foo bar")
+    result = Git.add(path)
+    assert result.success
+    result = Git.commit("Initial commit")
+    assert result.success
+
+    # Create a second branch so that the test can verify that only the current
+    #   branch is shown
+    branch_name = "foo"
+    result = Git.branch(branch_name, create_branch=True)
+    assert result.success
+    result = Git.switch(branch_name)
+    assert result.success
+
+    # Run the command
+    result = Git.branch(show_current=True)
+    assert result.success
+    assert not initial_branch in result.output
+    assert branch_name in result.output
