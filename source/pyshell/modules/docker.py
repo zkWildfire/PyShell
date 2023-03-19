@@ -2,10 +2,12 @@ from pathlib import Path
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_result import CommandResult
 from pyshell.core.pyshell import PyShell
+from pyshell.docker.build_command import BuildCommand
 from pyshell.docker.exec_command import ExecCommand
 from pyshell.docker.ps_command import PsCommand
 from pyshell.docker.pull_command import PullCommand
 from pyshell.docker.rm_command import RmCommand
+from pyshell.docker.rmi_command import RmiCommand
 from pyshell.docker.run_command import RunCommand
 from pyshell.docker.start_command import StartCommand
 from pyshell.docker.stop_command import StopCommand
@@ -18,6 +20,38 @@ class Docker(IModule):
     @ingroup modules
     @ingroup docker
     """
+    @staticmethod
+    def build(
+        tag: str,
+        dockerfile: str | Path,
+        context: str | Path = ".",
+        use_sudo: bool = False,
+        cmd_flags: int = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None,
+        **kwargs: str) -> CommandResult:
+        """
+        Initializes the command.
+        @param tag The tag to assign to the image.
+        @param dockerfile The path to the Dockerfile to use.
+        @param context The path to pass to `docker build` as the build context
+          path.
+        @param use_sudo Whether to use `sudo` when running the command.
+        @param cmd_flags The flags to set for the command.
+        @param pyshell PyShell instance to execute the command via.
+        @param kwargs Additional arguments to be passed using the `--build-arg`
+          flag.
+        @returns The result of the command.
+        """
+        return BuildCommand(
+            tag,
+            dockerfile,
+            context,
+            use_sudo=use_sudo,
+            cmd_flags=cmd_flags,
+            **kwargs
+        )(pyshell)
+
+
     @staticmethod
     def exec(
         container: str,
@@ -110,6 +144,23 @@ class Docker(IModule):
         @return The results of running `docker rm`.
         """
         return RmCommand(container, force, use_sudo, cmd_flags)(pyshell)
+
+
+    @staticmethod
+    def rmi(
+        tag: str,
+        use_sudo: bool = False,
+        cmd_flags: int = CommandFlags.STANDARD,
+        pyshell: Optional[PyShell] = None) -> CommandResult:
+        """
+        Runs `docker rmi`.
+        @param tag The tag of the image to remove.
+        @param use_sudo Whether to use `sudo` when running the command.
+        @param pyshell PyShell instance to execute the command via.
+        @param cmd_flags The flags to set for the command.
+        @return The results of running `docker rmi`.
+        """
+        return RmiCommand(tag, use_sudo, cmd_flags)(pyshell)
 
 
     @staticmethod

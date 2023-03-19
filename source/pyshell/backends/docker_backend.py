@@ -23,7 +23,7 @@ class DockerBackend(IBackend):
         container_name: Optional[str] = None,
         ports: str | Sequence[str] | None = None,
         use_sudo: bool = False,
-        quiet: bool = True):
+        quiet: CommandFlags = CommandFlags.NO_CONSOLE):
         """
         Initializes the backend.
         @param pyshell The pyshell instance to use when running docker commands
@@ -36,14 +36,16 @@ class DockerBackend(IBackend):
         @param ports A list of ports to expose. Each string in this argument
           will be passed to the `--publish` option of the `docker run` command.
         @param use_sudo Whether to use `sudo` when running docker commands.
-        @param quiet Whether to suppress the output of docker commands used to
-          set up the backend.
+        @param quiet How docker output from commands run by the backend should
+          be handled. This will only apply to the commands run automatically by
+          the backend to set up the container. The commands run by the user
+          are not affected by this argument.
         @throws RuntimeError Thrown if docker is not available or the image
           could not be pulled.
         """
         self._use_sudo = use_sudo
         self._host_pyshell = pyshell
-        self._quiet_flag = CommandFlags.QUIET if quiet else CommandFlags.NONE
+        self._quiet_flag = quiet
         self._cmd_flags = self._quiet_flag | CommandFlags.STANDARD
         self._container_name = container_name
 

@@ -74,8 +74,8 @@ class TeeCommandLogger(ICommandLogger):
           that the stderr stream be merged with the stdout stream, this will be
           `None`.
         """
-        stdout_contents = stdout.read()
-        stderr_contents = stderr.read() if stderr is not None else ""
+        stdout_contents = stdout.readline()
+        stderr_contents = stderr.readline() if stderr is not None else ""
 
         # Push the data to each logger's stream
         for logger_stdout, logger_stderr in self._streams:

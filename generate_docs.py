@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 from pyshell import PyShell, PyShellOptions, KeepGoing, PermitCleanup, \
     NativeBackend, MultiFileLogger, CommandFlags
-from pyshell.modules import Doxygen, Shell
+from pyshell.modules import Doxygen, Git, Shell
 import sys
 
 # Process arguments
@@ -89,7 +89,8 @@ if args.clean:
 #   gh-deploy command.
 if args.publish:
     # Make sure all local changes are committed before allowing publishing
-    if Shell.run("git", ["status", "--porcelain"]).output.strip():
+    changes = Git.status(porcelain=True).output.strip()
+    if changes:
         print(
             "Error: Cannot publish documentation with uncommitted changes.",
             file=sys.stderr
@@ -110,22 +111,22 @@ Doxygen.generate_docs(DOXYFILE_PATH)
 #   gh-pages branch and push it.
 if args.publish:
     # Get the branch that's currently checked out
-    curr_branch = Shell.run("git", ["branch", "--show-current"]).output.strip()
+    curr_branch = Git.branch(show_current=True).output.strip()
 
     # Switch to the gh-pages branch, which will remove the repo files and leave
     #   only the files that are hosted by GitHub Pages.
-    Shell.run("git", ["switch", "gh-pages"])
+    Git.switch("gh-pages")
 
     # Pull the commit that was just created by the mkdocs gh-deploy command
-    Shell.run("git", "pull")
+    Git.pull()
 
     # Copy the doxygen documentation to the target directory
     Shell.cp(DOXYGEN_HTML_DIR, DOCS_HTML_DIR)
 
     # Push the doxygen files to the gh-pages branch
-    Shell.run("git", ["add", DOCS_HTML_DIR])
-    Shell.run("git", ["commit", "-m", "[PyShell] Add doxygen documentation"])
-    Shell.run("git", "push")
+    Git.add(DOCS_HTML_DIR)
+    Git.commit("[PyShell] Add doxygen documentation")
+    Git.push()
 
     # Switch back to the original branch as cleanup
-    Shell.run("git", ["switch", curr_branch], cmd_flags=CommandFlags.CLEANUP)
+    Git.switch(curr_branch, cmd_flags=CommandFlags.CLEANUP)
