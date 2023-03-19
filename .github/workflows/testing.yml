@@ -27,6 +27,11 @@ jobs:
         -v /usr/bin/docker:/usr/bin/docker
         pyshell:latest
 
+    - name: Run git tests
+      run: >
+        docker exec -w "/repo" pyshell
+        pytest --cov=pyshell --cov-branch --cov-report=xml tests/integration/git
+
     - name: Run unit tests
       run: >
         docker exec -w "/repo" pyshell

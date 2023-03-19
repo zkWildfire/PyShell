@@ -1,13 +1,8 @@
 from pathlib import Path
 from pyshell import PyShell
 from pyshell.modules.git import Git
-import pytest
-import os
 from typing import Any
 
-@pytest.mark.skipif(
-    os.getenv("GH_CONTAINER") != None,
-    reason="Hangs when run by GitHub Actions")
 def test_init_command_in_empty_dir(tmp_path: Any):
     # Set up a shell in the temporary directory
     pyshell = PyShell()
@@ -19,9 +14,6 @@ def test_init_command_in_empty_dir(tmp_path: Any):
     assert Path(tmp_path, ".git").exists()
 
 
-@pytest.mark.skipif(
-    os.getenv("GH_CONTAINER") != None,
-    reason="Hangs when run by GitHub Actions")
 def test_init_nonstandard_branch(tmp_path: Any):
     # Set up a shell in the temporary directory
     pyshell = PyShell()
