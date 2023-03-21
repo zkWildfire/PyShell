@@ -1,0 +1,5 @@
+<map id="pyshell.logging.file_command_logger.FileCommandLogger" name="pyshell.logging.file_command_logger.FileCommandLogger">
+<area shape="rect" id="node1" title="Logger that writes command output to a file." alt="" coords="5,169,240,225"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1logging_1_1command__logger_1_1ICommandLogger.html" title="Base interface for loggers that handle a single command." alt="" coords="27,80,218,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="98,5,147,32"/>
+</map>

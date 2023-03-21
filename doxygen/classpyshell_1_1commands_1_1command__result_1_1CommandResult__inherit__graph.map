@@ -1,0 +1,6 @@
+<map id="pyshell.commands.command_result.CommandResult" name="pyshell.commands.command_result.CommandResult">
+<area shape="rect" id="node1" title="Stores the result of a command execution." alt="" coords="103,53,317,94"/>
+<area shape="rect" id="node3" href="$classpyshell_1_1commands_1_1async__command__result_1_1AsyncCommandResult.html" title="Stores the result of a command executed asynchronously." alt="" coords="365,5,613,61"/>
+<area shape="rect" id="node4" href="$classpyshell_1_1commands_1_1sync__command__result_1_1SyncCommandResult.html" title="Stores the result of a command executed synchronously." alt="" coords="369,85,609,141"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,60,55,87"/>
+</map>

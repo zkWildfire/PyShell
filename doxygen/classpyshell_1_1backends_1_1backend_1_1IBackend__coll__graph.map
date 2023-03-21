@@ -1,0 +1,5 @@
+<map id="pyshell.backends.backend.IBackend" name="pyshell.backends.backend.IBackend">
+<area shape="rect" id="node1" title="Represents a backend for executing PyShell commands." alt="" coords="24,169,220,211"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1core_1_1pyshell__component_1_1IPyShellComponent.html" title="Base class for all components used by a PyShell instance." alt="" coords="5,80,239,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="97,5,147,32"/>
+</map>
