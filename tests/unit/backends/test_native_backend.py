@@ -1,5 +1,7 @@
 import os
+from datetime import datetime
 from pathlib import Path
+from pyshell.commands.command_flags import CommandFlags
 from pyshell.backends.native_backend import NativeBackend
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
@@ -115,3 +117,30 @@ def test_use_split_streams():
     assert result.success
     assert not stdout_output
     assert msg in stderr_output
+
+
+def test_run_async_command():
+    # Set up the command to run
+    duration_sec = 5
+    cmd = ["bash", "-c", f"sleep {duration_sec}"]
+    cwd = os.getcwd()
+    metadata = CommandMetadata(
+        cmd[0],
+        cmd[1:],
+        flags = CommandFlags.ASYNC
+    )
+
+    # Run the command
+    backend = NativeBackend()
+    start_time = datetime.now()
+    result = backend.run(
+        metadata,
+        Path(cwd),
+        NullCommandLogger()
+    )
+
+    # This should block until the command returns
+    assert result.success
+    end_time = datetime.now()
+    duration = end_time - start_time
+    assert duration.total_seconds() >= duration_sec

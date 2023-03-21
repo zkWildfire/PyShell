@@ -1,11 +1,14 @@
 import os
+from datetime import datetime
 from pathlib import Path
 from pyshell.backends.docker_backend import DockerBackend
+from pyshell.commands.command_flags import CommandFlags
 from pyshell.core.pyshell import PyShell
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.error.keep_going import KeepGoing
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.logger_options import LoggerOptions
+from pyshell.logging.null_command_logger import NullCommandLogger
 from pyshell.logging.split_command_logger import SplitCommandLogger
 import pytest
 
@@ -255,3 +258,33 @@ class TestDocker:
         assert result.backend
         assert "Docker container" in result.backend
         assert container_name in result.backend
+
+
+    def test_run_async_command(self):
+        # Set up the backend
+        host_pyshell = PyShell()
+        backend = DockerBackend(
+            host_pyshell,
+            "ubuntu:jammy",
+            use_sudo=self.use_sudo
+        )
+
+        # Set up the command to run
+        duration_sec = 5
+        metadata = CommandMetadata("sleep", [str(duration_sec)], CommandFlags.ASYNC)
+        cwd = Path("/tmp")
+
+        # Run the test
+        start_time = datetime.now()
+        result = backend.run(metadata, cwd, NullCommandLogger())
+
+        # This should block until the command finishes
+        # The lack of an assertion here is intentional - the test should not return
+        #   without stopping the backend first
+        result.success
+        end_time = datetime.now()
+        duration = end_time - start_time
+
+        backend.stop()
+
+        assert duration.total_seconds() >= duration_sec
