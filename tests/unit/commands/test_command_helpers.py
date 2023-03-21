@@ -1,7 +1,7 @@
 from datetime import datetime
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_helpers import enable_if
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 
 def test_enable_if_boolean():
     assert enable_if(True) == CommandFlags.STANDARD
@@ -9,7 +9,7 @@ def test_enable_if_boolean():
 
 
 def test_enable_if_command_result():
-    success_result = CommandResult(
+    success_result = SyncCommandResult(
         "command",
         [],
         "",
@@ -19,7 +19,7 @@ def test_enable_if_command_result():
         datetime.now(),
         datetime.now()
     )
-    failed_result = CommandResult(
+    failed_result = SyncCommandResult(
         "command",
         [],
         "",

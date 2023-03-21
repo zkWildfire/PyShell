@@ -15,8 +15,13 @@ class CommandFlags(IntEnum):
     # Inactive commands should not be run.
     INACTIVE = 0x2
 
-    ## Command is a command that should be run even if a failure occurs.
-    CLEANUP = 0x4
+    ## The command should be run asynchronously.
+    # @warning Commands executed asynchronously will not have their output
+    #   pushed to the logger until the command is waited on.
+    ASYNC = 0x4
+
+    ## The command is a command that should be run even if a failure occurs.
+    CLEANUP = 0x8
 
     ## Don't log the command's output to any source.
     QUIET = 0x10

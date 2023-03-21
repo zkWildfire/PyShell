@@ -1,11 +1,11 @@
 from datetime import datetime
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.doxygen.doxygen_scanner import DoxygenScanner
 from pyshell.scanners.severity import ESeverity
 
 def test_scan_log_with_no_errors():
     scanner = DoxygenScanner()
-    result = CommandResult(
+    result = SyncCommandResult(
         "doxygen",
         ["doxyfile"],
         "/foo/bar",
@@ -28,7 +28,7 @@ def test_scan_log_with_single_missing_parameter_error():
 
     # Run the test
     scanner = DoxygenScanner()
-    result = CommandResult(
+    result = SyncCommandResult(
         "doxygen",
         ["doxyfile"],
         "/foo/bar",
@@ -61,7 +61,7 @@ def test_scan_log_with_mangled_missing_parameter_error():
 
     # Run the test
     scanner = DoxygenScanner()
-    result = CommandResult(
+    result = SyncCommandResult(
         "doxygen",
         ["doxyfile"],
         "/foo/bar",
@@ -96,7 +96,7 @@ def test_scan_log_with_extra_parameter_error():
 
     # Run the test
     scanner = DoxygenScanner()
-    result = CommandResult(
+    result = SyncCommandResult(
         "doxygen",
         ["doxyfile"],
         "/foo/bar",
@@ -128,7 +128,7 @@ def test_scan_log_with_mangled_extra_parameter_error():
 
     # Run the test
     scanner = DoxygenScanner()
-    result = CommandResult(
+    result = SyncCommandResult(
         "doxygen",
         ["doxyfile"],
         "/foo/bar",

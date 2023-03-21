@@ -3,7 +3,7 @@ from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.logging.file_command_logger import FileCommandLogger
 from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.stream_config import StreamConfig
@@ -16,7 +16,7 @@ class TestFileCommandLogger:
     metadata = CommandMetadata("command", ["arg1", "arg2"])
 
     # Result instance used when closing the logger
-    result = CommandResult(
+    result = SyncCommandResult(
         "cmd",
         ["arg1", "arg2"],
         "/tmp",
@@ -165,7 +165,7 @@ class TestFileCommandLogger:
         # Run the test
         cmd_name = "command"
         args = ["arg1", "arg2"]
-        result = CommandResult(
+        result = SyncCommandResult(
             cmd_name,
             args,
             tmp_path,
@@ -197,7 +197,7 @@ class TestFileCommandLogger:
         # Run the test
         scanner_msg = "bar"
         entry = Entry(ESeverity.ERROR, "foo", 0, 1, scanner_msg)
-        result = CommandResult(
+        result = SyncCommandResult(
             "cmd",
             ["arg1", "arg2"],
             tmp_path,

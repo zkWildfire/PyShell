@@ -3,6 +3,7 @@ from pathlib import Path
 from pyshell.backends.backend import IBackend
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.logging.command_logger import ICommandLogger
 
 class DryRunBackend(IBackend):
@@ -25,7 +26,7 @@ class DryRunBackend(IBackend):
         """
         print(metadata.full_command)
 
-        return CommandResult(
+        return SyncCommandResult(
             command=metadata.command,
             args=metadata.args,
             cwd=str(cwd),

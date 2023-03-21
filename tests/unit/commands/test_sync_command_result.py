@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from dateutil import tz
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 import pytest
 
 def test_success_error_properties_on_successful_command():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar"],
         "/foo/bar",
@@ -20,7 +20,7 @@ def test_success_error_properties_on_successful_command():
 
 
 def test_success_error_properties_on_failed_command():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar"],
         "/foo/bar",
@@ -36,7 +36,7 @@ def test_success_error_properties_on_failed_command():
 
 
 def test_full_command_on_command_with_no_args():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         [],
         "/foo/bar",
@@ -51,7 +51,7 @@ def test_full_command_on_command_with_no_args():
 
 
 def test_full_command_on_command_with_args():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -66,7 +66,7 @@ def test_full_command_on_command_with_args():
 
 
 def test_skipped_command():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -86,7 +86,7 @@ def test_skipped_command():
 
 
 def test_successful_command_is_true():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -101,7 +101,7 @@ def test_successful_command_is_true():
 
 
 def test_failed_command_is_false():
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -117,7 +117,7 @@ def test_failed_command_is_false():
 
 def test_command_start_time():
     start_time = datetime.utcnow()
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -134,7 +134,7 @@ def test_command_start_time():
 
 def test_command_end_time():
     end_time = datetime.utcnow()
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -153,7 +153,7 @@ def test_command_duration_seconds():
     duration = timedelta(seconds=1)
     start_time = datetime.now() - duration
     end_time = datetime.now()
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -172,7 +172,7 @@ def test_command_duration_milliseconds():
     duration = timedelta(milliseconds=1)
     start_time = datetime.now() - duration
     end_time = datetime.now()
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -192,7 +192,7 @@ def test_command_duration_minutes():
     duration = timedelta(minutes=1)
     start_time = datetime.now() - duration
     end_time = datetime.now()
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",
@@ -210,7 +210,7 @@ def test_command_duration_minutes():
 
 def test_backend_property():
     backend = "FOOBAR"
-    result = CommandResult(
+    result = SyncCommandResult(
         "foo",
         ["bar", "baz"],
         "/foo/bar",

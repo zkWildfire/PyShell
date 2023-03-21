@@ -5,6 +5,7 @@ from pyshell.backends.backend import IBackend
 from pyshell.backends.native_backend import NativeBackend
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.core.pyshell_events import PyShellEvents
 from pyshell.core.pyshell_options import PyShellOptions
 from pyshell.error.abort_on_failure import AbortOnFailure
@@ -169,7 +170,7 @@ class PyShell:
         # Determine whether to run the command
         if not self._executor.should_run(metadata):
             self._on_command_skipped.broadcast(self._events, metadata)
-            return CommandResult(
+            return SyncCommandResult(
                 metadata.command,
                 metadata.args,
                 str(cwd),

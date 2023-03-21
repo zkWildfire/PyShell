@@ -4,6 +4,7 @@ from pyshell.commands.command import ICommand
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.core.platform_statics import PlatformStatics
 from pyshell.tracing.caller_info import CallerInfo
@@ -125,7 +126,7 @@ class ExternalCommand(ICommand):
             error_msg += "Note: Command was declared at " + \
                 f"{self.origin.file_path}:{self.origin.line_number}"
             print(error_msg, file=sys.stderr)
-            return CommandResult(
+            return SyncCommandResult(
                 self._name,
                 self._args,
                 str(cwd) if cwd else str(pyshell.cwd),
@@ -139,7 +140,7 @@ class ExternalCommand(ICommand):
         # Make sure that all arguments to the command are valid
         error_msg = self._validate_args()
         if error_msg:
-            return CommandResult(
+            return SyncCommandResult(
                 self._name,
                 self._args,
                 str(cwd) if cwd else str(pyshell.cwd),

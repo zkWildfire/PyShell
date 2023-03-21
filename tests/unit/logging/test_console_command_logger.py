@@ -3,7 +3,7 @@ from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.stream_config import StreamConfig
@@ -85,7 +85,7 @@ class TestConsoleCommandLogger:
         cmd_name = "command"
         args = ["arg1", "arg2"]
         exit_code = 0
-        result = CommandResult(
+        result = SyncCommandResult(
             cmd_name,
             args,
             "",
@@ -203,7 +203,7 @@ class TestConsoleCommandLogger:
 
         # Run the test
         exit_code = 0
-        result = CommandResult(
+        result = SyncCommandResult(
             cmd_name,
             args,
             "",
@@ -257,7 +257,7 @@ class TestConsoleCommandLogger:
         )
 
         # Run the test
-        logger.log_results(CommandResult(
+        logger.log_results(SyncCommandResult(
             "command",
             ["arg1", "arg2"],
             "",
@@ -322,7 +322,7 @@ class TestConsoleCommandLogger:
         )
 
         # Run the test
-        logger.log_results(CommandResult(
+        logger.log_results(SyncCommandResult(
             "command",
             ["arg1", "arg2"],
             "",

@@ -4,6 +4,7 @@ from pyshell.backends.backend import IBackend
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
+from pyshell.commands.async_command_result import AsyncCommandResult
 from pyshell.core.pyshell import PyShell
 from pyshell.logging.command_logger import ICommandLogger
 from pyshell.logging.stream_config import StreamConfig
@@ -164,36 +165,27 @@ class DockerBackend(IBackend):
             universal_newlines=True
         )
 
-        # The process's stderr is allowed to be null since it could be
-        #   redirected, but the process's stdout must always be valid
-        assert process.stdout
-
-        # Process all output from the process
-        while process.poll() is None:
-            logger.log(process.stdout, process.stderr)
-
-        # Process any remaining output from the process
-        logger.log(process.stdout, process.stderr)
-
-        # Make sure the returned output always ends with a newline
-        output = logger.output
-        if not output.endswith("\n"):
-            output += "\n"
-
+        # Determine the name to use for the backend
         backend = f"Docker container '{self.container_id}'"
         if self._container_name:
             backend += f" ({self._container_name})"
-        return CommandResult(
-            command=metadata.command,
-            args=metadata.args,
-            cwd=str(cwd),
-            output=output,
-            exit_code=process.returncode,
-            skipped=False,
-            start_time=start_time,
-            end_time=datetime.utcnow(),
-            backend=backend
+
+        # If the command's async flag is set, return immediately. Otherwise,
+        #   wait for the process to finish and return the results.
+        result = AsyncCommandResult(
+            process,
+            logger,
+            metadata,
+            str(cwd),
+            start_time,
+            backend
         )
+
+        if metadata.flags & CommandFlags.ASYNC:
+            return result
+        else:
+            return result.wait()
+
 
 
     def stop(self):

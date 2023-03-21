@@ -1,176 +1,192 @@
-from abc import ABC, abstractmethod
 from datetime import datetime
+from dateutil import tz
+from pyshell.commands.command_result import CommandResult
 from typing import Optional, Sequence
 
-class CommandResult(ABC):
+class SyncCommandResult(CommandResult):
     """
-    Stores the result of a command execution.
+    Stores the result of a command executed synchronously.
     @ingroup commands
     """
-    def __init__(self):
+    def __init__(self,
+        command: str,
+        args: Sequence[str],
+        cwd: str,
+        output: str,
+        exit_code: int,
+        skipped: bool,
+        start_time: datetime,
+        end_time: datetime,
+        backend: Optional[str] = None):
         """
         Initializes the object.
+        @param command Name of the command/executable that was run.
+        @param args Arguments passed to the command.
+        @param cwd Working directory used for the command.
+        @param output Merged output from stdout and stderr.
+        @param exit_code Exit code from the command. If the command was skipped,
+          this may be any value.
+        @param skipped Whether the command was skipped.
+        @param start_time The time the command started. Should be in UTC time.
+        @param end_time The time the command ended. Should be in UTC time.
+        @param backend Information about the backend that executed the command.
+          The exact format of this string is backend-specific.
         """
         super().__init__()
 
+        self._command = command
+        self._args = args
+        self._cwd = cwd
+        self._output = output
+        self._exit_code = exit_code
+        self._skipped = skipped
+        self._start_time = start_time
+        self._end_time = end_time
+        self._backend = backend
+
 
     @property
-    @abstractmethod
     def command(self) -> str:
         """
         Name of the command/executable that was run.
         """
-        raise NotImplementedError()
+        return self._command
 
 
     @property
-    @abstractmethod
     def args(self) -> Sequence[str]:
         """
         Arguments passed to the command.
         """
-        raise NotImplementedError()
+        return self._args
 
 
     @property
-    @abstractmethod
     def cwd(self) -> str:
         """
         Working directory used for the command.
         """
-        raise NotImplementedError()
+        return self._cwd
 
 
     @property
-    @abstractmethod
     def output(self) -> str:
         """
         Merged output from stdout and stderr.
         """
-        raise NotImplementedError()
+        return self._output
 
 
     @property
-    @abstractmethod
     def exit_code(self) -> int:
         """
         Exit code from the command.
         @throws RuntimeError If the command was skipped.
         """
-        raise NotImplementedError()
+        if self.skipped:
+            raise RuntimeError("Cannot get exit code for skipped command.")
+        return self._exit_code
 
 
     @property
-    @abstractmethod
     def success(self) -> bool:
         """
         Whether the command was successful.
         """
-        raise NotImplementedError()
+        return not self.skipped and self.exit_code == 0
 
 
     @property
-    @abstractmethod
     def error(self) -> bool:
         """
         Whether the command was not successful.
         """
-        raise NotImplementedError()
+        return not self.skipped and not self.success
 
 
     @property
-    @abstractmethod
     def skipped(self) -> bool:
         """
         Whether the command was skipped.
         """
-        raise NotImplementedError()
+        return self._skipped
 
 
     @property
-    @abstractmethod
     def full_command(self) -> str:
         """
         The full command that was run, including the command and all arguments.
         """
-        raise NotImplementedError()
+        return " ".join([self.command] + list(self.args))
 
 
     @property
-    @abstractmethod
     def start_time_utc(self) -> datetime:
         """
         The time the command started.
         """
-        raise NotImplementedError()
+        return self._start_time.astimezone(tz.tzutc())
 
 
     @property
-    @abstractmethod
     def start_time_local(self) -> datetime:
         """
         The time the command started, in local time.
         """
-        raise NotImplementedError()
+        return self.start_time_utc.astimezone(tz.tzlocal())
 
 
     @property
-    @abstractmethod
     def end_time_utc(self) -> datetime:
         """
         The time the command ended.
         """
-        raise NotImplementedError()
+        return self._end_time.astimezone(tz.tzutc())
 
 
     @property
-    @abstractmethod
     def end_time_local(self) -> datetime:
         """
         The time the command ended, in local time.
         """
-        raise NotImplementedError()
+        return self.end_time_utc.astimezone(tz.tzlocal())
 
 
     @property
-    @abstractmethod
     def duration_milliseconds(self) -> float:
         """
         The duration of the command, in milliseconds.
         """
-        raise NotImplementedError()
+        return self.duration_seconds * 1000
 
 
     @property
-    @abstractmethod
     def duration_seconds(self) -> float:
         """
         The duration of the command, in seconds.
         """
-        raise NotImplementedError()
+        return (self.end_time_utc - self.start_time_utc).total_seconds()
 
 
     @property
-    @abstractmethod
     def duration_minutes(self) -> float:
         """
         The duration of the command, in minutes.
         """
-        raise NotImplementedError()
+        return self.duration_seconds / 60
 
 
     @property
-    @abstractmethod
     def backend(self) -> Optional[str]:
         """
         Information about the backend that executed the command.
         The exact format of this string is backend-specific.
         """
-        raise NotImplementedError()
+        return self._backend
 
 
     def __bool__(self) -> bool:
         """
         Whether the command was successful.
         """
-        return self.exit_code == 0
+        return self.success

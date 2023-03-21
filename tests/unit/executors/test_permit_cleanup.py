@@ -2,6 +2,7 @@ from datetime import datetime
 from pyshell.commands.command_flags import CommandFlags
 from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.core.pyshell_events import PyShellEvents
 from pyshell.events.event_handler import EventHandler
 from pyshell.executors.permit_cleanup import PermitCleanup
@@ -54,7 +55,7 @@ def test_block_standard_command_after_failure(fixture: PermitCleanupFixture):
     metadata = CommandMetadata("foo", [], CommandFlags.STANDARD)
 
     # Simulate a command failure
-    result = CommandResult(
+    result = SyncCommandResult(
         metadata.command,
         metadata.args,
         "/foo",
@@ -74,7 +75,7 @@ def test_block_inactive_command_after_failure(fixture: PermitCleanupFixture):
     metadata = CommandMetadata("foo", [], CommandFlags.INACTIVE)
 
     # Simulate a command failure
-    result = CommandResult(
+    result = SyncCommandResult(
         metadata.command,
         metadata.args,
         "/foo",
@@ -94,7 +95,7 @@ def test_allow_cleanup_command_after_failure(fixture: PermitCleanupFixture):
     metadata = CommandMetadata("foo", [], CommandFlags.CLEANUP)
 
     # Simulate a command failure
-    result = CommandResult(
+    result = SyncCommandResult(
         metadata.command,
         metadata.args,
         "/foo",

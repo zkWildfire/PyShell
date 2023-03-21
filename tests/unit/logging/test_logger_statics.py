@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import os
 from pathlib import Path
 from pyshell.commands.command_metadata import CommandMetadata
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.logger_statics import LoggerStatics
 
@@ -40,7 +40,7 @@ def test_write_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -193,7 +193,7 @@ def test_write_only_cmd_in_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -248,7 +248,7 @@ def test_write_only_cwd_in_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -303,7 +303,7 @@ def test_write_only_backend_in_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -358,7 +358,7 @@ def test_write_only_exit_code_in_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -413,7 +413,7 @@ def test_write_only_timestamps_in_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -469,7 +469,7 @@ def test_write_only_duration_in_footer():
     backend = "FOOBAR"
 
     results = [
-        CommandResult(
+        SyncCommandResult(
             cmd,
             args,
             cwd,
@@ -480,7 +480,7 @@ def test_write_only_duration_in_footer():
             end_time,
             backend
         ),
-        CommandResult(
+        SyncCommandResult(
             cmd,
             args,
             cwd,
@@ -491,7 +491,7 @@ def test_write_only_duration_in_footer():
             end_time + timedelta(seconds=30),
             backend
         ),
-        CommandResult(
+        SyncCommandResult(
             cmd,
             args,
             cwd,
@@ -549,7 +549,7 @@ def test_write_custom_footer_banner():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -633,7 +633,7 @@ def test_footer_skipped_if_no_components_enabled():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -678,7 +678,7 @@ def test_append_newline_after_headers():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -723,7 +723,7 @@ def test_append_newline_before_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,
@@ -768,7 +768,7 @@ def test_append_newline_after_footer():
     end_time = datetime.now() + timedelta(seconds=1)
     backend = "FOOBAR"
 
-    result = CommandResult(
+    result = SyncCommandResult(
         cmd,
         args,
         cwd,

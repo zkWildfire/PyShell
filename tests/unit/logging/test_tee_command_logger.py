@@ -2,7 +2,7 @@ from datetime import datetime
 from io import StringIO
 from pathlib import Path
 from pyshell.commands.command_metadata import CommandMetadata
-from pyshell.commands.command_result import CommandResult
+from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.split_command_logger import SplitCommandLogger
@@ -125,7 +125,7 @@ class TestTeeCommandLogger:
         logger = TeeCommandLogger(StreamConfig.MERGE_STREAMS, console_logger)
 
         # Run the test
-        result = CommandResult(
+        result = SyncCommandResult(
             "foo",
             ["bar"],
             "/tmp",
