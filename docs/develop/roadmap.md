@@ -23,13 +23,6 @@ multiple targets at the same time. This will be used to implement a
 `MultiSshBackend` that allows the same commands to be run on multiple remote
 machines at the same time.
 
-* Async commands
-
-Currently, PyShell commands are synchronous. This means that a command will not
-return until it has completed execution. This is fine for most commands, but
-having support for asynchronous commands would be useful for long-running
-commands that could be run in parallel with other commands.
-
 * Per-invocation overrides
 
 With PyShell's split between when a command is defined and when it is invoked,

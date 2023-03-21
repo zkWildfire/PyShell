@@ -24,11 +24,14 @@ greatly improve development workflows.
 * Automatic logging to files
 * Error handling
 * Automatic validation
+* Asynchronous commands
 * Docker container support
 
-\* PyShell is currently only tested on Linux and a few of the shell commands
-are not yet cross platform. This will be updated in the near future since
-PyShell will be used in projects that need to run on Windows.
+\* As a Python library, PyShell is inherently cross platform. However, PyShell
+is currently only tested on Linux and a few of the shell commands invoke unix
+commands and must be updated to be cross platform. These changes will be made in
+the near future since PyShell will be used by projects that need to run on
+Windows.
 
 ## Installation
 Currently, PyShell is **not** available on PyPI. To install PyShell, clone the

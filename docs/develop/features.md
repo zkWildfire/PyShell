@@ -44,6 +44,13 @@ PyShell commands automatically validate their input and any external state
 required to run the command when the command instance is constructed, allowing
 errors to be detected as early as possible.
 
+* Asynchronous commands
+
+PyShell commands can run synchronously or asynchronously. This allows scripts
+to run multiple commands at the same time, providing significant speed ups for
+long-running scripts. An async command returns a standard command result object
+and will only block the script once result properties are accessed.
+
 * Docker container support
 
 PyShell instances can be configured to target a docker container instead of
