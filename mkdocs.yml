@@ -7,6 +7,8 @@ repo_url: https://github.com/MYTX-Wildfire/PyShell
 # Theme properties
 theme:
   name: material
+  favicon: img/favicon.ico
+  # logo: img/icon-256.png
   icon:
     admonition:
       note: octicons/tag-16
