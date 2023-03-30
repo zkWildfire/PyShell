@@ -29,9 +29,9 @@ greatly improve development workflows.
 
 \* As a Python library, PyShell is inherently cross platform. However, PyShell
 is currently only tested on Linux and a few of the shell commands invoke unix
-commands and must be updated to be cross platform. These changes will be made in
-the near future since PyShell will be used by projects that need to run on
-Windows.
+commands. If running on Windows, the current recommendation is to have Git for
+Windows installed and have its `bin` directory added to your `PATH`. This will
+ensure that all PyShell commands function as expected.
 
 ## Installation
 Currently, PyShell is **not** available on PyPI. To install PyShell, clone the

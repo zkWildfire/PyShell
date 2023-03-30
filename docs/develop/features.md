@@ -3,8 +3,9 @@
 
 !!! warning
     PyShell is currently only tested on Linux and a few of the shell commands
-    are not yet cross platform. This will be updated in the near future since
-    PyShell will be used in projects that need to run on Windows.
+    invoke Linux commands. If using PyShell on Windows, it is highly recommended
+    to have Git for Windows installed and have its `bin` directory added to your
+    `PATH`. This will ensure that all PyShell commands function as expected.
 
 PyShell scripts are standard python scripts and can be run on any platform that
 Python supports. Built-in PyShell modules are designed to be cross platform,
