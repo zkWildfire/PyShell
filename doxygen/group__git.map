@@ -1,0 +1,5 @@
+<map id="Git" name="Git">
+<area shape="rect" id="node1" href="$group__commands.html" title="Classes that validate and run shell commands and executables." alt="" coords="291,250,387,275"/>
+<area shape="rect" id="node2" href="$group__modules.html" title="Modules allow easier access to PyShell commands." alt="" coords="300,299,377,325"/>
+<area shape="rect" id="node3" title="All git related PyShell commands and modules." alt="" coords="5,275,47,301"/>
+</map>

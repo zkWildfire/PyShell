@@ -1,0 +1,5 @@
+<map id="pyshell.logging.null_command_logger.NullCommandLogger" name="pyshell.logging.null_command_logger.NullCommandLogger">
+<area shape="rect" id="node1" title="Logger that outputs nothing." alt="" coords="5,169,244,225"/>
+<area shape="rect" id="node2" href="$classpyshell_1_1logging_1_1command__logger_1_1ICommandLogger.html" title="Base interface for loggers that handle a single command." alt="" coords="29,80,220,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="100,5,149,32"/>
+</map>
