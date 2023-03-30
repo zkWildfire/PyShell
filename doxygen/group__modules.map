@@ -1,7 +1,0 @@
-<map id="Modules" name="Modules">
-<area shape="rect" id="node1" href="$group__shell.html" title="All shell related PyShell commands and modules." alt="" coords="346,10,401,35"/>
-<area shape="rect" id="node2" title="Modules allow easier access to PyShell commands." alt="" coords="5,94,83,119"/>
-<area shape="rect" id="node3" href="$group__doxygen.html" title="All Doxygen related PyShell commands and modules." alt="" coords="333,67,413,93"/>
-<area shape="rect" id="node4" href="$group__docker.html" title="All docker related PyShell commands and modules." alt="" coords="340,117,407,142"/>
-<area shape="rect" id="node5" href="$group__git.html" title="All git related PyShell commands and modules." alt="" coords="353,166,394,191"/>
-</map>

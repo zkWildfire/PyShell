@@ -1,6 +1,0 @@
-<map id="pyshell.executors.allow_all.AllowAll" name="pyshell.executors.allow_all.AllowAll">
-<area shape="rect" id="node1" title="Executor that allows all commands except inactive commands to run." alt="" coords="35,259,209,300"/>
-<area shape="rect" id="node2" href="$classpyshell_1_1executors_1_1executor_1_1IExecutor.html" title="Base interface for command executors." alt="" coords="23,169,221,211"/>
-<area shape="rect" id="node3" href="$classpyshell_1_1core_1_1pyshell__component_1_1IPyShellComponent.html" title="Base class for all components used by a PyShell instance." alt="" coords="5,80,239,121"/>
-<area shape="rect" id="node4" title=" " alt="" coords="97,5,147,32"/>
-</map>
