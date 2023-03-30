@@ -112,22 +112,24 @@ class Git(IModule):
 
     @staticmethod
     def pull(
-        remote: str = "origin",
+        remote: Optional[str] = None,
+        branch: Optional[str] = None,
         cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
         Runs `git pull`.
         @param remote The remote to pull from.
+        @param branch The branch to pull from the remote.
         @param cmd_flags The flags to set for the command.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `git pull`.
         """
-        return PullCommand(remote, cmd_flags)(pyshell)
+        return PullCommand(remote, branch, cmd_flags)(pyshell)
 
 
     @staticmethod
     def push(
-        remote: str = "origin",
+        remote: Optional[str] = None,
         cmd_flags: int = CommandFlags.STANDARD,
         pyshell: Optional[PyShell] = None) -> CommandResult:
         """
