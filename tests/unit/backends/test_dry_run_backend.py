@@ -47,3 +47,29 @@ def test_run_invalid_cmd():
     # The dry run backend should assume that all commands succeed
     assert result.exit_code == 0
     assert result.success
+
+
+def test_all_commands_recorded_in_order():
+    cmd1 = ["echo", "foo"]
+    cmd2 = ["echo", "bar"]
+    cwd = "/foo/bar"
+
+    backend = DryRunBackend()
+    backend.run(
+        CommandMetadata(
+            cmd1[0],
+            cmd1[1:]
+        ),
+        Path(cwd),
+        NullCommandLogger()
+    )
+    backend.run(
+        CommandMetadata(
+            cmd2[0],
+            cmd2[1:]
+        ),
+        Path(cwd),
+        NullCommandLogger()
+    )
+
+    assert backend.commands == [" ".join(cmd1), " ".join(cmd2)]

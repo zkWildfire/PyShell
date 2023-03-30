@@ -5,12 +5,31 @@ from pyshell.commands.command_metadata import CommandMetadata
 from pyshell.commands.command_result import CommandResult
 from pyshell.commands.sync_command_result import SyncCommandResult
 from pyshell.logging.command_logger import ICommandLogger
+from typing import List
 
 class DryRunBackend(IBackend):
     """
     Backend that prints commands without executing them.
     @ingroup backends
     """
+    def __init__(self):
+        """
+        Initializes the backend.
+        """
+        super().__init__()
+
+        # List of commands that have been run.
+        self._commands: List[str] = []
+
+
+    @property
+    def commands(self) -> List[str]:
+        """
+        The list of commands that have been run.
+        """
+        return self._commands
+
+
     def run(self,
         metadata: CommandMetadata,
         cwd: Path,
@@ -25,6 +44,7 @@ class DryRunBackend(IBackend):
         @return The output of the command.
         """
         print(metadata.full_command)
+        self._commands.append(metadata.full_command)
 
         return SyncCommandResult(
             command=metadata.command,
