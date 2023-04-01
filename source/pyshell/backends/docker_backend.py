@@ -24,6 +24,7 @@ class DockerBackend(IBackend):
         container_name: Optional[str] = None,
         ports: str | Sequence[str] | None = None,
         use_sudo: bool = False,
+        attach_to_running: bool = False,
         quiet: CommandFlags = CommandFlags.NO_CONSOLE):
         """
         Initializes the backend.
@@ -37,12 +38,18 @@ class DockerBackend(IBackend):
         @param ports A list of ports to expose. Each string in this argument
           will be passed to the `--publish` option of the `docker run` command.
         @param use_sudo Whether to use `sudo` when running docker commands.
+        @param attach_to_running If True, the backend will attempt to attach to
+          an existing container with the specified name. If False, the backend
+          will attempt to start a new container with the specified name. If
+          this is set to true, `container_name` must be specified.
         @param quiet How docker output from commands run by the backend should
           be handled. This will only apply to the commands run automatically by
           the backend to set up the container. The commands run by the user
           are not affected by this argument.
         @throws RuntimeError Thrown if docker is not available or the image
           could not be pulled.
+        @throws ValueError Thrown if `attach_to_running` is True but
+          `container_name` is None.
         """
         self._use_sudo = use_sudo
         self._host_pyshell = pyshell
@@ -61,6 +68,26 @@ class DockerBackend(IBackend):
             raise RuntimeError( # pragma: no cover
                 "Docker is not available on this system."
             )
+
+        # If the backend is configured to attach to an existing container, make
+        #   sure that the container exists
+        if attach_to_running and not container_name:
+            raise ValueError(
+                "Cannot attach to a running container without specifying a name."
+            )
+
+        if attach_to_running:
+            result = Docker.ps(
+                use_sudo=use_sudo,
+                cmd_flags=self._cmd_flags,
+                pyshell=pyshell
+            )
+            if container_name not in result.output:
+                raise RuntimeError(
+                    f"Could not find container '{container_name}'."
+                )
+            self._docker_container_id = container_name
+            return
 
         # Pull the image
         result = Docker.pull(
