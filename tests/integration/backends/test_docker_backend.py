@@ -10,6 +10,7 @@ from pyshell.logging.console_command_logger import ConsoleCommandLogger
 from pyshell.logging.logger_options import LoggerOptions
 from pyshell.logging.null_command_logger import NullCommandLogger
 from pyshell.logging.split_command_logger import SplitCommandLogger
+from pyshell.modules.docker import Docker
 import pytest
 
 
@@ -288,3 +289,70 @@ class TestDocker:
         backend.stop()
 
         assert duration.total_seconds() >= duration_sec
+
+
+    def test_use_running_container(self):
+        # Create the container to use
+        host_pyshell = PyShell()
+        container_name = "running_container"
+        Docker.run(
+            "ubuntu:jammy",
+            container_name=container_name,
+            interactive=True,
+            tty=True,
+            detach=True,
+            remove_after=True,
+            use_sudo=self.use_sudo
+        )
+
+        # Set up the backend
+        backend = DockerBackend(
+            host_pyshell,
+            "ubuntu:jammy",
+            container_name=container_name,
+            use_sudo=self.use_sudo,
+            attach_to_running=True
+        )
+
+        # Set up the command to run
+        msg = "foo"
+        metadata = CommandMetadata("bash", ["-c", f"echo {msg}"])
+        cwd = Path("/tmp")
+
+        # Set up the command logger
+        stdout_logger = ConsoleCommandLogger(
+            metadata,
+            LoggerOptions(),
+            cwd
+        )
+
+        # Run the test
+        result = backend.run(metadata, cwd, stdout_logger)
+        backend.stop()
+
+        assert result.success
+        assert msg in stdout_logger.output
+
+
+    def test_connect_to_running_container_with_no_name_given_throws(self):
+        host_pyshell = PyShell()
+        with pytest.raises(ValueError):
+            DockerBackend(
+                host_pyshell,
+                "ubuntu:jammy",
+                container_name=None,
+                use_sudo=self.use_sudo,
+                attach_to_running=True
+            )
+
+
+    def test_connect_to_running_container_with_container_not_running_throws(self):
+        host_pyshell = PyShell()
+        with pytest.raises(RuntimeError):
+            DockerBackend(
+                host_pyshell,
+                "ubuntu:jammy",
+                container_name="not_running_container",
+                use_sudo=self.use_sudo,
+                attach_to_running=True
+            )

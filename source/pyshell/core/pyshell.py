@@ -15,7 +15,7 @@ from pyshell.executors.executor import IExecutor
 from pyshell.executors.allow_all import AllowAll
 from pyshell.logging.console_logger import ConsoleLogger
 from pyshell.logging.logger import ILogger
-from typing import Callable, IO, Optional, Protocol
+from typing import IO, Optional, Protocol
 
 class PrintCallable(Protocol):
     """
@@ -25,7 +25,7 @@ class PrintCallable(Protocol):
         *values: object,
         sep: str = " ",
         end: str = "\n",
-        file: IO[str] | None = None,
+        file: Optional[IO[str]] = None,
         flush: bool = False) -> None:
         """
         Prints the specified values to the specified file.
@@ -174,6 +174,11 @@ class PyShell:
         file: IO[str] | None = None,
         flush: bool = False,
         verbose: bool | int = 0,
+        # Pyright reports that the built in print function's signature differs
+        #   from the one declared in the PrintCallable type. This is unlikely
+        #   to cause problems in practice, so just ignore the pyright warning
+        #   for now. Fixing this is an extremely low priority task.
+        # pyright: reportGeneralTypeIssues=false
         print_func: PrintCallable = print):
         """
         Prints a message to the console.

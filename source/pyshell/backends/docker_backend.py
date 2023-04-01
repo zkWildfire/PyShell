@@ -71,12 +71,12 @@ class DockerBackend(IBackend):
 
         # If the backend is configured to attach to an existing container, make
         #   sure that the container exists
-        if attach_to_running and not container_name:
-            raise ValueError(
-                "Cannot attach to a running container without specifying a name."
-            )
-
         if attach_to_running:
+            if not container_name:
+                raise ValueError(
+                    "Cannot attach to a running container without specifying a name."
+                )
+
             result = Docker.ps(
                 use_sudo=use_sudo,
                 cmd_flags=self._cmd_flags,
@@ -86,6 +86,7 @@ class DockerBackend(IBackend):
                 raise RuntimeError(
                     f"Could not find container '{container_name}'."
                 )
+
             self._docker_container_id = container_name
             return
 
@@ -194,7 +195,7 @@ class DockerBackend(IBackend):
 
         # Determine the name to use for the backend
         backend = f"Docker container '{self.container_id}'"
-        if self._container_name:
+        if self._container_name and self.container_id != self._container_name:
             backend += f" ({self._container_name})"
 
         # If the command's async flag is set, return immediately. Otherwise,
