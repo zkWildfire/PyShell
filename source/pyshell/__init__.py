@@ -1,6 +1,7 @@
 # pyright: reportUnusedImport=false
 from .backends.backend import IBackend
 from .backends.docker_backend import DockerBackend
+from .backends.dry_run_backend import DryRunBackend
 from .backends.native_backend import NativeBackend
 from .commands.command_flags import CommandFlags
 from .commands.command_helpers import enable_if
