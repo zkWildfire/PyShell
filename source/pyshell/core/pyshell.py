@@ -15,7 +15,27 @@ from pyshell.executors.executor import IExecutor
 from pyshell.executors.allow_all import AllowAll
 from pyshell.logging.console_logger import ConsoleLogger
 from pyshell.logging.logger import ILogger
-from typing import Optional
+from typing import Callable, IO, Optional, Protocol
+
+class PrintCallable(Protocol):
+    """
+    Helper type used to type hint the built-in `print()` function.
+    """
+    def __call__(self,
+        *values: object,
+        sep: str = " ",
+        end: str = "\n",
+        file: IO[str] | None = None,
+        flush: bool = False) -> None:
+        """
+        Prints the specified values to the specified file.
+        @param values The values to print.
+        @param sep The separator to use between values.
+        @param end The string to append to the end of the printed values.
+        @param file The file to print to. If None, the default file is used.
+        """
+        pass
+
 
 class PyShell:
     """
@@ -145,6 +165,49 @@ class PyShell:
         if not value.is_absolute():
             value = self._cwd.joinpath(value)
         self._cwd = value
+
+
+    def print(self,
+        *values: object,
+        sep: str = " ",
+        end: str = "\n",
+        file: IO[str] | None = None,
+        flush: bool = False,
+        verbose: bool | int = 0,
+        print_func: PrintCallable = print):
+        """
+        Prints a message to the console.
+        This method takes into account the verbosity level that the PyShell
+          instance was configured with and whether quiet mode is enabled.
+        @param values The values to print.
+        @param sep The separator to use between values.
+        @param end The end of line character to use.
+        @param file The file to print to. If not specified, the standard output
+          stream will be used.
+        @param flush Whether to flush the output stream after printing.
+        @param verbose The minimum verbosity level required to print the
+          message. If this is a boolean, it will be treated as 1 or 0 for True
+          and False, respectively. The PyShell instance's verbosity level must
+          be greater than or equal to this value for the message to be printed.
+          Note that if quiet mode is enabled, the message will never be printed.
+        @param print_func The function to use to print the message. This is
+          primarily for testing purposes.
+        """
+        if isinstance(verbose, bool):
+            verbose = int(verbose)
+
+        # If the script is running in quiet mode, then don't print anything
+        if self.options.quiet:
+            return
+        # Otherwise, print the message if the verbosity level is high enough
+        elif self.options.verbose >= verbose:
+            print_func(
+                *values,
+                sep=sep,
+                end=end,
+                file=file,
+                flush=flush
+            )
 
 
     def run(self,
