@@ -166,7 +166,8 @@ class Git(IModule):
         """
         Runs `git switch`.
         @param branch The branch to switch to.
-        @param create_branch Whether to create the branch if it doesn't exist.
+        @param create_branch Whether to attempt to create the branch. If this
+          is set to true and the branch already exists, the command will fail.
         @param cmd_flags The flags to set for the command.
         @param pyshell PyShell instance to execute the command via.
         @return The results of running `git switch`.

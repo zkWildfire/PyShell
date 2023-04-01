@@ -15,7 +15,8 @@ class SwitchCommand(ExternalCommand):
         """
         Initializes the command.
         @param branch The branch to switch to.
-        @param create_branch Whether to create the branch if it doesn't exist.
+        @param create_branch Whether to attempt to create the branch. If this
+          is set to true and the branch already exists, the command will fail.
         @param cmd_flags The flags to set for the command.
         """
         # Determine what arguments should be passed to the command
