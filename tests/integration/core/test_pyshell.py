@@ -148,7 +148,9 @@ def test_failed_command_count_after_successful_command():
 
 
 def test_failed_command_count_after_failed_command():
-    pyshell = PyShell()
+    pyshell = PyShell(
+        error_handler=KeepGoing()
+    )
     Shell.ls(Path("foo"), pyshell=pyshell)
 
     assert pyshell.failed_command_count == 1
