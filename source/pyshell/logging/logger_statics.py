@@ -25,9 +25,9 @@ class LoggerStatics:
         # Determine what information should be printed within the banner
         lines: List[str] = []
         if options.print_cmd:
-            lines.append(f"[PyShell] Running command: {metadata.full_command}")
+            lines.append(f"Running command: {metadata.full_command}")
         if options.print_cwd:
-            lines.append(f"[PyShell] cwd: {cwd}")
+            lines.append(f"cwd: {cwd}")
 
         # If no values should be written, skip writing the command header
         if not lines:
@@ -57,29 +57,29 @@ class LoggerStatics:
         # Determine what information should be printed within the banner
         lines: List[str] = []
         if options.print_cmd:
-            lines.append(f"[PyShell] Executed command: {result.full_command}")
+            lines.append(f"Executed command: {result.full_command}")
         if options.print_backend:
-            lines.append(f"[PyShell] Backend: {result.backend}")
+            lines.append(f"Backend: {result.backend}")
         if options.print_cwd:
-            lines.append(f"[PyShell] cwd: {result.cwd}")
+            lines.append(f"cwd: {result.cwd}")
         if options.print_exit_code:
-            lines.append(f"[PyShell] Command exited with code {result.exit_code}.")
+            lines.append(f"Command exited with code {result.exit_code}.")
         if options.print_timestamps:
-            lines.append(f"[PyShell] Start time: {result.start_time_local}")
+            lines.append(f"Start time: {result.start_time_local}")
         if options.print_timestamps:
-            lines.append(f"[PyShell] End time: {result.end_time_local}")
+            lines.append(f"End time: {result.end_time_local}")
         if options.print_duration:
             if result.duration_milliseconds < 1000:
                 lines.append(
-                    f"[PyShell] Duration: {round(result.duration_milliseconds, 3)} ms"
+                    f"Duration: {round(result.duration_milliseconds, 3)} ms"
                 )
             elif result.duration_seconds < 60:
                 lines.append(
-                    f"[PyShell] Duration: {round(result.duration_seconds, 3)} s"
+                    f"Duration: {round(result.duration_seconds, 3)} s"
                 )
             else:
                 lines.append(
-                    f"[PyShell] Duration: {round(result.duration_minutes, 3)} min"
+                    f"Duration: {round(result.duration_minutes, 3)} min"
                 )
 
         # If no values should be written, skip writing the command footer

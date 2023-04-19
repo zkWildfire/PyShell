@@ -30,6 +30,9 @@ def test_write_header():
     assert "cwd" in output
     assert str(cwd) in output
 
+    # Make sure the `[PyShell]` tag doesn't get written twice
+    assert output.count("[PyShell] [PyShell]") == 0
+
 
 def test_write_footer():
     cmd = "foo"
@@ -69,6 +72,9 @@ def test_write_footer():
     assert "Start time" in output
     assert "End time" in output
     assert "Duration" in output
+
+    # Make sure the `[PyShell]` tag doesn't get written twice
+    assert output.count("[PyShell] [PyShell]") == 0
 
 
 def test_write_only_cmd_in_header():
