@@ -72,6 +72,9 @@ class PyShell:
         self._options = options
         self._error_handler = error_handler
 
+        # Keep track of the number of commands that have failed
+        self._failed_command_count = 0
+
         # Initialize the events
         # Note that the event handlers are stored in this class instead of the
         #   PyShellEvents class because the events will be broadcast to by this
@@ -144,6 +147,14 @@ class PyShell:
         @invariant This will always be an absolute path.
         """
         return self._cwd
+
+
+    @property
+    def failed_command_count(self) -> int:
+        """
+        The number of commands that have failed.
+        """
+        return self._failed_command_count
 
 
     @property
@@ -257,6 +268,8 @@ class PyShell:
         )
         self._on_command_started.broadcast(self._events, metadata)
         result = self._backend.run(metadata, cwd, logger)
+        if not result.success:
+            self._failed_command_count += 1
 
         # Log the command output and result
         if metadata.scanner:

@@ -138,3 +138,17 @@ def test_quiet_mode_disables_normal_output():
     pyshell.print(msg, print_func=print_func)
 
     assert output == ""
+
+
+def test_failed_command_count_after_successful_command():
+    pyshell = PyShell()
+    Shell.ls(pyshell=pyshell)
+
+    assert pyshell.failed_command_count == 0
+
+
+def test_failed_command_count_after_failed_command():
+    pyshell = PyShell()
+    Shell.ls(Path("foo"), pyshell=pyshell)
+
+    assert pyshell.failed_command_count == 1
