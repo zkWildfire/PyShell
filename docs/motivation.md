@@ -126,9 +126,7 @@ CMake.build("_build", "install")
 ```
 
 !!! warning
-    PyShell's CMake module has not been released yet. You may also want to
-    consider making use of PyShell's sibling project, [PyMake](https://www.pymake.dev)!
-    PyMake is to CMake as PyShell is to shell scripts.
+    PyShell's CMake module has not been released yet.
 
 Unlike the previous python script, the PyShell-based script is much more
 strongly typed. When writing the PyShell script, developers don't have to
