@@ -3,6 +3,7 @@
 &nbsp;
 [![CI Build](https://github.com/zkWildfire/PyShell/actions/workflows/testing.yml/badge.svg)](https://github.com/zkWildfire/PyShell/actions/workflows/testing.yml)
 &nbsp;
+[![codecov](https://codecov.io/gh/zkWildfire/PyShell/branch/master/graph/badge.svg?token=0V5ZSHZM75)](https://codecov.io/gh/zkWildfire/PyShell)
 ![Method Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/zkWildfire/29c386f849ca52d82bb08efd079c0f3b/raw/pyshell-method-coverage.json)
 &nbsp;
 ![Branch Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/zkWildfire/c850384bbaffa643255fe490b03f4924/raw/pyshell-branch-coverage.json)
