@@ -13,6 +13,7 @@ RUN apt-get update -y && \
 		git \
 		graphviz \
 		ninja-build \
+		pkg-config \
 		python${PYTHON_VERSION} \
 		python3-pip \
 		ssh \
