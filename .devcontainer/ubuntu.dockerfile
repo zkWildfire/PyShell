@@ -22,22 +22,8 @@ RUN apt-get update -y && \
 		/usr/bin/python3 python3 /usr/bin/python${PYTHON_VERSION} 3
 
 # Install pip packages
-RUN python3 -m pip install \
-	# Primary mkdocs package
-	mkdocs \
-	# Packages used to enable the material mkdocs theme
-	mkdocs-material \
-	mkdocs-git-revision-date-localized-plugin \
-	pygments \
-	# Packages for documentation generation
-	mkdocs-awesome-pages-plugin \
-	doxypypy \
-	plantuml-markdown \
-	# Other
-	autopep8 \
-	coverage \
-	pytest \
-	pytest-cov
+COPY requirements.txt /tmp/requirements.txt
+RUN python3 -m pip install -r /tmp/requirements.txt
 
 # Add CMake 3.14
 RUN mkdir -p /tmp/${USERNAME} && \
