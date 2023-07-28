@@ -10,10 +10,11 @@ RUN apt-get update -y && \
 		doxygen \
 		git \
 		graphviz \
-		libcairo2 \
+		libcairo2-dev \
 		ninja-build \
 		pkg-config \
 		python${PYTHON_VERSION} \
+		python${PYTHON_VERSION}-dev \
 		python3-pip \
 		ssh \
 		sudo \
