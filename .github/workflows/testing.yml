@@ -13,7 +13,7 @@ jobs:
     - name: Build Docker image
       uses: docker/build-push-action@v4
       with:
-        context: .
+        context: ./.devcontainer
         file: ./.devcontainer/gh-actions.dockerfile
         push: false
         tags: pyshell:latest
