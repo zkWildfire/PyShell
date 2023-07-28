@@ -10,6 +10,7 @@ RUN apt-get update -y && \
 		doxygen \
 		git \
 		graphviz \
+		libcairo2 \
 		ninja-build \
 		pkg-config \
 		python${PYTHON_VERSION} \
